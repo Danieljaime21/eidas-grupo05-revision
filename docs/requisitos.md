@@ -32,13 +32,15 @@ Por otro lado, el personal de la tienda contará con un panel administrativo des
 
 | ID | Requisito |
 |----|-----------|
-| RF-10 | El sistema permitirá consultar el catálogo sin necesidad de registrarse, mostrando descripción, precio, color, talle, disponibilidad, entre 2 y 4 fotografías y tabla de medidas por tipo de producto.|
-| RF-11 |El sistema permitirá al Administrador gestionar productos y variantes (crear, modificar, desactivar). |
-| RF-12 | Cuando una variante llegue a stock cero, el producto continuará visible en el catálogo pero no podrá agregarse al carrito. |
-| RF-13 | El sistema mantendrá stock unificado para cada combinación de producto-talle-color, afectado tanto por ventas online como por ventas en local.|
-| RF-14 |El sistema descontará stock al confirmar el pago, registrará historial de movimientos (fecha, variante, cantidad, tipo, usuario, ID pedido) y permitirá al rol Depósito gestionar ingresos de mercadería. |
-| RF-15 |El sistema generará alertas de bajo stock (≤ 3 unidades) dirigidas al área de Depósito. |
-| RF-16 |El sistema permitirá gestionar proveedores (registrar, modificar, desactivar) almacenando razón social, CUIT, teléfono, email y dirección, y asociar productos con sus proveedores. |
+| RF-11 | El sistema permitirá al cliente consultar el catálogo sin necesidad de registrarse, mostrando descripción, precio, color, talle, disponibilidad, entre 2 y 4 fotografías y tabla de medidas por tipo de producto. |
+| RF-12 | El sistema permitirá al dueño gestionar productos y variantes (crear, modificar, desactivar). |
+| RF-13 | El sistema mantendrá stock unificado para cada combinación de producto-talle-color, afectado tanto por ventas online como por ventas en local. |
+| RF-14 | El sistema deberá permitir al empleado registrar una compra. |
+| RF-15 | El sistema permitirá al empleado configurar alertas. |
+| RF-16 | El sistema permitirá al empleado registrar proveedores, almacenando razón social, CUIT, teléfono, email y dirección. |
+| RF-17 | El sistema permitirá al empleado modificar los datos de proveedores. |
+| RF-18 | El sistema permitirá al empleado desactivar proveedores. |
+| RF-19 | El sistema permitirá al empleado asociar productos a proveedores. |
 
 
 ### Módulo 3 — Carrito, Pedidos y Promociones
