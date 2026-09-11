@@ -19,7 +19,7 @@ Por otro lado, el personal de la tienda contará con un panel administrativo des
 | RF-01 | El sistema deberá permitir al empleado generar nuevos usuarios. |
 | RF-02 | El sistema deberá permitir al empleado modificar datos de usuarios existentes. |
 | RF-03 | El sistema deberá permitir al empleado inhabilitar usuarios. |
-| RF-04 | El sistema deberá permitir al empleado dar de alta a nuevos usuarios. |
+| RF-04 | El sistema deberá permitir a los usuarios autenticados iniciar sesión para acceder a las funcionalidades según su rol. |
 | RF-05 | El sistema permitirá configurar las funcionalidades permitidas para cada rol. |
 | RF-06 | El sistema permitirá a los clientes registrarse con sus datos (nombre, apellido, email, fecha nacimiento, teléfono, DNI, contraseña, dirección, CP, ciudad, provincia) e iniciar sesión con sus credenciales. |
 | RF-07 | El sistema permitirá al cliente gestionar su cuenta (consultar y modificar datos personales, consultar historial de compras y estado de pedidos, solicitar devoluciones). |
@@ -46,37 +46,34 @@ Por otro lado, el personal de la tienda contará con un panel administrativo des
 ### Módulo 3 — Carrito, Pedidos y Promociones
 | ID | Requisito |
 |----|-----------|
-| RF-17 | El sistema permitirá gestionar el carrito: agregar productos (exigiendo talle y color), visualizar, modificar cantidades, eliminar productos y vaciar carrito.|
-| RF-18 | El sistema reservará los productos por 24 horas, verificará stock antes de confirmar, mostrará resumen con subtotal y total, y vaciará automáticamente el carrito al expirar el plazo.|
-| RF-19 | Todos los mensajes de error deben estar redactados sin tecnicismos, e indicar una acción concreta a seguir.|
-| RF-20 | El sistema gestionará el checkout solicitando confirmación de datos de entrega, permitiendo seleccionar envío a domicilio o retiro en local, y calculando el costo de envío correspondiente.|
-| RF-21 |El sistema se integrará con Mercado Pago y se podrán procesar pagos con tarjeta de crédito y débito, registrando estado, fecha, importe y medio de pago. |
-| RF-22 |El sistema gestionará los estados del pedido: "Pendiente de pago", "Pago aprobado", "En preparación", "Listo para retirar"/"Enviado", "Entregado"/"Retirado". Notificará al cliente mediante email por cada cambio de estado. |
-| RF-23 | El sistema confirmará el pedido y descontará stock solo al aprobarse el pago; si es rechazado, permitirá reintentar; si queda pendiente, mantendrá el pedido en estado "Pendiente de pago".|
-| RF-24 | El cliente podrá cancelar el pedido antes de su envío o retiro y se generará una nota de credito.|
-| RF-25 | El sistema permitirá al Administrador crear promociones (descuento porcentual o fijo) aplicables a producto específico, categoría o catálogo completo, con fechas de inicio y fin configurables.|
-| RF-26 | El sistema permitirá crear cupones configurados como uso único o múltiple, con límite de usos, fechas configurables y activación/desactivación automática según período.|
+| RF-20 | El sistema permitirá al cliente gestionar el carrito: agregar productos (exigiendo talle y color), visualizar, modificar cantidades, eliminar productos y vaciar carrito. |
+| RF-21 | El sistema permitirá al cliente realizar el checkout solicitando confirmación de datos de entrega, permitiendo seleccionar envío a domicilio o retiro en local, y calculando el costo de envío correspondiente. |
+| RF-22 | El sistema se integrará con Mercado Pago y se podrán procesar pagos con tarjeta de crédito y débito, registrando estado, fecha, importe y medio de pago. |
+| RF-23 | El sistema notificará al cliente mediante email por cada cambio de estado de su pedido. |
+| RF-24 | El sistema permitirá al cliente cancelar el pedido antes de su envío o retiro. |
+| RF-25 | El sistema permitirá al dueño crear promociones (descuento porcentual o fijo) aplicables a producto específico, categoría o catálogo completo, con fechas de inicio y fin configurables. |
+| RF-26 | El sistema permitirá al dueño crear cupones configurados como uso único o múltiple, con límite de usos, fechas configurables y activación/desactivación automática según período. |
 
 
 ### Módulo 4 — Envios y Devoluciones
 
 | ID | Requisito |
 |----|-----------|
-| RF-27 |El sistema se integrará con proveedor logístico para obtener número de seguimiento y permitirá calcular costos de envío. |
-| RF-28 |El sistema permitirá al empleado confirmar retiro en local y establecerá plazo de 15 días para retirar. |
-| RF-29 | El sistema notificará al cliente el vencimiento del plazo de retiro (día 12 y día 15).|
-| RF-30 | El sistema permitirá al cliente solicitar devolución desde "Mi Cuenta", seleccionando el pedido y el motivo (talle incorrecto, defectuoso, equivocado), dentro de los 5 días hábiles posteriores a la entrega/retiro.|
-| RF-31 | El sistema gestionará los estados de devolución ("Solicitada", "En revisión", "Aprobada", "Rechazada", "Finalizada") y notificará al cliente en su panel cada cambio.|
-| RF-32 |El sistema permitirá al rol Ventas resolver las solicitudes de devolución, generando cambio o nota de crédito según corresponda.|
+| RF-27 | El sistema se integrará con proveedor logístico para obtener número de seguimiento y permitirá al cliente calcular costos de envío. |
+| RF-28 | El sistema permitirá al empleado confirmar retiro en local y establecerá plazo de 15 días para retirar. |
+| RF-29 | El sistema notificará al cliente el vencimiento del plazo de retiro (día 12 y día 15). |
+| RF-30 | El sistema permitirá al cliente solicitar devolución desde "Mi Cuenta", seleccionando el pedido y el motivo (talle incorrecto, defectuoso, equivocado), dentro de los 5 días hábiles posteriores a la entrega/retiro. |
+| RF-31 | El sistema notificará al cliente mediante email en cada cambio de estado de su devolución. |
+| RF-32 | El sistema permitirá al empleado resolver las solicitudes de devolución, generando cambio o nota de crédito según corresponda. |
 
 
 ### Módulo 5 — Reportes y Dashboard
 
 | ID | Requisito |
 |----|-----------|
-| RF-33 | El sistema permitirá consultar reportes de ventas por día, semana, mes, año y períodos anteriores (-5 años), filtrando por rango de fechas y productos, exportables a Excel.|
-| RF-34 | El sistema mostrará productos más vendidos, productos con menor movimiento, ingresos totales, ventas por medio de pago, clientes nuevos (últimos 7 días) y recurrentes (más de 2 compras).|
-| RF-35 |El panel de Administración mostrará indicadores clave de actividad (ventas diarias, stock crítico, pedidos pendientes, devoluciones).|
+| RF-33 | El sistema permitirá consultar al dueño reportes de ventas por día, semana, mes, año y períodos anteriores (-5 años), filtrando por rango de fechas y productos, exportables a Excel. |
+| RF-34 | El sistema permitirá al dueño obtener un listado de productos más vendidos, productos con menor movimiento, ingresos totales, ventas por medio de pago, clientes nuevos (últimos 7 días) y recurrentes (más de 2 compras). |
+| RF-35 | El panel de Administración mostrará indicadores clave de actividad (ventas diarias, stock crítico, pedidos pendientes, devoluciones). |
 
 
 ## Requisitos no funcionales
