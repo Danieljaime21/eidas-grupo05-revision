@@ -16,15 +16,16 @@ Por otro lado, el personal de la tienda contará con un panel administrativo des
 
 | ID | Requisito |
 |----|-----------|
-| RF-01 |El sistema gestionará usuarios internos (crear, modificar, desactivar, asignar roles). |
-| RF-02 |El sistema implementará autenticación por usuario y contraseña con roles predefinidos (Administrador, Ventas, Depósito, Logística).|
-| RF-03 |El sistema registrará en auditoría qué usuario realizó cada modificación y permitirá consultar el historial de cambios. |
-| RF-04 | El sistema asignará permisos específicos a cada rol: Administrador (todo), Ventas (pedidos, stock consulta, clientes consulta), Depósito (stock completo), Logística (envíos y pedidos preparados).|
-| RF-05 |El sistema permitirá a los clientes registrarse con sus datos (nombre, apellido, email, fecha nacimiento, teléfono, DNI, contraseña, dirección, CP, ciudad, provincia) e iniciar sesión con sus credenciales.|
-| RF-06 | El sistema permitirá al cliente gestionar su cuenta (consultar y modificar datos personales, consultar historial de compras y estado de pedidos, solicitar devoluciones).|
-| RF-07 |El sistema permitirá a clientes que hayan comprado un producto calificarlo (1-5 estrellas + comentario opcional).|
-|RF-08 | El Administrador podrá eliminar reseñas con lenguaje inapropiado.|
-| RF-09 | El sistema exigirá registro obligatorio para finalizar una compra y permitirá a ventas y al administrador consultar el listado de clientes registrados.|
+| RF-01 | El sistema deberá permitir al empleado generar nuevos usuarios. |
+| RF-02 | El sistema deberá permitir al empleado modificar datos de usuarios existentes. |
+| RF-03 | El sistema deberá permitir al empleado inhabilitar usuarios. |
+| RF-04 | El sistema deberá permitir al empleado dar de alta a nuevos usuarios. |
+| RF-05 | El sistema permitirá configurar las funcionalidades permitidas para cada rol. |
+| RF-06 | El sistema permitirá a los clientes registrarse con sus datos (nombre, apellido, email, fecha nacimiento, teléfono, DNI, contraseña, dirección, CP, ciudad, provincia) e iniciar sesión con sus credenciales. |
+| RF-07 | El sistema permitirá al cliente gestionar su cuenta (consultar y modificar datos personales, consultar historial de compras y estado de pedidos, solicitar devoluciones). |
+| RF-08 | El sistema permitirá al cliente que haya comprado un producto calificarlo (1-5 estrellas + comentario opcional). |
+| RF-09 | El dueño podrá eliminar reseñas con lenguaje inapropiado. |
+| RF-10 | El sistema exigirá al cliente registro obligatorio para finalizar una compra y permitirá al empleado de ventas y al dueño consultar el listado de clientes registrados. |
 
 
 ### Módulo 2 — Productos, Stock y Proveedores
