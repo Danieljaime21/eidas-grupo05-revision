@@ -58,30 +58,33 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 
 
-## HU-03 — Selección de Variantes, Carrito y Reserva Temporal de Stock
+## HU-03 — Gestión del carrito de compras
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como cliente, quiero agregar, modificar cantidades y eliminar prendas de mi carrito de compras, para revisar los artículos y el monto acumulado antes de confirmar el pedido. |
-| Módulo |05 - Carrito de Compras |
-| Requisitos relacionados | RF-49, RF-50, RF-51, RF-52,RF-53, RF-54, RF-55, RF-56, RF-57, RF-58 |
+| Historia | Como cliente, quiero gestionar mi carrito (agregar productos, modificar cantidades, eliminar o vaciar), para organizar mi compra antes del checkout. |
+| Módulo |03 - Carrito, Pedidos y Promociones |
+| Requisitos relacionados | RF-20, RNF-01, RNF-09, RNF-10, RNF-11, RNF-12 |
 
 ### Criterios de aceptación
 
-1. Permite incorporar variantes específicas de un artículo al carrito.
-2. Recalcula automáticamente el subtotal e importe total al modificar las unidades.
-3. Conserva los productos añadidos en el carrito  aunque el usuario cierre el navegador o finalice la sesión por un plazo máximo de 24 horas.
+1. Al agregar producto, el sistema exige seleccionar talle y color.
+2. El carrito muestra productos, cantidades y subtotales.
+3. El cliente puede modificar cantidades.
+4. El cliente puede eliminar productos.
+5. El cliente puede vaciar el carrito.
+
 
 ### Validación INVEST
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente |Sí |Puede construirse y probarse mediante estados de sesión del navegador antes del pago. |
-| Negociable |Sí |El temporizador visual de reserva y la interfaz de edición del carrito pueden adaptarse. |
-| Valiosa |Sí |Garantiza la disponibilidad de la prenda durante la decisión de compra del cliente. |
-| Estimable |Sí |Corresponde a patrones conocidos de gestión de estado de carrito y tareas programadas. |
-| Pequeña |Sí |Acotada a la administración del carrito y la temporización del stock retenido. |
-| Verificable |Sí |Se verifica editando ítems y comprobando la liberación automática tras 24 horas. |
+| Independiente |Sí |No depende de otras HU |
+| Negociable |Sí |El diseño del carrito puede discutirse con el negocio. |
+| Valiosa |Sí |Permite al cliente organizar los productos que desea comprar antes del checkout. |
+| Estimable |Sí |El alcance está delimitado a las operaciones del carrito. |
+| Pequeña |Sí |Tiene un objetivo concreto y funcionalidades relacionadas. |
+| Verificable |Sí |Se puede comprobar viendo que los productos se agreguen, visualicen, modifiquen, eliminen y que el carrito pueda vaciarse. |
 
 
 
