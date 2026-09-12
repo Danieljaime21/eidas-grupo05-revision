@@ -118,30 +118,33 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Verificable |Sí |Se puede comprobar el funcionamiento con las opciones de selección  de envío a domicilio y retiro en local, incluyendo la validación de datos obligatorios. |
 
 
-## HU-05 — Control de Stock Unificado e Ingreso de Mercadería
+## HU-05 — Pago con Mercado Pago
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como usuario con rol Depósito o Administrador, quiero registrar el ingreso de nueva mercadería y consultar los movimientos de stock centralizados, para mantener alineado el inventario entre las ventas presenciales y la tienda online, evitando sobreventas. |
-| Módulo |04 - Inventario y Stock |
-| Requisitos relacionados | RF-36, RF-37, RF-38, RF-39, RF-40, RF-41, RF-42, RF-43, RF-44, RF-45, RF-47, RF-48 |
+| Historia | Como cliente, quiero pagar con tarjeta de crédito o débito a través de Mercado Pago, para completar mi compra de forma segura. |
+| Módulo |03 - Carrito, Pedidos y Promociones |
+| Requisitos relacionados | RF-22, RNF-02, RNF-05 |
 
 ### Criterios de aceptación
 
-1. El sistema actualiza en tiempo real el stock centralizado, descontando prendas únicamente tras la aprobación confirmada del pago online.
-2. El personal de Depósito puede registrar ingresos de productos indicando proveedor, contacto, cantidad, ID de producto, fecha y costo unitario.
-3. El sistema emite una notificación en el panel y por correo al área de Depósito cuando el stock de una variante cae por debajo del umbral mínimo configurado.
+1. El sistema se integra con Mercado Pago.
+2. El cliente puede pagar con tarjeta de crédito y débito.
+3. El sistema registra el estado, fecha, importe y medio de pago.
+4. Si el pago es aprobado, el pedido pasa al estado "pagado".
+5. Si el pago es rechazado, el sistema informa al cliente.
+
 
 ### Validación INVEST
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente |Sí |Funciona de manera aislada como un módulo de auditoría y actualización de existencias. |
-| Negociable |Sí |Los umbrales para las alertas de bajo stock y los campos de reporte son parametrizables. |
-| Valiosa |Sí |Evita la falta de coincidencia de inventario entre el local físico y la tienda web. |
-| Estimable |Sí |Consiste en operaciones CRUD sobre las entidades de stock e inventario. |
-| Pequeña |Sí |Se centra en el registro de ingresos y la actualización del stock disponible. |
-| Verificable |Sí |Se valida realizando un ingreso de stock y comprobando su reflejo en la tienda online. |
+| Independiente |Sí |Forma parte del proceso de checkout pero puede desarrollarse y probarse mediante pagos de prueba. |
+| Negociable |Sí |Los detalles de la integración y los medios de pago pueden discutirse. |
+| Valiosa |Sí |Permite al cliente completar y abonar una compra online. |
+| Estimable |Sí |La funcionalidad y su alcance están definidas. |
+| Pequeña |Sí |Se concentra específicamente en el procesamiento del pago. |
+| Verificable |Sí |Se puede verificar realizando pagos de prueba y se comprueba su resultado y registro. |
 
 
 ## HU-06 — Solicitud, Gestión y Resolución de Devoluciones
