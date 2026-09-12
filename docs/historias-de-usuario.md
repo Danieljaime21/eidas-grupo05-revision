@@ -89,30 +89,33 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 
 
-## HU-04 — Checkout, Pago Integrado y Transición de Estados del Pedido
+## HU-04 — Checkout con datos de entrega y envío
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como cliente autenticado, quiero seleccionar la modalidad de entrega, pagar mediante Mercado Pago y hacer seguimiento a mi compra, para concretar la transacción de forma segura y mantenerme informado sobre la preparación de mi pedido. |
-| Módulo |06 - Pedidos y Pagos |
-| Requisitos relacionados | RF-59, RF-60, RF-61, RF-62, RF-63, RF-64, RF-65, RF-66, RF-68, RF-69, RF-70, RF-74, RF-75, RF-77 |
+| Historia | Como cliente, quiero realizar el checkout confirmando mis datos de entrega, seleccionando el tipo de envío con el costo correspondiente, para completar mi compra correctamente. |
+| Módulo |03 - Carrito, Pedidos y Promociones |
+| Requisitos relacionados | RF-21, RNF-01, RNF-02, RNF-09, RNF-10, RNF-11, RNF-12 |
 
 ### Criterios de aceptación
 
-1. Durante el checkout, el sistema permite elegir entre envío a domicilio (calculando costo) o retiro en local ($0), procesando el cobro mediante la pasarela Mercado Pago.
-2. Al registrar un "Pago aprobado", el sistema asigna un número de pedido único, efectúa el descuento final de stock y notifica al cliente. 
-3. El sistema actualiza los estados del pedido e informa al comprador vía email y notificación en la plataforma ante cada cambio de fase.
+1. El cliente puede confirmar o editar sus datos de entrega. 
+2. El cliente puede elegir entre envío a domicilio o retiro en local.
+3. Si elige envío a domicilio, el sistema calcula el costo correspondiente.
+4. Si elige retiro en local, el sistema no cobra costo de envío.
+5. El sistema no permite continuar si faltan datos obligatorios de entrega y muestra un mensaje indicando qué dato debe completarse.
+
 
 ### Validación INVEST
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente |Sí |Recibe la estructura del carrito y se conecta con las API del proveedor de pago. |
-| Negociable |Sí |Las pasarelas secundarias o reglas exactas del cálculo del envío se pueden ajustar. |
-| Valiosa |Sí |Cierra el ciclo de venta monetizando la orden e iniciando la logística de entrega. |
-| Estimable |Sí |Su desarrollo se basa en la documentación oficial del SDK de Mercado Pago. |
-| Pequeña |Sí |Enfocada en el procesamiento del pago, generación de la orden y flujo de estados. |
-| Verificable |Sí |Se testea en modo Sandbox ejecutando pagos exitosos, pendientes y rechazados. |
+| Independiente |Sí |No depende de otras HU |
+| Negociable |Sí |La forma de presentar los datos y las opciones de entrega puede acordarse con el negocio. |
+| Valiosa |Sí |Permite al cliente definir cómo recibirá su pedido y completar correctamente sus datos de entrega. |
+| Estimable |Sí |Solo se limita a los datos de entrega y las opciones de envío. |
+| Pequeña |Sí |Tiene un objetivo concreto y solo implica la pantalla de checkout. |
+| Verificable |Sí |Se puede comprobar el funcionamiento con las opciones de selección  de envío a domicilio y retiro en local, incluyendo la validación de datos obligatorios. |
 
 
 ## HU-05 — Control de Stock Unificado e Ingreso de Mercadería
