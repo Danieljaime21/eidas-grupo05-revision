@@ -147,27 +147,31 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Verificable |Sí |Se puede verificar realizando pagos de prueba y se comprueba su resultado y registro. |
 
 
-## HU-06 — Solicitud, Gestión y Resolución de Devoluciones
+## HU-06 — Integración con proveedor logístico
+
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como cliente registrado, quiero iniciar solicitudes de devolución desde "Mi Cuenta" adjuntando motivo y fotografías, para obtener el cambio del producto o la emisión de una nota de crédito ante fallas o inconvenientes de talle. |
-| Módulo |06 - Devoluciones y Cambios |
-| Requisitos relacionados | RF-88, RF-89, RF-90, RF-91, RF-92, RF-93, RF-94, RF-95, RF-96, RF-97, RF-98, RF-99, RF-100, RF-101 |
+| Historia | Como cliente, quiero conocer el costo de envío y obtener un número de seguimiento del proveedor logístico para conocer el estado de mi pedido.  |
+| Módulo |04 - Envíos y Devoluciones |
+| Requisitos relacionados | RF-27, RNF-01, RNF-05, RNF-12 |
 
 ### Criterios de aceptación
 
-1. La opción de solicitar devolución solo se habilita para pedidos finalizados dentro de los 5 días hábiles posteriores al retiro o entrega, exigiendo seleccionar el motivo y permitiendo adjuntar fotos.
-2.  El sistema impide crear solicitudes fuera del plazo legal estipulado de 5 días hábiles y permite al rol Ventas revisar y cambiar el estado del caso.
-3. Al aprobarse una devolución sin cambio de producto, el sistema genera de forma automática la nota de crédito, reingresa la prenda al inventario y notifica al cliente.
+1. El sistema se integra con el proveedor logístico.
+2. El cliente puede calcular el costo de envío antes de comprar.
+3. El sistema obtiene el número de seguimiento del proveedor.
+4. El cliente puede consultar el número de seguimiento desde "Mi Cuenta".
+5. El sistema registra el número de seguimiento asociado al pedido. 
+
 
 ### Validación INVEST
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente |Sí |Opera como un flujo posterior sobre órdenes finalizadas sin afectar el checkout. |
-| Negociable |Sí |La cantidad de imágenes adjuntas o los motivos predefinidos pueden ampliarse. |
-| Valiosa |Sí |Brinda respaldo postventa al consumidor garantizando el cumplimiento normativo. |
-| Estimable |Sí |Implica validaciones de fechas, subida de archivos y generación de notas de crédito. |
-| Pequeña |Sí |Se limita al trámite del reclamo, revisión y actualización contable/de stock. |
-| Verificable |Sí |Se prueba emitiendo reclamos dentro y fuera de plazo y verificando la nota de crédito. |
+| Independiente |Sí |Puede desarrollarse y probarse con pedidos y datos de prueba. |
+| Negociable |Sí |El proveedor logístico puede discutirse. |
+| Valiosa |Sí |Permite al cliente conocer el costo de envío y realizar el seguimiento del pedido. |
+| Estimable |Sí |El alcance es definido. |
+| Pequeña |Sí |Se concentra en el cálculo del envío y seguimiento. |
+| Verificable |Sí |Se puede comprobar el cálculo del costo y la obtención del número de seguimiento despachando un pedido y verificando su seguimiento. |
