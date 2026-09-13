@@ -175,3 +175,62 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Estimable |Sí |El alcance es definido. |
 | Pequeña |Sí |Se concentra en el cálculo del envío y seguimiento. |
 | Verificable |Sí |Se puede comprobar el cálculo del costo y la obtención del número de seguimiento despachando un pedido y verificando su seguimiento. |
+
+
+
+## HU-07 — Confirmación de retiro en local
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como empleado, quiero confirmar el retiro de un pedido en el local y establecer un plazo de 15 días para retirar, para gestionar correctamente los pedidos pendientes de retiro y liberar stock no retirado. |
+| Módulo | 04 - Envíos y Devoluciones |
+| Requisitos relacionados | RF-28, RNF-01, RNF-12 |
+
+### Criterios de aceptación
+
+1. El empleado puede marcar un pedido como "retirado".
+2. El sistema registra fecha y hora de retiro.
+3. Se establece plazo de 15 días para retirar.
+4. El sistema permite consultar la fecha límite de retiro.
+5. Si no se retira en plazo, el pedido se cancela y repone stock.
+6. El sistema muestra una confirmación cuando el retiro es registrado.
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Sí | Puede probarse con pedidos configurados para retiro en local. |
+| Negociable | Sí | El plazo puede definirse durante el desarrollo. |
+| Valiosa | Sí | Permite controlar correctamente los pedidos retirados. |
+| Estimable | Sí | Las acciones están delimitadas. |
+| Pequeña | Sí | Se concentra en la confirmación y plazo de retiro. |
+| Verificable | Sí | Se puede confirmar el retiro y se verifica el plazo limite. |
+
+
+## HU-08 — Solicitud de devolución por cliente
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero solicitar una devolución desde "Mi Cuenta", seleccionando pedido y motivo, dentro de los 5 días hábiles posteriores a la entrega/retiro, para resolver problemas con mi compra. |
+| Módulo | 04 - Envíos y Devoluciones |
+| Requisitos relacionados | RF-30, RNF-01, RNF-05, RNF-08, RNF-10 |
+
+### Criterios de aceptación
+
+1. El cliente puede acceder a "Mi Cuenta" y seleccionar un pedido para solicitar una devolución.
+2. El cliente puede seleccionar el motivo: talle incorrecto, producto defectuoso o producto equivocado.
+3. El sistema permite solicitar la devolución únicamente dentro de los 5 días hábiles posteriores a la entrega o retiro.
+4. El sistema registra la solicitud de devolución.
+5. El sistema muestra una confirmación cuando la solicitud es registrada.
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Sí | Puede probarse con pedidos de prueba y diferentes fechas. |
+| Negociable | Sí | Los motivos, plazos y detalles del formulario pueden ajustarse. |
+| Valiosa | Sí | Da garantía al cliente y le permite gestionar una devolución. |
+| Estimable | Sí | El alcance esta claro y definido. |
+| Pequeña | Sí | Se limita a la solicitud de devolución. |
+| Verificable | Sí | Se puede comprobar una solicitud válida y otra fuera de plazo. |
+
