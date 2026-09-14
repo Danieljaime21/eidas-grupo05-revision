@@ -294,3 +294,33 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Pequeña | Sí | Se limita a la consulta de indicadores y listados definidos en RF-34. |
 | Verificable | Sí | Se puede comprobar que cada listado e indicador muestre la información correspondiente. |
 
+
+
+## HU-11 — Dashboard de indicadores clave
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como dueño, quiero ver en el panel de Administración indicadores clave de ventas diarias, stock crítico, pedidos pendientes de retiro y devoluciones, para monitorear la actividad del negocio. |
+| Módulo | 05 - Reportes y Dashboard |
+| Requisitos relacionados | RF-35 |
+
+
+### Criterios de aceptación
+
+1. El panel muestra las ventas diarias.
+2. El panel muestra el stock crítico.
+3. El panel muestra los pedidos pendientes.
+4. El panel muestra las devoluciones.
+5. Los indicadores muestran la información correspondiente a la actividad registrada.
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Sí | Puede desarrollarse y probarse con datos de prueba. |
+| Negociable | Sí | La forma de presentar los indicadores puede discutirse. |
+| Valiosa | Sí | Permite al dueño monitorear rápidamente la actividad del negocio. |
+| Estimable | Sí | Los indicadores que debe mostrar están definidos. |
+| Pequeña | Sí | Panel acotado, limitándose a un conjunto definido de indicadores. |
+| Verificable | Sí | Se accede al panel y se puede comprobar que cada indicador muestre la información correspondiente.|
+
