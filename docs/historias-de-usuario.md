@@ -234,3 +234,33 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Pequeña | Sí | Se limita a la solicitud de devolución. |
 | Verificable | Sí | Se puede comprobar una solicitud válida y otra fuera de plazo. |
 
+
+
+## HU-09 — Reportes de ventas exportables
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como dueño, quiero consultar reportes de ventas por día, semana, mes, año y períodos de hasta 5 años anteriores, filtrando por rango de fechas y productos y pudiendo exportarlos a Excel, para analizar el desempeño del negocio. |
+| Módulo | 05 - Reportes y Dashboard |
+| Requisitos relacionados | RF-33, RNF-01, RNF-12, RNF-15 |
+
+### Criterios de aceptación
+
+1. El dueño puede acceder a los reportes de ventas.
+2. Puede consultar las ventas por día, semana, mes y año.
+3. Puede filtrar los resultados por rango de fechas y productos.
+4. Puede consultar información de hasta 5 años anteriores.
+5. Puede exportar los resultados a un archivo Excel.
+6. Los resultados de la consulta se muestran en un tiempo máximo de 3 segundos.
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Sí | Puede desarrollarse y probarse utilizando datos de ventas de prueba. |
+| Negociable | Sí | La presentación de los filtros y el formato del archivo pueden definirse durante el desarrollo. |
+| Valiosa | Sí | Permite al dueño analizar las ventas y tomar decisiones. |
+| Estimable | Sí | El alcance y las funcionalidades están bien definidas. |
+| Pequeña | Sí | Se concentra en la consulta y exportación de reportes de ventas. |
+| Verificable | Sí | Se pueden realizar consultas con distintos filtros y comprobar la exportación a Excel y el tiempo de respuesta. |
+
