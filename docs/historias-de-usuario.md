@@ -264,3 +264,33 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Pequeña | Sí | Se concentra en la consulta y exportación de reportes de ventas. |
 | Verificable | Sí | Se pueden realizar consultas con distintos filtros y comprobar la exportación a Excel y el tiempo de respuesta. |
 
+
+## HU-10 — Listados de productos y clientes
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como dueño, quiero obtener listados de productos más vendidos, con menor movimiento, ingresos totales, ventas por medio de pago, clientes nuevos (últimos 7 días) y recurrentes (más de 2 compras), para analizar el desempeño del negocio. |
+| Módulo | 05 - Reportes y Dashboard |
+| Requisitos relacionados | RF-34, RNF-12, RNF-15 |
+
+### Criterios de aceptación
+
+1. El dueño puede acceder a la información solicitada.
+2. El sistema muestra los productos más vendidos.
+3. El sistema muestra los productos con menor movimiento.
+4. El sistema muestra los ingresos totales.
+5. El sistema muestra las ventas según el medio de pago.
+6. El sistema muestra los clientes nuevos de los últimos 7 días.
+7. El sistema muestra los clientes recurrentes con más de 2 compras.
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Sí | Puede desarrollarse y probarse con datos de prueba, sin depender de otra HU terminada. |
+| Negociable | Sí | La forma de presentar la información puede definirse durante el desarrollo. |
+| Valiosa | Sí | Permite al dueño analizar las ventas, productos y clientes, otorgando una visión actual del negocio. |
+| Estimable | Sí | El alcance y la información a mostrar están definidas. |
+| Pequeña | Sí | Se limita a la consulta de indicadores y listados definidos en RF-34. |
+| Verificable | Sí | Se puede comprobar que cada listado e indicador muestre la información correspondiente. |
+
