@@ -9,7 +9,7 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 ---
 
-## CU-01 — [Nombre]
+## CU-01 — [Registro y Autenticación de Cliente]
 
 | Campo | Detalle |
 |-------|---------|
@@ -46,7 +46,7 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 ---
 
-## CU-02 — [Nombre]
+## CU-02 — [Gestionar Productos y Variantes]
 
 | Campo | Detalle |
 |-------|---------|
@@ -83,7 +83,7 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 ---
 
-## CU-03 — [Nombre]
+## CU-03 — [Gestionar carrito de compras]
 
 | Campo | Detalle |
 |-------|---------|
@@ -124,7 +124,7 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 ---
 
-## CU-04 — [Nombre]
+## CU-04 — [Realizar checkout con datos de entrega y de envío]
 
 | Campo | Detalle |
 |-------|---------|
@@ -162,7 +162,7 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 ---
 
-## CU-05 — [Nombre]
+## CU-05 — [Procesar pago con Mercado Pago]
 
 | Campo | Detalle |
 |-------|---------|
@@ -198,7 +198,7 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 ---
 
-## CU-06 — [Nombre]
+## CU-06 — [Consultar seguimiento del pedido]
 
 | Campo | Detalle |
 |-------|---------|
