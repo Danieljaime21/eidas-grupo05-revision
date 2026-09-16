@@ -32,8 +32,7 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 | # | Situación | Respuesta del sistema |
 |---|-----------|-----------------------|
-| E1 | El cliente intenta registrarse omitiendo
-campos obligatorios o con datos con formato inválido. |El sistema no completará el registro, resaltará los campos con error y mostrará un mensaje indicando las correcciones requeridas (RNF-10) |
+| E1 | El cliente intenta registrarse omitiendo campos obligatorios o con datos con formato inválido.| El sistema no completará el registro, resaltará los campos con error y mostrará un mensaje indicando las correcciones requeridas (RNF-10) |
 | E2 | El cliente intenta registrarse con un correo electrónico o DNI previamente existente. | El sistema informará que el usuario ya existe y ofrecerá opciones directas para iniciar sesión o recuperar la contraseña.|
 | E3 | El cliente intenta finalizar una compra sin haber iniciado sesión. |El sistema interrumpe el checkout, exige el registro o inicio de sesión obligatorio (RF-10) y, tras completarse con éxito, redirige al cliente a la confirmación de su pedido. | 
 | E4 | Se produce un error de conexión o servidor durante el proceso. | El sistema informa que no fue posible procesar la solicitud y mantiene el formulario con los datos ingresados para reintentar. |
