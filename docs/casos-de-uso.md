@@ -24,8 +24,8 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 | # | Acción (actor) | Reacción (sistema) |
 |---|----------------|--------------------|
-| 1 | |El cliente selecciona la opción "Registrarse" o es redirigido desde el flujo de checkout. |El sistema muestra el formulario de registro solicitando todos los datos obligatorios
-(nombre, apellido, email, fecha de nacimiento, teléfono, DNI, contraseña, dirección, CP, ciudad, provincia).
+| 1 ||El cliente selecciona la opción "Registrarse" o es redirigido desde el flujo de checkout. |El sistema muestra el formulario de registro solicitando todos los datos obligatorios
+(nombre, apellido, email, fecha de nacimiento, teléfono, DNI, contraseña, dirección, CP, ciudad, provincia).|
 | 2 | |El cliente completa los campos
 solicitados y selecciona "Crear Cuenta". |El sistema valida la estructura del email y DNI, verifica que no existan previamente en la base de datos (RF-06) y cifra la contraseña de forma segura.
 | 3 | |El cliente confirma el registro. |El sistema crea la cuenta de usuario, inicia la sesión automáticamente y muestra un mensaje de confirmación de registro exitoso.
