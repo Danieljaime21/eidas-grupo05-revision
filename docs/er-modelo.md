@@ -27,12 +27,67 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 
 _Para cada entidad, describir brevemente los atributos más relevantes y su propósito._
 
-### [Entidad 1]
+### [USUARIO]
 
 - `id_xxx` (PK): 
 - `atributo`: 
 
-### [Entidad 2]
+### [CLIENTE]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [EMPLEADO]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [CATEGORIA]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [PRODUCTO]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [VARIANTE_PRODUCTO]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [PROVEEDOR]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [PRODUCTO_PROVEEDOR]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [INGRESO_STOCK]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [CARRITO]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [DETALLE_CARRITO]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [PEDIDO]
+
+- `id_xxx` (PK): 
+- `atributo`: 
+
+### [DETALLE_PEDIDO]
 
 - `id_xxx` (PK): 
 - `atributo`: 
