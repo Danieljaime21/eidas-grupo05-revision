@@ -98,12 +98,19 @@ _Justificar al menos dos decisiones de diseño relevantes: por qué se modeló d
 qué alternativas se consideraron y por qué se descartaron._
 
 ### Decisión 1 — [Separación de Credenciales e Integración de Actores mediante Herencia (USUARIO -> CLIENTE / EMPLEADO)]
-Decisión: Implementar un esquema de herencia/especialización 1:1 donde la entidad base USUARIO administra centralizadamente las credenciales de autenticación (email, contrasena_hash, intentos_fallidos, rol), mientras que CLIENTE y EMPLEADO actúan como tablas hijas especializadas con sus atributos específicos.
 
-Justificación: Resuelve la redundancia de campos de seguridad entre cuentas de usuarios administradores y compradores. Además, otorga consistencia a las reglas de negocio de autenticación y bloqueo preventivo (RNF-06, RNF-07) y permite auditar la participación activa de los empleados en procesos del sistema (como los registros de INGRESO_STOCK).
+Decisión
 
-Alternativas Descartadas:
-Entidades desconectadas (USUARIO aislado y CLIENTE independiente): Provocaba duplicidad de código, inconsistencias de credenciales y dejaba a los usuarios internos sin interacción con el modelo de datos.
-Tabla única USUARIO con todos los atributos combinados (campos nulos): Incurría en una violación de diseño al poblar con múltiples valores NULL la base de datos (por ejemplo, campos como legajo para un cliente o direccion para un administrador).
+Decidimos implementar una especialización 1:1, donde USUARIO sea la entidad principal y se encargue de manejar los datos de acceso, como el email, la contraseña, los intentos fallidos y el rol. A partir de esta entidad se relacionan CLIENTE y EMPLEADO, cada uno con sus datos específicos.
+
+Justificación
+
+Elegimos esta opción porque nos permite no repetir los datos de seguridad y acceso entre los distintos tipos de usuarios. También ayuda a mantener las mismas reglas para el inicio de sesión y el bloqueo de cuentas (RNF-06 y RNF-07). Además, permite relacionar a los empleados con las tareas que realizan dentro del sistema, por ejemplo, cuando se registra un INGRESO_STOCK.
+
+Alternativas descartadas
+
+USUARIO aislado y CLIENTE independiente: Se descartó porque podía generar datos repetidos y problemas de consistencia con las credenciales. También dificultaba relacionar a los empleados con las operaciones que realizan en el sistema.
+
+Una única tabla USUARIO con todos los atributos: Se descartó porque tendría muchos campos que no serían necesarios para todos los usuarios, generando valores NULL. Por ejemplo, un cliente no tendría legajo y un empleado podría no necesitar los mismos datos de dirección que un cliente.
 
 ### Decisión 2 — [Desacoplamiento de Inventario mediante la Entidad VARIANTE_PRODUCTO]
