@@ -97,6 +97,11 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 _Justificar al menos dos decisiones de diseño relevantes: por qué se modeló de esa manera,
 qué alternativas se consideraron y por qué se descartaron._
 
-### Decisión 1 — [Título]
+### Decisión 1 — [Separación de Credenciales e Integración de Actores mediante Herencia (USUARIO -> CLIENTE / EMPLEADO)]
+Decisión: Implementar un esquema de herencia/especialización 1:1 donde la entidad base USUARIO administra centralizadamente las credenciales de autenticación (email, contrasena_hash, intentos_fallidos, rol), mientras que CLIENTE y EMPLEADO actúan como tablas hijas especializadas con sus atributos específicos.
+Justificación: Resuelve la redundancia de campos de seguridad entre cuentas de usuarios administradores y compradores. Además, otorga consistencia a las reglas de negocio de autenticación y bloqueo preventivo (RNF-06, RNF-07) y permite auditar la participación activa de los empleados en procesos del sistema (como los registros de INGRESO_STOCK).
+Alternativas Descartadas:
+Entidades desconectadas (USUARIO aislado y CLIENTE independiente): Provocaba duplicidad de código, inconsistencias de credenciales y dejaba a los usuarios internos sin interacción con el modelo de datos.
+Tabla única USUARIO con todos los atributos combinados (campos nulos): Incurría en una violación de diseño al poblar con múltiples valores NULL la base de datos (por ejemplo, campos como legajo para un cliente o direccion para un administrador).
 
-### Decisión 2 — [Título]
+### Decisión 2 — [Desacoplamiento de Inventario mediante la Entidad VARIANTE_PRODUCTO]
