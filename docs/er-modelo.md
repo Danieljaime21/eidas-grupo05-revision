@@ -29,68 +29,105 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 
 ### [USUARIO]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `dni` (PK): Documento Nacional de Identidad o CUIT que identifica de manera única al usuario.
+- `nombre`: Nombre y apellido del usuario.
+- `email`: Credencial única utilizada para iniciar sesión y recibir notificaciones.
+- `contrasena_hash`: Contraseña almacenada de forma segura mediante un algoritmo de hash de un solo sentido, de acuerdo con RNF-06.
+- `rol`: Define el perfil y los permisos de acceso dentro del sistema.
+- `estado_activo`: Indica si la cuenta se encuentra activa o inhabilitada.
+- `intentos_fallidos`: Contador utilizado para controlar los intentos incorrectos de inicio de sesión.
+- `bloqueado_hasta`: Fecha y hora hasta la cual el usuario permanece bloqueado, de acuerdo con RNF-07.
 
 ### [CLIENTE]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `dni` (PK, FK): Identificador del cliente y clave foránea que referencia a USUARIO.dni.
+- `telefono`: Número telefónico utilizado para contacto y notificaciones.
+- `direccion`: Domicilio de entrega predeterminado registrado por el cliente.
 
 ### [EMPLEADO]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `dni` (PK, FK): Identificador del empleado y clave foránea que referencia a USUARIO.dni.
+- `departamento`: Área operativa a la que pertenece el empleado.
 
 ### [CATEGORIA]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `id_categoria` (PK): Identificador único de la categoría.
+- `nombre`: Nombre de la categoría comercial.
+- `descripcion`: Descripción opcional de la categoría.
 
 ### [PRODUCTO]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `id_producto` (PK): Identificador único del producto.
+- `id_categoria` (FK): Referencia a la categoría a la que pertenece el producto.
+- `nombre`: Denominación comercial del artículo.
+- `descripcion`: Información descriptiva y características del producto.
+- `precio_base`: Precio de referencia del producto.
+- `tabla_medidas_url`: Enlace a la tabla de medidas del producto, de acuerdo con RF-11.
+- `estado_activo`: Indica si el producto está habilitado en el catálogo.
 
 ### [VARIANTE_PRODUCTO]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `sku` (PK): Código alfanumérico único que identifica la variante del producto.
+- `id_producto` (FK): Referencia al producto al que pertenece la variante.
+- `talle`: Talle correspondiente a la variante.
+- `color`: Color correspondiente a la variante.
+- `stock`: Cantidad de unidades disponibles para la venta, de acuerdo con RF-13.
 
 ### [PROVEEDOR]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `id_proveedor` (PK): Identificador único del proveedor.
+- `razon_social`: Denominación legal de la empresa proveedora.
+- `cuit`: Clave Única de Identificación Tributaria del proveedor.
+- `estado_activo`: Indica si el proveedor se encuentra habilitado.
 
 ### [PRODUCTO_PROVEEDOR]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `id_producto` (PK, FK): Referencia al producto asociado al proveedor.
+- `id_proveedor` (PK, FK): Referencia al proveedor asociado al producto.
+
+- La combinación de `id_producto` e `id_proveedor` constituye una clave primaria compuesta.
 
 ### [INGRESO_STOCK]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `id_ingreso` (PK): Identificador único del ingreso de mercadería.
+- `dni_empleado` (FK): Identifica al empleado responsable del ingreso.
+- `id_proveedor` (FK): Identifica al proveedor que realizó el envío.
+- `fecha_ingreso`: Fecha y hora en la que se procesó el ingreso.
 
 ### [CARRITO]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `id_carrito` (PK): Identificador único del carrito.
+- `dni_cliente` (FK): Referencia al cliente propietario del carrito.
+- `fecha_actualizacion`: Fecha y hora de la última modificación del carrito, utilizada para controlar la inactividad de 3 horas.
 
 ### [DETALLE_CARRITO]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `id_detalle_carrito` (PK): Identificador único de cada línea del carrito.
+- `id_carrito` (FK): Referencia al carrito al que pertenece el detalle.
+- `sku` (FK): Referencia a la variante de producto seleccionada.
+- `cantidad`: Cantidad de unidades agregadas temporalmente al carrito.
 
 ### [PEDIDO]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `id_pedido` (PK): Identificador único de la orden de compra.
+- `dni_cliente` (FK): Referencia al cliente que realizó el pedido.
+- `fecha_pedido`: Fecha y hora correspondiente al inicio del checkout.
+- `estado_pedido`: Estado operativo del pedido, por ejemplo Pendiente, Aprobado, Listo para retirar o Despachado.
+- `tipo_entrega`: Modalidad seleccionada, como Envío a domicilio o Retiro en sucursal.
+- `costo_envio`: Importe correspondiente al costo del envío.
+- `monto_total`: Importe total de la operación.
+- `id_transaccion_mp`: Identificador de la transacción generada por Mercado Pago.
+- `estado_pago`: Estado informado por el procesador de pagos.
+- `numero_seguimiento`: Código utilizado para realizar el seguimiento del envío.
+- `fecha_vencimiento_retiro`: Fecha límite para retirar el pedido en sucursal, de acuerdo con RF-29.
 
 ### [DETALLE_PEDIDO]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `id_detalle_pedido` (PK): Identificador único de cada línea del pedido.
+- `id_pedido` (FK): Referencia al pedido al que pertenece el detalle.
+- `sku` (FK): Referencia a la variante de producto vendida.
+- `cantidad`: Cantidad de unidades adquiridas.
+- `precio_unitario`: Precio de la variante al momento de realizar la compra.
 
 ## Decisiones de diseño
 
