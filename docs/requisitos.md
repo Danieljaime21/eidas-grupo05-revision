@@ -16,31 +16,38 @@ Por otro lado, el personal de la tienda contará con un panel administrativo des
 
 | ID | Requisito |
 |----|-----------|
-| RF-01 | El sistema deberá permitir al empleado generar nuevos usuarios. |
-| RF-02 | El sistema deberá permitir al empleado modificar datos de usuarios existentes. |
-| RF-03 | El sistema deberá permitir al empleado inhabilitar usuarios. |
-| RF-04 | El sistema deberá permitir a los usuarios autenticados iniciar sesión para acceder a las funcionalidades según su rol. |
-| RF-05 | El sistema permitirá configurar las funcionalidades permitidas para cada rol. |
-| RF-06 | El sistema permitirá a los clientes registrarse con sus datos (nombre, apellido, email, fecha nacimiento, teléfono, DNI, contraseña, dirección, CP, ciudad, provincia) e iniciar sesión con sus credenciales. |
-| RF-07 | El sistema permitirá al cliente gestionar su cuenta (consultar y modificar datos personales, consultar historial de compras y estado de pedidos, solicitar devoluciones). |
-| RF-08 | El sistema permitirá al cliente que haya comprado un producto calificarlo (1-5 estrellas + comentario opcional). |
-| RF-09 | El dueño podrá eliminar reseñas con lenguaje inapropiado. |
-| RF-10 | El sistema exigirá al cliente registro obligatorio para finalizar una compra y permitirá al empleado de ventas y al dueño consultar el listado de clientes registrados. |
+| RF-01 | El sistema deberá permitir al Dueño dar de alta a usuarios del personal asignándoles un rol, modificar sus datos e inhabilitarlos. |
+| RF-02 | El sistema deberá permitir al Empleado modificar datos de cuentas de clientes |
+| RF-03 | El sistema deberá permitir al Empleado inhabilitar cuentas de clientes. |
+| RF-04 | El sistema deberá permitir a los usuarios registrados (clientes y personal) iniciar sesión con email y contraseña y acceder a las funcionalidades correspondientes a su rol. |
+| RF-05 | El sistema deberá permitir al Dueño configurar las funcionalidades para cada rol del personal. |
+| RF-06 | El sistema deberá permitir a los visitantes registrarse con sus datos (nombre, apellido, email, fecha nacimiento, teléfono, DNI, contraseña, dirección, CP, ciudad, provincia). |
+| RF-07 | El sistema deberá permitir al Cliente consultar datos personales, historial de compras y estado de sus pedidos. |
+| RF-08 | El sistema deberá permitir al Cliente modificar datos personales. |
+| RF-09 | El sistema deberá permitir al Cliente recuperar su contraseña. |
+| RF-10 | El sistema permitirá al cliente que haya comprado un producto calificarlo (1-5 estrellas + comentario opcional). |
+| RF-11 | El sistema deberá permitir al Dueño eliminar reseñas con lenguaje ofensivo, vulgar o amenazante y su respectiva calificación. |
+| RF-12 | El sistema deberá exigir al Visitante iniciar sesión o registrarse para finalizar una compra, conservando el contenido de su carrito. |
+| RF-13 | El sistema deberá permitir al Empleado y al Dueño consultar el listado de clientes registrados. |
 
 
 ### Módulo 2 — Productos, Stock y Proveedores
 
 | ID | Requisito |
 |----|-----------|
-| RF-11 | El sistema permitirá al cliente consultar el catálogo sin necesidad de registrarse, mostrando descripción, precio, color, talle, disponibilidad, entre 2 y 4 fotografías y tabla de medidas por tipo de producto. |
-| RF-12 | El sistema permitirá al dueño gestionar productos y variantes (crear, modificar, desactivar). |
-| RF-13 | El sistema mantendrá stock unificado para cada combinación de producto-talle-color, afectado tanto por ventas online como por ventas en local. |
-| RF-14 | El sistema deberá permitir al empleado registrar una compra. |
-| RF-15 | El sistema permitirá al empleado configurar alertas. |
-| RF-16 | El sistema permitirá al empleado registrar proveedores, almacenando razón social, CUIT, teléfono, email y dirección. |
-| RF-17 | El sistema permitirá al empleado modificar los datos de proveedores. |
-| RF-18 | El sistema permitirá al empleado desactivar proveedores. |
-| RF-19 | El sistema permitirá al empleado asociar productos a proveedores. |
+| RF-14 | El sistema deberá permitir al Visitante consultar el catálogo sin necesidad de registrarse, mostrando descripción, precio, color, talle, disponibilidad (stock/sin stock), entre 2 y 4 fotografías por producto y tabla de medidas por tipo de producto. |
+| RF-15 | El sistema deberá permitir al Dueño agregar nuevos productos al catálogo. |
+| RF-16 | El sistema deberá permitir al Dueño modificar productos. |
+| RF-17 | El sistema deberá permitir al Dueño desactivar productos. |
+| RF-18 | El sistema deberá permitir al Dueño crear, modificar y desactivar categorías y asignar cada producto a una categoría. |
+| RF-19 | El sistema deberá permitir al Cliente y al Visitante filtrar el catálogo por categoría, talle y color. |
+| RF-20 | El sistema deberá permitir al Empleado mantener un stock unificado para cada combinación de producto-talle-color, afectado tanto por ventas online como por ventas en local. |
+| RF-21 | El sistema deberá permitir al Empleado registrar una venta presencial indicando productos, cantidades y seleccionando el medio de pago correspondiente (efectivo, tarjeta de débito, tarjeta de crédito o transferencia/QR). |
+| RF-22 | El sistema deberá permitir al Empleado configurar un stock mínimo por producto-talle-color y generar una alerta visible en el panel cuando el stock sea menor o igual a ese mínimo. |
+| RF-23 | El sistema deberá permitir al Empleado registrar proveedores, almacenando razón social, CUIT, teléfono, email y dirección. |
+| RF-24 | El sistema deberá permitir al Empleado modificar los datos de proveedores. |
+| RF-25 | El sistema deberá permitir al Empleado inhabilitar proveedores. |
+| RF-26 | El sistema deberá permitir al Empleado asociar productos a proveedores. |
 
 
 ### Módulo 3 — Carrito, Pedidos y Promociones
