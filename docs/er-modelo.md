@@ -3,7 +3,7 @@
 ## Diagrama
 
 _Incluir el código PlantUML en `diagramas/er.puml`._
-_Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
+_Visualizar en [plantuml.com](//www.plantuml.com/plantuml/png/fLR1RkCs4BtxAuXSsYwQmnvwMImMgzhgLbZ73XHdhyAOdCX4A58bgRJPfFzUoX93aP0DetiJPzvmtfiPalfiB6ZRDM9X7hbiGKD3jEeaeqfBrEItYLrmYVQvHQAqFQY9mno0gR-vhCa328EB1KhBxJEvkh-xpyfYUqN0aF6Rl2m8USSa9n_8jwnS_fcLvEF7sw-VFZdxzNNlbAhPQmp-teODS16Rg99MWq49rG7C8NPgbQ3HM4Uo0chvatAktxVRTPvjUXUNrX5MfdBi1MVAE7UnsJdNNgY_EkpZN0OBphxATlckkCaN_mQLotMHRtRvKUNuVKhbh-IFYLAB0X-KL15JnZLIofKCrcco_ERMyLuDDVMBYz8v0BQWBJIzsldTbqxUbsrPP8COlnhsvwoYOB5MciDGeWiwnz1GpTlJWcxBxUf-kHi4-SLRmbOhrb6hPlFDCnebNqx6OLkDpbZjmVG1gtnPt6Hhvx2m5r0ro3W3KtNwig5Av7tByzMszFg6rLJW4o9JUbwXXkzALaPH3kduTznUpYOfTfNIIitd6k2dAk6V0gPv7SiYS-UYYhgTM7tRpMCtVpcabDAEMn02qqj2A1sRZ5NqSOYTKYmsNyhyRblTxRRBhqTwaUMj85pM6is9WMIILzYq0e6fICFPYddd0z83X0JpbqrMbiLOl_5xSZgrvlOCDIeuIejJPaboeBO3mR_3S4PcATpcgsAyW8RFC2pzGVcH_647dpWCjlT5pRIyLHLAgx66jFF6zgudhg8Z_QvHqZciiY0YX-DlDKW3nzktQjfeFyy1wfY1x1hKgZ9OTxpfrSNkGTKJIZfwAusMQwzmMjPLlilMwxoQTjZRqaupFCxw-Owd4n6AdHonOAVWo31WGy0SkqdpOrFAxUmm-5dvtyp2dTr9Ra57JNQqVo8bYkCGeo7u3r3h20CHG7W3DSg5_nrvVRs-Lg_-tNQRNBc0dzz_UF_BLOhnhsqCMeoX7kLRvK2MeqIFYs0l_kGur07e4RJfD_CvF2o-WnnQOysDrV0M4Hxf8IIyeGuDjUxQW0tN-wdjOG_6OY2KHimz5IxC3JWB8ZpcV8n10iU7ZL0bVMmQcZmHeQuXsrXm7v4U6OUlEz0iL64eVOeF3U6IYkuv94Wud4tbH9ck0GB2Xv-Fzebzy518b3xwirjtZVWF)._
 
 ## Entidades
 
@@ -29,125 +29,163 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 
 ### [USUARIO]
 
-- `dni` (PK): Documento Nacional de Identidad o CUIT que identifica de manera única al usuario.
-- `nombre`: Nombre y apellido del usuario.
-- `email`: Credencial única utilizada para iniciar sesión y recibir notificaciones.
-- `contrasena_hash`: Contraseña almacenada de forma segura mediante un algoritmo de hash de un solo sentido, de acuerdo con RNF-06.
-- `rol`: Define el perfil y los permisos de acceso dentro del sistema.
-- `estado_activo`: Indica si la cuenta se encuentra activa o inhabilitada.
-- `intentos_fallidos`: Contador utilizado para controlar los intentos incorrectos de inicio de sesión.
-- `bloqueado_hasta`: Fecha y hora hasta la cual el usuario permanece bloqueado, de acuerdo con RNF-07.
+- `dni` VARCHAR(20) (PK): Documento Nacional de Identidad o CUIT que identifica de manera única al usuario.
+- `nombre` VARCHAR(100): Nombre y apellido del usuario.
+- `email` VARCHAR(150): Credencial única utilizada para iniciar sesión y recibir notificaciones.
+- `contrasena_hash` VARCHAR(255): Contraseña almacenada de forma segura mediante un algoritmo de hash de un solo sentido, de acuerdo con RNF-06.
+- `rol` VARCHAR(30): Define el perfil y los permisos de acceso dentro del sistema.
+- `estado_activo`BOOLEAN: Indica si la cuenta se encuentra activa o inhabilitada.
+- `intentos_fallidos` INTEGER: Contador utilizado para controlar los intentos incorrectos de inicio de sesión.
+- `bloqueado_hasta` DATETIME: Fecha y hora hasta la cual el usuario permanece bloqueado, de acuerdo con RNF-07.
 
 ### [CLIENTE]
 
-- `dni` (PK, FK): Identificador del cliente y clave foránea que referencia a USUARIO.dni.
-- `telefono`: Número telefónico utilizado para contacto y notificaciones.
-- `direccion`: Domicilio de entrega predeterminado registrado por el cliente.
+- `dni` VARCHAR(20) (PK, FK): Identificador del cliente y clave foránea que referencia a USUARIO.dni.
+- `telefono` VARCHAR(30): Número telefónico utilizado para contacto y notificaciones.
+- `direccion` VARCHAR(255): Domicilio de entrega predeterminado registrado por el cliente.
 
 ### [EMPLEADO]
 
-- `dni` (PK, FK): Identificador del empleado y clave foránea que referencia a USUARIO.dni.
-- `departamento`: Área operativa a la que pertenece el empleado.
+- `dni` VARCHAR(20) (PK, FK): Identificador del empleado y clave foránea que referencia a USUARIO.dni.
+- `departamento` VARCHAR(50): Área operativa a la que pertenece el empleado.
 
 ### [CATEGORIA]
 
 - `id_categoria` (PK): Identificador único de la categoría.
-- `nombre`: Nombre de la categoría comercial.
-- `descripcion`: Descripción opcional de la categoría.
+- `nombre` VARCHAR(100): Nombre de la categoría comercial.
+- `descripcion` TEXT: Descripción opcional de la categoría.
 
 ### [PRODUCTO]
 
-- `id_producto` (PK): Identificador único del producto.
-- `id_categoria` (FK): Referencia a la categoría a la que pertenece el producto.
-- `nombre`: Denominación comercial del artículo.
-- `descripcion`: Información descriptiva y características del producto.
-- `precio_base`: Precio de referencia del producto.
-- `tabla_medidas_url`: Enlace a la tabla de medidas del producto, de acuerdo con RF-11.
-- `estado_activo`: Indica si el producto está habilitado en el catálogo.
+- `id_producto` INT (PK): Identificador único del producto.
+- `id_categoria` INT (FK): Referencia a la categoría a la que pertenece el producto.
+- `nombre` VARCHAR(150): Denominación comercial del artículo.
+- `descripcion` TEXT: Información descriptiva y características del producto.
+- `precio_base` DECIMAL(10,2): Precio de referencia del producto.
+- `tabla_medidas_url` VARCHAR(255): Enlace a la tabla de medidas del producto, de acuerdo con RF-11.
+- `estado_activo` BOOLEAN: Indica si el producto está habilitado en el catálogo.
 
 ### [VARIANTE_PRODUCTO]
 
-- `sku` (PK): Código alfanumérico único que identifica la variante del producto.
-- `id_producto` (FK): Referencia al producto al que pertenece la variante.
-- `talle`: Talle correspondiente a la variante.
-- `color`: Color correspondiente a la variante.
-- `stock`: Cantidad de unidades disponibles para la venta, de acuerdo con RF-13.
+- `sku` VARCHAR(50) (PK) Código alfanumérico único que identifica la variante del producto.
+- `id_producto` INT (FK): Referencia al producto al que pertenece la variante.
+- `talle` VARCHAR(20): Talle correspondiente a la variante.
+- `color` VARCHAR(50): Color correspondiente a la variante.
+- `stock` INT: Cantidad de unidades disponibles para la venta, de acuerdo con RF-13.
 
 ### [PROVEEDOR]
 
-- `id_proveedor` (PK): Identificador único del proveedor.
-- `razon_social`: Denominación legal de la empresa proveedora.
-- `cuit`: Clave Única de Identificación Tributaria del proveedor.
-- `estado_activo`: Indica si el proveedor se encuentra habilitado.
+- `id_proveedor` INT (PK): Identificador único del proveedor.
+- `razon_social` VARCHAR(150): Denominación legal de la empresa proveedora.
+- `cuit` VARCHAR(20): Clave Única de Identificación Tributaria del proveedor.
+- `estado_activo` BOOLEAN: Indica si el proveedor se encuentra habilitado.
 
 ### [PRODUCTO_PROVEEDOR]
 
-- `id_producto` (PK, FK): Referencia al producto asociado al proveedor.
-- `id_proveedor` (PK, FK): Referencia al proveedor asociado al producto.
+- `id_producto` INT (PK, FK): Referencia al producto asociado al proveedor.
+- `id_proveedor` INT (PK, FK): Referencia al proveedor asociado al producto.
 
 - La combinación de `id_producto` e `id_proveedor` constituye una clave primaria compuesta.
 
 ### [INGRESO_STOCK]
 
-- `id_ingreso` (PK): Identificador único del ingreso de mercadería.
-- `dni_empleado` (FK): Identifica al empleado responsable del ingreso.
-- `id_proveedor` (FK): Identifica al proveedor que realizó el envío.
-- `fecha_ingreso`: Fecha y hora en la que se procesó el ingreso.
+- `id_ingreso` INT (PK): Identificador único del ingreso de mercadería.
+- `dni_empleado` VARCHAR(20) (FK): Identifica al empleado responsable del ingreso.
+- `id_proveedor` INT (FK): Identifica al proveedor que realizó el envío.
+- `fecha_ingreso` DATETIME: Fecha y hora en la que se procesó el ingreso.
 
 ### [CARRITO]
 
-- `id_carrito` (PK): Identificador único del carrito.
-- `dni_cliente` (FK): Referencia al cliente propietario del carrito.
-- `fecha_actualizacion`: Fecha y hora de la última modificación del carrito, utilizada para controlar la inactividad de 3 horas.
+- `id_carrito` INT (PK): Identificador único del carrito.
+- `dni_cliente` VARCHAR(20) (FK): Referencia al cliente propietario del carrito.
+- `fecha_actualizacion` DATETIME: Fecha y hora de la última modificación del carrito, utilizada para controlar la inactividad de 3 horas.
 
 ### [DETALLE_CARRITO]
 
-- `id_detalle_carrito` (PK): Identificador único de cada línea del carrito.
-- `id_carrito` (FK): Referencia al carrito al que pertenece el detalle.
-- `sku` (FK): Referencia a la variante de producto seleccionada.
-- `cantidad`: Cantidad de unidades agregadas temporalmente al carrito.
+- `id_detalle_carrito` INT (PK): Identificador único de cada línea del carrito.
+- `id_carrito` INT (FK): Referencia al carrito al que pertenece el detalle.
+- `sku` VARCHAR(50) (FK): Referencia a la variante de producto seleccionada.
+- `cantidad` INT: Cantidad de unidades agregadas temporalmente al carrito.
 
 ### [PEDIDO]
 
-- `id_pedido` (PK): Identificador único de la orden de compra.
-- `dni_cliente` (FK): Referencia al cliente que realizó el pedido.
-- `fecha_pedido`: Fecha y hora correspondiente al inicio del checkout.
-- `estado_pedido`: Estado operativo del pedido, por ejemplo Pendiente, Aprobado, Listo para retirar o Despachado.
-- `tipo_entrega`: Modalidad seleccionada, como Envío a domicilio o Retiro en sucursal.
-- `costo_envio`: Importe correspondiente al costo del envío.
-- `monto_total`: Importe total de la operación.
-- `id_transaccion_mp`: Identificador de la transacción generada por Mercado Pago.
-- `estado_pago`: Estado informado por el procesador de pagos.
-- `numero_seguimiento`: Código utilizado para realizar el seguimiento del envío.
-- `fecha_vencimiento_retiro`: Fecha límite para retirar el pedido en sucursal, de acuerdo con RF-29.
+- `id_pedido` INT (PK): Identificador único de la orden de compra.
+- `dni_cliente` VARCHAR(20) (FK): Referencia al cliente que realizó el pedido.
+- `fecha_pedido` DATETIME: Fecha y hora correspondiente al inicio del checkout.
+- `estado_pedido` VARCHAR(50): Estado operativo del pedido, por ejemplo Pendiente, Aprobado, Listo para retirar o Despachado.
+- `tipo_entrega` VARCHAR(50): Modalidad seleccionada, como Envío a domicilio o Retiro en sucursal.
+- `costo_envio` DECIMAL(10,2): Importe correspondiente al costo del envío.
+- `monto_total` DECIMAL(10,2): Importe total de la operación.
+- `id_transaccion_mp` VARCHAR(100): Identificador de la transacción generada por Mercado Pago.
+- `estado_pago` VARCHAR(50): Estado informado por el procesador de pagos.
+- `numero_seguimiento` VARCHAR(100): Código utilizado para realizar el seguimiento del envío.
+- `fecha_vencimiento_retiro` DATETIME: Fecha límite para retirar el pedido en sucursal, de acuerdo con RF-29.
 
 ### [DETALLE_PEDIDO]
 
-- `id_detalle_pedido` (PK): Identificador único de cada línea del pedido.
-- `id_pedido` (FK): Referencia al pedido al que pertenece el detalle.
-- `sku` (FK): Referencia a la variante de producto vendida.
-- `cantidad`: Cantidad de unidades adquiridas.
-- `precio_unitario`: Precio de la variante al momento de realizar la compra.
+- `id_detalle_pedido` INT (PK): Identificador único de cada línea del pedido.
+- `id_pedido` INT (FK): Referencia al pedido al que pertenece el detalle.
+- `sku` VARCHAR(50) (FK): Referencia a la variante de producto vendida.
+- `cantidad` INT: Cantidad de unidades adquiridas.
+- `precio_unitario` DECIMAL(10,2): Precio de la variante al momento de realizar la compra.
 
 ## Decisiones de diseño
 
 _Justificar al menos dos decisiones de diseño relevantes: por qué se modeló de esa manera,
 qué alternativas se consideraron y por qué se descartaron._
 
-### Decisión 1 — [Separación de Credenciales e Integración de Actores mediante Herencia (USUARIO -> CLIENTE / EMPLEADO)]
+### Decisión 1 — [Identificación Principal basada en DNI y Herencia (USUARIO -> CLIENTE / EMPLEADO)]
 
 Decisión
 
-Decidimos implementar una especialización 1:1, donde USUARIO sea la entidad principal y se encargue de manejar los datos de acceso, como el email, la contraseña, los intentos fallidos y el rol. A partir de esta entidad se relacionan CLIENTE y EMPLEADO, cada uno con sus datos específicos.
+Usar el DNI como la clave principal (PK) en USUARIO y reutilizar ese mismo DNI para identificar a CLIENTE y EMPLEADO.
 
 Justificación
 
-Elegimos esta opción porque nos permite no repetir los datos de seguridad y acceso entre los distintos tipos de usuarios. También ayuda a mantener las mismas reglas para el inicio de sesión y el bloqueo de cuentas (RNF-06 y RNF-07). Además, permite relacionar a los empleados con las tareas que realizan dentro del sistema, por ejemplo, cuando se registra un INGRESO_STOCK.
+El DNI ya es un número único que identifica a cada persona en la vida real. Usarlo en todas las tablas evita inventar números de ID artificiales (como id_cliente o id_empleado) y simplifica la búsqueda de usuarios.
 
-Alternativas descartadas
+Alternativa descartada
 
-USUARIO aislado y CLIENTE independiente: Se descartó porque podía generar datos repetidos y problemas de consistencia con las credenciales. También dificultaba relacionar a los empleados con las operaciones que realizan en el sistema.
+Crear un ID autoincremental distinto para cada tabla. Se descartó porque agregaba números innecesarios cuando el DNI ya cumple perfectamente esa función.
 
-Una única tabla USUARIO con todos los atributos: Se descartó porque tendría muchos campos que no serían necesarios para todos los usuarios, generando valores NULL. Por ejemplo, un cliente no tendría legajo y un empleado podría no necesitar los mismos datos de dirección que un cliente.
+### Decisión 2 — [Uso del SKU como Clave Primaria en VARIANTE_PRODUCTO]
 
-### Decisión 2 — [Desacoplamiento de Inventario mediante la Entidad VARIANTE_PRODUCTO]
+Decisión
+
+Guardar la cantidad de stock en la tabla VARIANTE_PRODUCTO (asociada a un talle y color específicos) en lugar de guardarlo en la tabla general PRODUCTO. Además, usarmos el código sku como identificador principal de la variante.
+
+Justificación
+
+Nadie compra una "Remera" en abstracto; la gente compra una remera Talle M, Color Negro. Si pusiéramos el stock en el producto general, no sabríamos si nos quedamos sin talle M o sin talle S. El stock tiene que estar donde está la prenda física real.
+
+Alternativa descartada
+
+Poner el stock en la tabla PRODUCTO. Se descartó porque haría imposible saber qué talles o colores específicos quedan en el depósito.
+
+### Decisión 3 — [Integración Directa de Metadatos Transaccionales y Logísticos en PEDIDO]
+
+Decisión
+
+Incluir la información de Mercado Pago (id_transaccion_mp, estado_pago) y del envío (numero_seguimiento, fecha_vencimiento_retiro) directamente como campos de la tabla PEDIDO.
+
+Justificación
+
+Cada pedido tiene un solo pago y un solo envío. Guardar todo en la misma tabla hace que consultar el estado de una compra sea mucho más rápido y no requiera juntar múltiples tablas complejas.
+
+Alternativa descartada
+
+Crear tablas separadas llamadas PAGO y ENVIO. Se descartó porque complicaba el sistema sin aportar ningún beneficio real para este tipo de negocio.
+
+### Decisión 4 — [Congelamiento de Importe Histórico en DETALLE_PEDIDO]
+
+Decisión
+
+Guardar el precio_unitario de la prenda dentro de DETALLE_PEDIDO al momento exacto en que el cliente realiza la compra.
+
+Justificación
+
+Los precios de la tienda cambian con el tiempo (por aumentos o promociones). Si no guardamos el precio al que se vendió en su momento, cuando el cliente revise un pedido viejo el sistema mostraría el precio actual, alterando el historial de lo que realmente pagó.
+
+Alternativa descartada
+
+Leer siempre el precio desde la tabla PRODUCTO. Se descartó porque arruinaría la contabilidad y el historial de compras pasadas.
