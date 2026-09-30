@@ -53,34 +53,35 @@ Por otro lado, el personal de la tienda contará con un panel administrativo des
 ### Módulo 3 — Carrito, Pedidos y Promociones
 | ID | Requisito |
 |----|-----------|
-| RF-20 | El sistema permitirá al cliente gestionar el carrito: agregar productos (exigiendo talle y color), visualizar, modificar cantidades, eliminar productos y vaciar carrito. |
-| RF-21 | El sistema permitirá al cliente realizar el checkout solicitando confirmación de datos de entrega, permitiendo seleccionar envío a domicilio o retiro en local, y calculando el costo de envío correspondiente. |
-| RF-22 | El sistema se integrará con Mercado Pago y se podrán procesar pagos con tarjeta de crédito y débito, registrando estado, fecha, importe y medio de pago. |
-| RF-23 | El sistema notificará al cliente mediante email por cada cambio de estado de su pedido. |
-| RF-24 | El sistema permitirá al cliente cancelar el pedido antes de su envío o retiro. |
-| RF-25 | El sistema permitirá al dueño crear promociones (descuento porcentual o fijo) aplicables a producto específico, categoría o catálogo completo, con fechas de inicio y fin configurables. |
-| RF-26 | El sistema permitirá al dueño crear cupones configurados como uso único o múltiple, con límite de usos, fechas configurables y activación/desactivación automática según período. |
+| RF-27 | El sistema deberá permitir al Visitante y Cliente agregar productos al carrito (exigiendo talle y color), visualizar, modificar cantidades, eliminar productos y/o vaciar carrito. |
+| RF-28 | El sistema deberá permitir al Cliente realizar la verificación de los datos de entrega, permitiendo seleccionar envío a domicilio o retiro en local, y calculando el costo de envío correspondiente. |
+| RF-29 | El sistema deberá permitir al Cliente realizar el pago mediante Mercado Pago registrando estado, fecha, importe y medio de pago devuelto por la pasarela. |
+| RF-30 | El sistema notificará al cliente mediante email por cada cambio de estado de su pedido (Pendiente de pago, Pagado / En preparación, Enviado, Listo para Retirar, Entregado y Cancelado). |
+| RF-31 | El sistema permitirá al Cliente cancelar el pedido antes de su despacho. |
+| RF-32 | El sistema deberá permitir al Dueño crear promociones (descuento porcentual o fijo) aplicables a producto específico, categoría o catálogo completo, con fechas de inicio y fin configurables. |
+| RF-33 | El sistema permitirá al Dueño crear cupones (de uso único o múltiple, con limite de usos), definiendo un período de vigencia para su activación y desactivación. |
 
 
 ### Módulo 4 — Envios y Devoluciones
 
 | ID | Requisito |
 |----|-----------|
-| RF-27 | El sistema se integrará con proveedor logístico para obtener número de seguimiento y permitirá al cliente calcular costos de envío. |
-| RF-28 | El sistema permitirá al empleado confirmar retiro en local y establecerá plazo de 15 días para retirar. |
-| RF-29 | El sistema notificará al cliente el vencimiento del plazo de retiro (día 12 y día 15). |
-| RF-30 | El sistema permitirá al cliente solicitar devolución desde "Mi Cuenta", seleccionando el pedido y el motivo (talle incorrecto, defectuoso, equivocado), dentro de los 5 días hábiles posteriores a la entrega/retiro. |
-| RF-31 | El sistema notificará al cliente mediante email en cada cambio de estado de su devolución. |
-| RF-32 | El sistema permitirá al empleado resolver las solicitudes de devolución, generando cambio o nota de crédito según corresponda. |
+| RF-34 | El sistema se integrará con proveedor logístico para obtener número de seguimiento. |
+| RF-35 | El sistema permitirá al Empleado confirmar el retiro en local. |
+| RF-36 | El sistema deberá permitir al Empleado marcar un pedido como "Listo para retirar", lo que iniciará un plazo de 15 días corridos para retirarlo. |
+| RF-37 | El sistema notificará al Cliente el vencimiento del plazo de retiro (día 12 y día 15). |
+| RF-38 | El sistema deberá permitir al Cliente solicitar devolución, seleccionando el pedido y el motivo (talle incorrecto, defectuoso, equivocado), dentro de los 5 días hábiles posteriores a la entrega/retiro. |
+| RF-39 | El sistema notificará al Cliente mediante email cada cambio de estado de su devoluciónEl sistema notificará al Cliente mediante email cada cambio de estado de su devolución (Solicitada, En Revisión, Aprobada, Rechazada, Producto recibido y Finalizada). |
+| RF-40 | El sistema deberá permitir al Empleado aprobar o rechazar las solicitudes de devolución. |
+| RF-41 | El sistema deberá permitir al Empleado emitir nota de credito a favor del cliente. |
 
-
-### Módulo 5 — Reportes y Dashboard
+### Módulo 5 — Reportes y Panel de Administración
 
 | ID | Requisito |
 |----|-----------|
-| RF-33 | El sistema permitirá consultar al dueño reportes de ventas por día, semana, mes, año y períodos anteriores (-5 años), filtrando por rango de fechas y productos, exportables a Excel. |
-| RF-34 | El sistema permitirá al dueño obtener un listado de productos más vendidos, productos con menor movimiento, ingresos totales, ventas por medio de pago, clientes nuevos (últimos 7 días) y recurrentes (más de 2 compras). |
-| RF-35 | El panel de Administración mostrará indicadores clave de actividad (ventas diarias, stock crítico, pedidos pendientes, devoluciones). |
+| RF-42 | El sistema deberá permitir al Dueño generar y exportar a Excel reportes  detallados de ventas parametrizados por período (diario, semanal, mensual, anual y hasta 5 años hacia atrás), permitiendo filtrar por rango de fechas, producto o categoría. |
+| RF-43 | El sistema deberá permitir al Dueño obtener,  para un período seleccionado: los 10 productos más vendidos, los 10 de menor movimiento, ingresos totales, ventas por medio de pago, clientes nuevos (registrados en los últimos 7 días) y clientes recurrentes (3 o más compras). |
+| RF-44 | El sistema deberá permitir al Empleado y Dueño visualizar el panel de administración con las ventas del día, cantidad de productos con stock crítico, pedidos pendientes (Pagado y En preparación) y devoluciones pendientes (Solicitada y En revisión).|
 
 
 ## Requisitos no funcionales
