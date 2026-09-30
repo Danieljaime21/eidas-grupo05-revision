@@ -1,31 +1,144 @@
 @startuml
-title Modelo Entidad-Relación - [Nombre del Sistema]
+title Modelo Entidad-Relación - [E-Commerce]
 
 ' --- Entidades ---
-entity Entidad1 {
-  * id_entidad1 : integer <<PK>>
+entity "USUARIO" as USUARIO {
+  * dni : VARCHAR(20) <<PK>>
   --
-  atributo1 : varchar
-  atributo2 : varchar
+  nombre : VARCHAR(100)
+  email : VARCHAR(150)
+  contrasena_hash : VARCHAR(255)
+  rol : VARCHAR(30)
+  estado_activo : BOOLEAN
+  intentos_fallidos : INTEGER
+  bloqueado_hasta : DATETIME
 }
 
-entity Entidad2 {
-  * id_entidad2 : integer <<PK>>
+entity "CLIENTE" as CLIENTE {
+  * dni : VARCHAR(20) <<PK, FK>>
   --
-  atributo1 : varchar
-  id_entidad1 : integer <<FK>>
+  telefono : VARCHAR(30)
+  direccion : VARCHAR(255)
 }
 
-entity Entidad3 {
-  * id_entidad3 : integer <<PK>>
+entity "EMPLEADO" as EMPLEADO {
+  * dni : VARCHAR(20) <<PK, FK>>
   --
-  atributo1 : varchar
-  id_entidad1 : integer <<FK>>
+  departamento : VARCHAR(50)
+}
+
+entity "CARRITO" as CARRITO {
+  * id_carrito : INT <<PK>>
+  * dni_cliente : VARCHAR(20) <<FK>>
+  --
+  fecha_actualizacion : DATETIME
+}
+
+entity "PEDIDO" as PEDIDO {
+  * id_pedido : INT <<PK>>
+  * dni_cliente : VARCHAR(20) <<FK>>
+  --
+  fecha_pedido : DATETIME
+  estado_pedido : VARCHAR(50)
+  tipo_entrega : VARCHAR(50)
+  costo_envio : DECIMAL(10,2)
+  monto_total : DECIMAL(10,2)
+  id_transaccion_mp : VARCHAR(100)
+  estado_pago : VARCHAR(50)
+  numero_seguimiento : VARCHAR(100)
+  fecha_vencimiento_retiro : DATETIME
+}
+
+entity "CATEGORIA" as CATEGORIA {
+  * id_categoria : INT <<PK>>
+  --
+  nombre : VARCHAR(100)
+  descripcion : TEXT
+}
+
+entity "PRODUCTO" as PRODUCTO {
+  * id_producto : INT <<PK>>
+  * id_categoria : INT <<FK>>
+  --
+  nombre : VARCHAR(150)
+  descripcion : TEXT
+  precio_base : DECIMAL(10,2)
+  tabla_medidas_url : VARCHAR(255)
+  estado_activo : BOOLEAN
+}
+
+entity "VARIANTE_PRODUCTO" as VARIANTE_PRODUCTO {
+  * sku : VARCHAR(50) <<PK>>
+  * id_producto : INT <<FK>>
+  --
+  talle : VARCHAR(20)
+  color : VARCHAR(50)
+  stock : INT
+}
+
+entity "PROVEEDOR" as PROVEEDOR {
+  * id_proveedor : INT <<PK>>
+  --
+  razon_social : VARCHAR(150)
+  cuit : VARCHAR(20)
+  estado_activo : BOOLEAN
+}
+
+entity "PRODUCTO_PROVEEDOR" as PRODUCTO_PROVEEDOR {
+  * id_producto : INT <<PK, FK>>
+  * id_proveedor : INT <<PK, FK>>
+  --
+  ' Clave primaria compuesta por ambos IDs
+}
+
+entity "INGRESO_STOCK" as INGRESO_STOCK {
+  * id_ingreso : INT <<PK>>
+  * dni_empleado : VARCHAR(20) <<FK>>
+  * id_proveedor : INT <<FK>>
+  --
+  fecha_ingreso : DATETIME
+}
+
+entity "DETALLE_CARRITO" as DETALLE_CARRITO {
+  * id_detalle_carrito : INT <<PK>>
+  * id_carrito : INT <<FK>>
+  * sku : VARCHAR(50) <<FK>>
+  --
+  cantidad : INT
+}
+
+entity "DETALLE_PEDIDO" as DETALLE_PEDIDO {
+  * id_detalle_pedido : INT <<PK>>
+  * id_pedido : INT <<FK>>
+  * sku : VARCHAR(50) <<FK>>
+  --
+  cantidad : INT
+  precio_unitario : DECIMAL(10,2)
 }
 
 ' --- Relaciones ---
 ' Sintaxis: EntidadA [cardinalidad] -- [cardinalidad] EntidadB : "etiqueta"
-Entidad1 ||--o{ Entidad2 : "relación"
-Entidad1 ||--o{ Entidad3 : "relación"
-
+USUARIO ||--|| CLIENTE : "dni"
+USUARIO ||--|| EMPLEADO : "dni"
+CLIENTE ||--|| CARRITO : "propietario"
+CLIENTE ||--o{ PEDIDO : "realiza"
+EMPLEADO ||--o{ INGRESO_STOCK : "registra"
+CATEGORIA ||--o{ PRODUCTO : "contiene"
+PRODUCTO ||--o{ VARIANTE_PRODUCTO : "tiene variante"
+PRODUCTO ||--o{ PRODUCTO_PROVEEDOR : ""
+PROVEEDOR ||--o{ PRODUCTO_PROVEEDOR : ""
+PROVEEDOR ||--o{ INGRESO_STOCK : "abastece"
+CARRITO ||--o{ DETALLE_CARRITO : "contiene"
+VARIANTE_PRODUCTO ||--o{ DETALLE_CARRITO : "se agrega en"
+PEDIDO ||--o{ DETALLE_PEDIDO : "contiene"
+VARIANTE_PRODUCTO ||--o{ DETALLE_PEDIDO : "se vende en"
+PRODUCTO }o--|| CATEGORIA : ""
+PRODUCTO_PROVEEDOR }o--|| PRODUCTO : ""
+PRODUCTO_PROVEEDOR }o--|| PROVEEDOR : ""
+DETALLE_CARRITO }o--|| CARRITO : ""
+DETALLE_CARRITO }o--|| VARIANTE_PRODUCTO : ""
+DETALLE_PEDIDO }o--|| PEDIDO : ""
+DETALLE_PEDIDO }o--|| VARIANTE_PRODUCTO : ""
+INGRESO_STOCK }o--|| EMPLEADO : ""
+INGRESO_STOCK }o--|| PROVEEDOR : ""
 @enduml
