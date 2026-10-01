@@ -3,8 +3,8 @@
 | Campo                   | Detalle                                                                                                  |
 | ----------------------- | -------------------------------------------------------------------------------------------------------- |
 | Historia                | Como cliente, quiero registrarme con mis datos personales e iniciar sesión para acceder a la plataforma. |
-| Módulo                  | 01 - Usuarios y Clientes                                                                                 |
-| Requisitos relacionados | RF-06, RF-10                                                                                             |
+| Módulo                  | 01 - Usuarios                                                                                 |
+| Requisitos relacionados | RF-04, RF-06, RF-12                                                                                             |
 
 ### Criterios de aceptación
 
@@ -28,7 +28,7 @@
 | Campo                   | Detalle                                                                                                                                                                                 |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Historia                | Como cliente, quiero visualizar el historial de mis compras y el estado de mis pedidos dentro de "Mi Cuenta", para hacer seguimiento de mis pedidos y consultar mis compras anteriores. |
-| Módulo                  | 01 - Usuarios y Clientes                                                                                                                                                                |
+| Módulo                  | 01 - Usuarios                                                                                                                                                                |
 | Requisitos relacionados | RF-07                                                                                                                                                                                   |
 
 ### Criterios de aceptación
@@ -56,7 +56,7 @@
 |-------|---------|
 | Historia | Como cliente, quiero gestionar mi carrito (agregar productos, modificar cantidades, eliminar o vaciar), para organizar mi compra antes del checkout. |
 | Módulo |03 - Carrito, Pedidos y Promociones |
-| Requisitos relacionados | RF-20, RNF-01, RNF-09, RNF-10, RNF-11, RNF-12 |
+| Requisitos relacionados | RF-27, RNF-01, RNF-09, RNF-10, RNF-11, RNF-12 |
 
 ### Criterios de aceptación
 
@@ -87,7 +87,7 @@
 |-------|---------|
 | Historia | Como cliente, quiero realizar el checkout confirmando mis datos de entrega, seleccionando el tipo de envío con el costo correspondiente, para completar mi compra correctamente. |
 | Módulo |03 - Carrito, Pedidos y Promociones |
-| Requisitos relacionados | RF-21, RNF-01, RNF-02, RNF-09, RNF-10, RNF-11, RNF-12 |
+| Requisitos relacionados | RF-28, RNF-01, RNF-02, RNF-09, RNF-10, RNF-11, RNF-12 |
 
 ### Criterios de aceptación
 
@@ -116,7 +116,7 @@
 |-------|---------|
 | Historia | Como cliente, quiero pagar con tarjeta de crédito o débito a través de Mercado Pago, para completar mi compra de forma segura. |
 | Módulo |03 - Carrito, Pedidos y Promociones |
-| Requisitos relacionados | RF-22, RNF-02, RNF-05 |
+| Requisitos relacionados | RF-29, RNF-02, RNF-05 |
 
 ### Criterios de aceptación
 
@@ -146,7 +146,7 @@
 |-------|---------|
 | Historia | Como cliente, quiero conocer el costo de envío y obtener un número de seguimiento del proveedor logístico para conocer el estado de mi pedido.  |
 | Módulo |04 - Envíos y Devoluciones |
-| Requisitos relacionados | RF-27, RNF-01, RNF-05, RNF-12 |
+| Requisitos relacionados | RF-34, RNF-01, RNF-05, RNF-12 |
 
 ### Criterios de aceptación
 
@@ -176,7 +176,7 @@
 |-------|---------|
 | Historia | Como empleado, quiero confirmar el retiro de un pedido en el local y establecer un plazo de 15 días para retirar, para gestionar correctamente los pedidos pendientes de retiro y liberar stock no retirado. |
 | Módulo | 04 - Envíos y Devoluciones |
-| Requisitos relacionados | RF-28, RNF-01, RNF-12 |
+| Requisitos relacionados | RF-35, RF-36, RF-37, RNF-01, RNF-12 |
 
 ### Criterios de aceptación
 
@@ -205,7 +205,7 @@
 |-------|---------|
 | Historia | Como cliente, quiero solicitar una devolución desde "Mi Cuenta", seleccionando pedido y motivo, dentro de los 5 días hábiles posteriores a la entrega/retiro, para resolver problemas con mi compra. |
 | Módulo | 04 - Envíos y Devoluciones |
-| Requisitos relacionados | RF-30, RNF-01, RNF-05, RNF-08, RNF-10 |
+| Requisitos relacionados | RF-38, RNF-01, RNF-05, RNF-08, RNF-10 |
 
 ### Criterios de aceptación
 
@@ -233,8 +233,8 @@
 | Campo | Detalle |
 |-------|---------|
 | Historia | Como dueño, quiero consultar reportes de ventas por día, semana, mes, año y períodos de hasta 5 años anteriores, filtrando por rango de fechas y productos y pudiendo exportarlos a Excel, para analizar el desempeño del negocio. |
-| Módulo | 05 - Reportes y Dashboard |
-| Requisitos relacionados | RF-33, RNF-01, RNF-12, RNF-15 |
+| Módulo | 05 - Reportes y Panel de Administración. |
+| Requisitos relacionados | RF-42, RNF-01, RNF-12, RNF-15 |
 
 ### Criterios de aceptación
 
@@ -262,8 +262,8 @@
 | Campo | Detalle |
 |-------|---------|
 | Historia | Como dueño, quiero obtener listados de productos más vendidos, con menor movimiento, ingresos totales, ventas por medio de pago, clientes nuevos (últimos 7 días) y recurrentes (más de 2 compras), para analizar el desempeño del negocio. |
-| Módulo | 05 - Reportes y Dashboard |
-| Requisitos relacionados | RF-34, RNF-12, RNF-15 |
+| Módulo | 05 - Reportes y Panel de Administración. |
+| Requisitos relacionados | RF-43, RNF-12, RNF-15 |
 
 ### Criterios de aceptación
 
@@ -293,8 +293,8 @@
 | Campo | Detalle |
 |-------|---------|
 | Historia | Como dueño, quiero ver en el panel de Administración indicadores clave de ventas diarias, stock crítico, pedidos pendientes de retiro y devoluciones, para monitorear la actividad del negocio. |
-| Módulo | 05 - Reportes y Dashboard |
-| Requisitos relacionados | RF-35 |
+| Módulo | 05 - Reportes y Panel de Administración |
+| Requisitos relacionados | RF-44 |
 
 
 ### Criterios de aceptación
