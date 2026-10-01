@@ -3,7 +3,7 @@
 ## Diagrama
 
 _Incluir el código PlantUML en `diagramas/er.puml`._
-_Visualizar en [plantuml.com](//www.plantuml.com/plantuml/png/fLR1RkCs4BtxAuXSsYwQmnvwMImMgzhgLbZ73XHdhyAOdCX4A58bgRJPfFzUoX93aP0DetiJPzvmtfiPalfiB6ZRDM9X7hbiGKD3jEeaeqfBrEItYLrmYVQvHQAqFQY9mno0gR-vhCa328EB1KhBxJEvkh-xpyfYUqN0aF6Rl2m8USSa9n_8jwnS_fcLvEF7sw-VFZdxzNNlbAhPQmp-teODS16Rg99MWq49rG7C8NPgbQ3HM4Uo0chvatAktxVRTPvjUXUNrX5MfdBi1MVAE7UnsJdNNgY_EkpZN0OBphxATlckkCaN_mQLotMHRtRvKUNuVKhbh-IFYLAB0X-KL15JnZLIofKCrcco_ERMyLuDDVMBYz8v0BQWBJIzsldTbqxUbsrPP8COlnhsvwoYOB5MciDGeWiwnz1GpTlJWcxBxUf-kHi4-SLRmbOhrb6hPlFDCnebNqx6OLkDpbZjmVG1gtnPt6Hhvx2m5r0ro3W3KtNwig5Av7tByzMszFg6rLJW4o9JUbwXXkzALaPH3kduTznUpYOfTfNIIitd6k2dAk6V0gPv7SiYS-UYYhgTM7tRpMCtVpcabDAEMn02qqj2A1sRZ5NqSOYTKYmsNyhyRblTxRRBhqTwaUMj85pM6is9WMIILzYq0e6fICFPYddd0z83X0JpbqrMbiLOl_5xSZgrvlOCDIeuIejJPaboeBO3mR_3S4PcATpcgsAyW8RFC2pzGVcH_647dpWCjlT5pRIyLHLAgx66jFF6zgudhg8Z_QvHqZciiY0YX-DlDKW3nzktQjfeFyy1wfY1x1hKgZ9OTxpfrSNkGTKJIZfwAusMQwzmMjPLlilMwxoQTjZRqaupFCxw-Owd4n6AdHonOAVWo31WGy0SkqdpOrFAxUmm-5dvtyp2dTr9Ra57JNQqVo8bYkCGeo7u3r3h20CHG7W3DSg5_nrvVRs-Lg_-tNQRNBc0dzz_UF_BLOhnhsqCMeoX7kLRvK2MeqIFYs0l_kGur07e4RJfD_CvF2o-WnnQOysDrV0M4Hxf8IIyeGuDjUxQW0tN-wdjOG_6OY2KHimz5IxC3JWB8ZpcV8n10iU7ZL0bVMmQcZmHeQuXsrXm7v4U6OUlEz0iL64eVOeF3U6IYkuv94Wud4tbH9ck0GB2Xv-Fzebzy518b3xwirjtZVWF)._
+_Visualizar en [plantuml.com]()._
 
 ## Entidades
 
@@ -18,10 +18,18 @@ _Visualizar en [plantuml.com](//www.plantuml.com/plantuml/png/fLR1RkCs4BtxAuXSsY
 | PROVEEDOR | Guarda los datos de las empresas que abastecen de mercadería al negocio, incluyendo información comercial y fiscal. | Relación N:M con PRODUCTO mediante PRODUCTO_PROVEEDOR. Relación 1:N con INGRESO_STOCK. |
 | PRODUCTO_PROVEEDOR | Es la tabla intermedia que permite relacionar los productos con los proveedores que los pueden abastecer. | Relación N:1 con PRODUCTO y N:1 con PROVEEDOR. |
 | INGRESO_STOCK | Registra cada ingreso o reposición de mercadería que llega al negocio. También permite saber qué proveedor realizó el ingreso y qué empleado lo registró. | Relación N:1 con EMPLEADO y N:1 con PROVEEDOR. |
+| DETALLE_INGRESO_STOCK | Contiene el detalle de cada variante y cantidad ingresada en un movimiento de stock. | Relación N:1 con INGRESO_STOCK y N:1 con VARIANTE_PRODUCTO. |
 | CARRITO | Representa el carrito de compra de un cliente y permite mantener los productos que seleccionó antes de confirmar el pedido. | Relación 1:1 con CLIENTE. Relación 1:N con DETALLE_CARRITO. |
 | DETALLE_CARRITO | Guarda las variantes de productos y las cantidades que el cliente agregó temporalmente a su carrito. | Relación N:1 con CARRITO y N:1 con VARIANTE_PRODUCTO. |
 | PEDIDO | Representa una compra confirmada por el cliente. Contiene la información general de la operación, como el estado del pago, el monto total y la modalidad de entrega. | Relación N:1 con CLIENTE. Relación 1:N con DETALLE_PEDIDO. |
 | DETALLE_PEDIDO | Contiene los productos que forman parte de un pedido confirmado, junto con sus cantidades y valores correspondientes al momento de la compra. | Relación N:1 con PEDIDO y N:1 con VARIANTE_PRODUCTO. |
+| PROMOCION | Representa descuentos porcentuales o fijos aplicables a un producto específico, a una categoría o al catálogo completo, con fechas de vigencia. | Relación N:1 opcional con PRODUCTO o CATEGORIA. |
+| CUPON | Representa cupones de descuento de uso único o múltiple, con límite de usos y período de vigencia. | Relación 1:N con CUPON_USADO. |
+| CUPON_USADO | Registra cada uso de un cupón en un pedido concreto. | Relación N:1 con CUPON, PEDIDO y CLIENTE. |
+| RESENA | Almacena la calificación (1-5 estrellas) y el comentario opcional que un cliente realiza sobre un producto que compró. | Relación N:1 con PRODUCTO, CLIENTE y PEDIDO. |
+| DEVOLUCION | Representa la solicitud de devolución de un pedido dentro de los 5 días hábiles posteriores a la entrega o retiro. | Relación N:1 con PEDIDO y CLIENTE. Relación 1:N con DETALLE_DEVOLUCION. Relación 0:1 con NOTA_CREDITO. |
+| DETALLE_DEVOLUCION | Contiene los productos específicos que se incluyen en una solicitud de devolución. | Relación N:1 con DEVOLUCION y N:1 con VARIANTE_PRODUCTO. |
+| NOTA_CREDITO | Representa la nota de crédito emitida a favor del cliente cuando una devolución es aprobada. | Relación N:1 con DEVOLUCION, CLIENTE y EMPLEADO. |
 
 ## Descripción de atributos principales
 
@@ -30,13 +38,15 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 ### [USUARIO]
 
 - `dni` VARCHAR(20) (PK): Documento Nacional de Identidad o CUIT que identifica de manera única al usuario.
-- `nombre` VARCHAR(100): Nombre y apellido del usuario.
+- `nombre` VARCHAR(100): Nombre de pila del usuario.
+- `apellido` VARCHAR(100): Apellido del usuario.
 - `email` VARCHAR(150): Credencial única utilizada para iniciar sesión y recibir notificaciones.
 - `contrasena_hash` VARCHAR(255): Contraseña almacenada de forma segura mediante un algoritmo de hash de un solo sentido, de acuerdo con RNF-06.
-- `rol` VARCHAR(30): Define el perfil y los permisos de acceso dentro del sistema.
-- `estado_activo`BOOLEAN: Indica si la cuenta se encuentra activa o inhabilitada.
+- `rol` VARCHAR(30): Define el perfil y los permisos de acceso dentro del sistema (Dueño, Empleado, Cliente).
+- `estado_activo` BOOLEAN: Indica si la cuenta se encuentra activa o inhabilitada.
 - `intentos_fallidos` INTEGER: Contador utilizado para controlar los intentos incorrectos de inicio de sesión.
 - `bloqueado_hasta` DATETIME: Fecha y hora hasta la cual el usuario permanece bloqueado, de acuerdo con RNF-07.
+- `fecha_alta` DATETIME: Fecha y hora en que se dio de alta el usuario.
 
 ### [CLIENTE]
 
@@ -48,12 +58,14 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 
 - `dni` VARCHAR(20) (PK, FK): Identificador del empleado y clave foránea que referencia a USUARIO.dni.
 - `departamento` VARCHAR(50): Área operativa a la que pertenece el empleado.
+- `fecha_ingreso` DATE: Fecha de ingreso a la empresa.
 
 ### [CATEGORIA]
 
-- `id_categoria` (PK): Identificador único de la categoría.
+- `id_categoria` INT (PK): Identificador único de la categoría.
 - `nombre` VARCHAR(100): Nombre de la categoría comercial.
 - `descripcion` TEXT: Descripción opcional de la categoría.
+- `estado_activo` BOOLEAN: Indica si la categoría está habilitada o desactivada.
 
 ### [PRODUCTO]
 
@@ -62,22 +74,27 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 - `nombre` VARCHAR(150): Denominación comercial del artículo.
 - `descripcion` TEXT: Información descriptiva y características del producto.
 - `precio_base` DECIMAL(10,2): Precio de referencia del producto.
-- `tabla_medidas_url` VARCHAR(255): Enlace a la tabla de medidas del producto, de acuerdo con RF-11.
+- `tabla_medidas_url` VARCHAR(255): Enlace a la tabla de medidas del producto.
 - `estado_activo` BOOLEAN: Indica si el producto está habilitado en el catálogo.
 
 ### [VARIANTE_PRODUCTO]
 
-- `sku` VARCHAR(50) (PK) Código alfanumérico único que identifica la variante del producto.
+- `sku` VARCHAR(50) (PK): Código alfanumérico único que identifica la variante del producto.
 - `id_producto` INT (FK): Referencia al producto al que pertenece la variante.
 - `talle` VARCHAR(20): Talle correspondiente a la variante.
 - `color` VARCHAR(50): Color correspondiente a la variante.
-- `stock` INT: Cantidad de unidades disponibles para la venta, de acuerdo con RF-13.
+- `stock` INT: Cantidad de unidades disponibles para la venta (stock unificado online + local).
+- `stock_minimo` INT: Umbral a partir del cual se genera alerta de stock crítico.
+- `estado_activo` BOOLEAN: Indica si la variante está habilitada.
 
 ### [PROVEEDOR]
 
 - `id_proveedor` INT (PK): Identificador único del proveedor.
 - `razon_social` VARCHAR(150): Denominación legal de la empresa proveedora.
 - `cuit` VARCHAR(20): Clave Única de Identificación Tributaria del proveedor.
+- `telefono` VARCHAR(30): Teléfono de contacto.
+- `email` VARCHAR(150): Correo electrónico de contacto.
+- `direccion` VARCHAR(255): Domicilio del proveedor.
 - `estado_activo` BOOLEAN: Indica si el proveedor se encuentra habilitado.
 
 ### [PRODUCTO_PROVEEDOR]
@@ -93,12 +110,21 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 - `dni_empleado` VARCHAR(20) (FK): Identifica al empleado responsable del ingreso.
 - `id_proveedor` INT (FK): Identifica al proveedor que realizó el envío.
 - `fecha_ingreso` DATETIME: Fecha y hora en la que se procesó el ingreso.
+- `observaciones` TEXT: Comentarios opcionales sobre el ingreso.
+
+### [DETALLE_INGRESO_STOCK]
+
+- `id_detalle_ingreso` INT (PK): Identificador único de cada línea del ingreso.
+- `id_ingreso` INT (FK): Referencia al ingreso al que pertenece el detalle.
+- `sku` VARCHAR(50) (FK): Referencia a la variante de producto ingresada.
+- `cantidad` INT: Cantidad de unidades ingresadas.
+- `costo_unitario` DECIMAL(10,2): Costo unitario opcional para control de costos.
 
 ### [CARRITO]
 
 - `id_carrito` INT (PK): Identificador único del carrito.
 - `dni_cliente` VARCHAR(20) (FK): Referencia al cliente propietario del carrito.
-- `fecha_actualizacion` DATETIME: Fecha y hora de la última modificación del carrito, utilizada para controlar la inactividad de 3 horas.
+- `fecha_actualizacion` DATETIME: Fecha y hora de la última modificación del carrito.
 
 ### [DETALLE_CARRITO]
 
@@ -110,16 +136,19 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 ### [PEDIDO]
 
 - `id_pedido` INT (PK): Identificador único de la orden de compra.
-- `dni_cliente` VARCHAR(20) (FK): Referencia al cliente que realizó el pedido.
-- `fecha_pedido` DATETIME: Fecha y hora correspondiente al inicio del checkout.
-- `estado_pedido` VARCHAR(50): Estado operativo del pedido, por ejemplo Pendiente, Aprobado, Listo para retirar o Despachado.
-- `tipo_entrega` VARCHAR(50): Modalidad seleccionada, como Envío a domicilio o Retiro en sucursal.
+- `dni_cliente` VARCHAR(20) (FK, nullable): Referencia al cliente que realizó el pedido. Es nulo en ventas presenciales.
+- `dni_empleado` VARCHAR(20) (FK): Empleado que registró la venta presencial o gestionó el pedido.
+- `fecha_pedido` DATETIME: Fecha y hora correspondiente al inicio del checkout o de la venta.
+- `estado_pedido` VARCHAR(50): Estado operativo del pedido (Pendiente de pago, Pagado / En preparación, Enviado, Listo para Retirar, Entregado, Cancelado).
+- `tipo_entrega` VARCHAR(50): Modalidad seleccionada (Envío a domicilio o Retiro en local).
 - `costo_envio` DECIMAL(10,2): Importe correspondiente al costo del envío.
 - `monto_total` DECIMAL(10,2): Importe total de la operación.
+- `medio_pago` VARCHAR(50): Medio de pago utilizado (efectivo, tarjeta de débito, tarjeta de crédito, transferencia/QR o Mercado Pago).
 - `id_transaccion_mp` VARCHAR(100): Identificador de la transacción generada por Mercado Pago.
 - `estado_pago` VARCHAR(50): Estado informado por el procesador de pagos.
 - `numero_seguimiento` VARCHAR(100): Código utilizado para realizar el seguimiento del envío.
-- `fecha_vencimiento_retiro` DATETIME: Fecha límite para retirar el pedido en sucursal, de acuerdo con RF-29.
+- `fecha_vencimiento_retiro` DATETIME: Fecha límite para retirar el pedido en sucursal.
+- `es_presencial` BOOLEAN: Indica si se trata de una venta realizada en el local.
 
 ### [DETALLE_PEDIDO]
 
@@ -127,65 +156,143 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 - `id_pedido` INT (FK): Referencia al pedido al que pertenece el detalle.
 - `sku` VARCHAR(50) (FK): Referencia a la variante de producto vendida.
 - `cantidad` INT: Cantidad de unidades adquiridas.
-- `precio_unitario` DECIMAL(10,2): Precio de la variante al momento de realizar la compra.
+- `precio_unitario` DECIMAL(10,2): Precio de la variante al momento de realizar la compra (precio histórico).
+
+### [PROMOCION]
+
+- `id_promocion` INT (PK): Identificador único de la promoción.
+- `nombre` VARCHAR(150): Nombre descriptivo de la promoción.
+- `tipo_descuento` VARCHAR(20): Tipo de descuento (porcentual o fijo).
+- `valor_descuento` DECIMAL(10,2): Valor del descuento.
+- `aplicacion` VARCHAR(30): Alcance de la promoción (producto, categoria o catalogo).
+- `id_producto` INT (FK, nullable): Producto al que aplica (si corresponde).
+- `id_categoria` INT (FK, nullable): Categoría a la que aplica (si corresponde).
+- `fecha_inicio` DATETIME: Fecha y hora de inicio de la promoción.
+- `fecha_fin` DATETIME: Fecha y hora de fin de la promoción.
+- `estado_activo` BOOLEAN: Indica si la promoción está vigente.
+
+### [CUPON]
+
+- `id_cupon` INT (PK): Identificador único del cupón.
+- `codigo` VARCHAR(50) (UK): Código que el cliente ingresa para aplicar el descuento.
+- `tipo_descuento` VARCHAR(20): Tipo de descuento (porcentual o fijo).
+- `valor_descuento` DECIMAL(10,2): Valor del descuento.
+- `uso_unico` BOOLEAN: Indica si el cupón solo puede usarse una vez por cliente.
+- `limite_usos` INT: Cantidad máxima de usos permitidos.
+- `usos_actuales` INT: Contador de usos realizados.
+- `fecha_inicio` DATETIME: Fecha y hora de inicio de vigencia.
+- `fecha_fin` DATETIME: Fecha y hora de fin de vigencia.
+- `estado_activo` BOOLEAN: Indica si el cupón está habilitado.
+
+### [CUPON_USADO]
+
+- `id_cupon_usado` INT (PK): Identificador único del uso.
+- `id_cupon` INT (FK): Referencia al cupón utilizado.
+- `id_pedido` INT (FK): Referencia al pedido en el que se aplicó.
+- `dni_cliente` VARCHAR(20) (FK): Cliente que utilizó el cupón.
+- `fecha_uso` DATETIME: Fecha y hora en que se aplicó el cupón.
+
+### [RESENA]
+
+- `id_resena` INT (PK): Identificador único de la reseña.
+- `id_producto` INT (FK): Producto calificado.
+- `dni_cliente` VARCHAR(20) (FK): Cliente que realizó la reseña.
+- `id_pedido` INT (FK): Pedido que acredita la compra.
+- `calificacion` INT: Puntuación de 1 a 5 estrellas.
+- `comentario` TEXT: Comentario opcional del cliente.
+- `fecha_resena` DATETIME: Fecha y hora en que se realizó la reseña.
+- `estado_activo` BOOLEAN: Indica si la reseña está visible. Se pone en false cuando el Dueño la elimina por lenguaje ofensivo.
+
+### [DEVOLUCION]
+
+- `id_devolucion` INT (PK): Identificador único de la devolución.
+- `id_pedido` INT (FK): Pedido al que corresponde la devolución.
+- `dni_cliente` VARCHAR(20) (FK): Cliente que solicita la devolución.
+- `fecha_solicitud` DATETIME: Fecha y hora de la solicitud.
+- `motivo` VARCHAR(50): Motivo de la devolución (talle incorrecto, defectuoso, equivocado).
+- `estado` VARCHAR(50): Estado de la devolución (Solicitada, En Revisión, Aprobada, Rechazada, Producto recibido, Finalizada).
+- `observaciones` TEXT: Comentarios adicionales.
+- `fecha_resolucion` DATETIME: Fecha y hora en que se resolvió la solicitud.
+- `dni_empleado` VARCHAR(20) (FK): Empleado que aprobó o rechazó la devolución.
+
+### [DETALLE_DEVOLUCION]
+
+- `id_detalle_devolucion` INT (PK): Identificador único de cada línea de la devolución.
+- `id_devolucion` INT (FK): Referencia a la devolución.
+- `sku` VARCHAR(50) (FK): Variante de producto devuelta.
+- `cantidad` INT: Cantidad de unidades devueltas.
+
+### [NOTA_CREDITO]
+
+- `id_nota_credito` INT (PK): Identificador único de la nota de crédito.
+- `id_devolucion` INT (FK): Devolución que originó la nota.
+- `dni_cliente` VARCHAR(20) (FK): Cliente beneficiario.
+- `monto` DECIMAL(10,2): Importe de la nota de crédito.
+- `fecha_emision` DATETIME: Fecha y hora de emisión.
+- `dni_empleado` VARCHAR(20) (FK): Empleado que emitió la nota.
+- `estado` VARCHAR(30): Estado de la nota de crédito.
 
 ## Decisiones de diseño
 
 _Justificar al menos dos decisiones de diseño relevantes: por qué se modeló de esa manera,
 qué alternativas se consideraron y por qué se descartaron._
 
-### Decisión 1 — [Identificación Principal basada en DNI y Herencia (USUARIO -> CLIENTE / EMPLEADO)]
+### Decisión 1 — Separación de USUARIO, CLIENTE y EMPLEADO
+
+Decisión  
+Usar una entidad base USUARIO para las credenciales (email, contraseña hasheada, intentos fallidos, etc.) y dos entidades hijas: CLIENTE y EMPLEADO, relacionadas 1:1 por el DNI.
+
+Justificación  
+Así no se repiten los datos de login. Además permite que los empleados tengan atributos propios (departamento) y los clientes otros (fecha de nacimiento, dirección, CP, ciudad, provincia). El Dueño se maneja como un empleado con rol “Dueño”.
+
+Alternativa descartada 
+Poner todo en una sola tabla USUARIO. Generaba muchos campos nulos y complicaba las validaciones.
+
+### Decisión 2 — Stock en VARIANTE_PRODUCTO
+
+Decisión 
+El stock y el stock mínimo se guardan en VARIANTE_PRODUCTO (por talle y color), no en PRODUCTO. Se usa el SKU como clave primaria.
+
+Justificación  
+Nadie compra “una remera” genérica, compra una remera talle M color negro. Si el stock estuviera en PRODUCTO no se sabría qué talle o color se está agotando.
+
+Alternativa descartada  
+Guardar el stock en PRODUCTO. Era imposible controlar el inventario real.
+
+### Decisión 3 — Datos de pago y envío dentro de PEDIDO
+
+Decisión  
+Los datos de Mercado Pago, el medio de pago, el número de seguimiento y la fecha de vencimiento de retiro se guardan directamente en la tabla PEDIDO. También se permite que dni_cliente sea nulo para las ventas presenciales.
+
+Justificación  
+Cada pedido tiene un solo pago y un solo envío. Meter todo junto hace más simples las consultas. Además permite registrar ventas del local sin forzar la creación de un cliente.
+
+Alternativa descartada  
+Crear tablas separadas de PAGO y ENVIO. Complicaba innecesariamente las consultas.
+
+### Decisión 4 — Precio histórico en DETALLE_PEDIDO
+
+Decisión  
+Se guarda el precio_unitario en DETALLE_PEDIDO al momento de la compra.
+
+Justificación 
+Los precios cambian. Si no se guarda el valor de ese momento, los pedidos viejos mostrarían precios incorrectos y se romperían los reportes.
+
+Alternativa descartada  
+Leer siempre el precio actual de PRODUCTO. Alteraba el historial de ventas.
+
+### Decisión 5 — Detalle de ingreso de stock
 
 Decisión
+Se agregó DETALLE_INGRESO_STOCK con el sku y la cantidad de cada variante que ingresa.
 
-Usar el DNI como la clave principal (PK) en USUARIO y reutilizar ese mismo DNI para identificar a CLIENTE y EMPLEADO.
+Justificación 
+Sin este detalle no se puede actualizar el stock de cada talle/color cuando llega mercadería.
 
-Justificación
-
-El DNI ya es un número único que identifica a cada persona en la vida real. Usarlo en todas las tablas evita inventar números de ID artificiales (como id_cliente o id_empleado) y simplifica la búsqueda de usuarios.
-
-Alternativa descartada
-
-Crear un ID autoincremental distinto para cada tabla. Se descartó porque agregaba números innecesarios cuando el DNI ya cumple perfectamente esa función.
-
-### Decisión 2 — [Uso del SKU como Clave Primaria en VARIANTE_PRODUCTO]
+### Decisión 6 — Entidades para Devoluciones, Promociones, Cupones y Reseñas
 
 Decisión
+Se modelaron entidades propias para DEVOLUCION (con DETALLE_DEVOLUCION y NOTA_CREDITO), PROMOCION, CUPON (con CUPON_USADO) y RESENA.
 
-Guardar la cantidad de stock en la tabla VARIANTE_PRODUCTO (asociada a un talle y color específicos) en lugar de guardarlo en la tabla general PRODUCTO. Además, usarmos el código sku como identificador principal de la variante.
-
-Justificación
-
-Nadie compra una "Remera" en abstracto; la gente compra una remera Talle M, Color Negro. Si pusiéramos el stock en el producto general, no sabríamos si nos quedamos sin talle M o sin talle S. El stock tiene que estar donde está la prenda física real.
-
-Alternativa descartada
-
-Poner el stock en la tabla PRODUCTO. Se descartó porque haría imposible saber qué talles o colores específicos quedan en el depósito.
-
-### Decisión 3 — [Integración Directa de Metadatos Transaccionales y Logísticos en PEDIDO]
-
-Decisión
-
-Incluir la información de Mercado Pago (id_transaccion_mp, estado_pago) y del envío (numero_seguimiento, fecha_vencimiento_retiro) directamente como campos de la tabla PEDIDO.
-
-Justificación
-
-Cada pedido tiene un solo pago y un solo envío. Guardar todo en la misma tabla hace que consultar el estado de una compra sea mucho más rápido y no requiera juntar múltiples tablas complejas.
-
-Alternativa descartada
-
-Crear tablas separadas llamadas PAGO y ENVIO. Se descartó porque complicaba el sistema sin aportar ningún beneficio real para este tipo de negocio.
-
-### Decisión 4 — [Congelamiento de Importe Histórico en DETALLE_PEDIDO]
-
-Decisión
-
-Guardar el precio_unitario de la prenda dentro de DETALLE_PEDIDO al momento exacto en que el cliente realiza la compra.
-
-Justificación
-
-Los precios de la tienda cambian con el tiempo (por aumentos o promociones). Si no guardamos el precio al que se vendió en su momento, cuando el cliente revise un pedido viejo el sistema mostraría el precio actual, alterando el historial de lo que realmente pagó.
-
-Alternativa descartada
-
-Leer siempre el precio desde la tabla PRODUCTO. Se descartó porque arruinaría la contabilidad y el historial de compras pasadas.
+Justificación 
+Cada uno de estos conceptos tiene su propio ciclo de vida, estados y reglas de negocio. Las devoluciones manejan motivos y un flujo de aprobación, las promociones y cupones tienen vigencia y condiciones de aplicación distintas, y las reseñas están atadas a una compra real. Separarlos en entidades propias permite controlar mejor estas reglas y facilita los reportes.
