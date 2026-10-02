@@ -28,7 +28,7 @@ rectangle "Sistema de Tienda Online" {
   usecase "CU-08\nVaciar carrito de compras" as UC08
   usecase "CU-09\nRealizar verificación con\ndatos de entrega y de envío" as UC09
   usecase "CU-10\nRealizar pago" as UC10
-  usecase "CU-16\nRegistrar venta presencial" as UC16
+  usecase "CU-11\nRegistrar venta presencial" as UC11
 }
 
 ' --- Relaciones actor - caso de uso ---
