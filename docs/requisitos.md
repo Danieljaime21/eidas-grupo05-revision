@@ -71,7 +71,7 @@ Por otro lado, el personal de la tienda contará con un panel administrativo des
 | RF-36 | El sistema deberá permitir al Empleado marcar un pedido como "Listo para retirar", lo que iniciará un plazo de 15 días corridos para retirarlo. |
 | RF-37 | El sistema notificará al Cliente el vencimiento del plazo de retiro (día 12 y día 15). |
 | RF-38 | El sistema deberá permitir al Cliente solicitar devolución, seleccionando el pedido y el motivo (talle incorrecto, defectuoso, equivocado), dentro de los 5 días hábiles posteriores a la entrega/retiro. |
-| RF-39 | El sistema notificará al Cliente mediante email cada cambio de estado de su devoluciónEl sistema notificará al Cliente mediante email cada cambio de estado de su devolución (Solicitada, En Revisión, Aprobada, Rechazada, Producto recibido y Finalizada). |
+| RF-39 | El sistema notificará al Cliente mediante email cada cambio de estado de su devolución (Solicitada, En Revisión, Aprobada, Rechazada, Producto recibido y Finalizada). |
 | RF-40 | El sistema deberá permitir al Empleado aprobar o rechazar las solicitudes de devolución. |
 | RF-41 | El sistema deberá permitir al Empleado emitir nota de credito a favor del cliente. |
 
