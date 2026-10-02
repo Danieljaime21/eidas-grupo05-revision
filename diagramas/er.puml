@@ -1,10 +1,19 @@
-@startuml er-modelo
-' Configuración de estilos
-hide circle
+@startuml
+' ============================================================
+' MODELO ENTIDAD-RELACIÓN - ECOMMERCE GRUPO 2
+' ============================================================
+
 skinparam linetype ortho
-skinparam monochrome false
+skinparam classAttributeIconSize 0
 skinparam shadowing false
-skinparam packageStyle rectangle
+skinparam roundcorner 8
+skinparam nodesep 35
+skinparam ranksep 45
+hide circle
+
+' ============================================================
+' USUARIOS
+' ============================================================
 
 entity "USUARIO" as USUARIO {
   * dni : VARCHAR(20) <<PK>>
@@ -34,6 +43,13 @@ entity "EMPLEADO" as EMPLEADO {
   fecha_ingreso : DATE
 }
 
+USUARIO ||--|| CLIENTE : "es"
+USUARIO ||--|| EMPLEADO : "es"
+
+' ============================================================
+' CATALOGO
+' ============================================================
+
 entity "CATEGORIA" as CATEGORIA {
   * id_categoria : INT <<PK>>
   --
@@ -53,7 +69,7 @@ entity "PRODUCTO" as PRODUCTO {
   estado_activo : BOOLEAN
 }
 
-entity "VARIANTE_PRODUCTO" as VARIANTE_PRODUCTO {
+entity "VARIANTE_PRODUCTO" as VARIANTE {
   * sku : VARCHAR(50) <<PK>>
   --
   id_producto : INT <<FK>>
@@ -75,12 +91,23 @@ entity "PROVEEDOR" as PROVEEDOR {
   estado_activo : BOOLEAN
 }
 
-entity "PRODUCTO_PROVEEDOR" as PRODUCTO_PROVEEDOR {
+entity "PRODUCTO_PROVEEDOR" as PROD_PROV {
   * id_producto : INT <<PK, FK>>
   * id_proveedor : INT <<PK, FK>>
+  --
+  ' PK compuesta
 }
 
-entity "INGRESO_STOCK" as INGRESO_STOCK {
+CATEGORIA ||--o{ PRODUCTO : "clasifica"
+PRODUCTO ||--|{ VARIANTE : "tiene"
+PRODUCTO ||--o{ PROD_PROV : "se abastece"
+PROVEEDOR ||--o{ PROD_PROV : "provee"
+
+' ============================================================
+' INGRESO DE STOCK
+' ============================================================
+
+entity "INGRESO_STOCK" as INGRESO {
   * id_ingreso : INT <<PK>>
   --
   dni_empleado : VARCHAR(20) <<FK>>
@@ -89,7 +116,7 @@ entity "INGRESO_STOCK" as INGRESO_STOCK {
   observaciones : TEXT
 }
 
-entity "DETALLE_INGRESO_STOCK" as DETALLE_INGRESO_STOCK {
+entity "DETALLE_INGRESO_STOCK" as DET_INGRESO {
   * id_detalle_ingreso : INT <<PK>>
   --
   id_ingreso : INT <<FK>>
@@ -98,6 +125,15 @@ entity "DETALLE_INGRESO_STOCK" as DETALLE_INGRESO_STOCK {
   costo_unitario : DECIMAL(10,2)
 }
 
+EMPLEADO ||--o{ INGRESO : "registra"
+PROVEEDOR ||--o{ INGRESO : "realiza"
+INGRESO ||--|{ DET_INGRESO : "contiene"
+VARIANTE ||--o{ DET_INGRESO : "ingresa"
+
+' ============================================================
+' CARRITO
+' ============================================================
+
 entity "CARRITO" as CARRITO {
   * id_carrito : INT <<PK>>
   --
@@ -105,13 +141,21 @@ entity "CARRITO" as CARRITO {
   fecha_actualizacion : DATETIME
 }
 
-entity "DETALLE_CARRITO" as DETALLE_CARRITO {
+entity "DETALLE_CARRITO" as DET_CARRITO {
   * id_detalle_carrito : INT <<PK>>
   --
   id_carrito : INT <<FK>>
   sku : VARCHAR(50) <<FK>>
   cantidad : INT
 }
+
+CLIENTE ||--|| CARRITO : "posee"
+CARRITO ||--o{ DET_CARRITO : "contiene"
+VARIANTE ||--o{ DET_CARRITO : "selecciona"
+
+' ============================================================
+' PEDIDOS
+' ============================================================
 
 entity "PEDIDO" as PEDIDO {
   * id_pedido : INT <<PK>>
@@ -131,7 +175,7 @@ entity "PEDIDO" as PEDIDO {
   es_presencial : BOOLEAN
 }
 
-entity "DETALLE_PEDIDO" as DETALLE_PEDIDO {
+entity "DETALLE_PEDIDO" as DET_PEDIDO {
   * id_detalle_pedido : INT <<PK>>
   --
   id_pedido : INT <<FK>>
@@ -139,6 +183,15 @@ entity "DETALLE_PEDIDO" as DETALLE_PEDIDO {
   cantidad : INT
   precio_unitario : DECIMAL(10,2)
 }
+
+CLIENTE ||--o{ PEDIDO : "realiza"
+EMPLEADO ||--o{ PEDIDO : "gestiona"
+PEDIDO ||--|{ DET_PEDIDO : "contiene"
+VARIANTE ||--o{ DET_PEDIDO : "vendida"
+
+' ============================================================
+' PROMOCIONES Y CUPONES
+' ============================================================
 
 entity "PROMOCION" as PROMOCION {
   * id_promocion : INT <<PK>>
@@ -177,6 +230,16 @@ entity "CUPON_USADO" as CUPON_USADO {
   fecha_uso : DATETIME
 }
 
+PRODUCTO ||--o{ PROMOCION : "aplica a"
+CATEGORIA ||--o{ PROMOCION : "aplica a"
+CUPON ||--o{ CUPON_USADO : "se utiliza"
+PEDIDO ||--o{ CUPON_USADO : "aplica"
+CLIENTE ||--o{ CUPON_USADO : "utiliza"
+
+' ============================================================
+' RESEÑAS
+' ============================================================
+
 entity "RESENA" as RESENA {
   * id_resena : INT <<PK>>
   --
@@ -188,6 +251,14 @@ entity "RESENA" as RESENA {
   fecha_resena : DATETIME
   estado_activo : BOOLEAN
 }
+
+PRODUCTO ||--o{ RESENA : "recibe"
+CLIENTE ||--o{ RESENA : "realiza"
+PEDIDO ||--o{ RESENA : "acredita"
+
+' ============================================================
+' DEVOLUCIONES
+' ============================================================
 
 entity "DEVOLUCION" as DEVOLUCION {
   * id_devolucion : INT <<PK>>
@@ -202,7 +273,7 @@ entity "DEVOLUCION" as DEVOLUCION {
   dni_empleado : VARCHAR(20) <<FK>>
 }
 
-entity "DETALLE_DEVOLUCION" as DETALLE_DEVOLUCION {
+entity "DETALLE_DEVOLUCION" as DET_DEVOLUCION {
   * id_detalle_devolucion : INT <<PK>>
   --
   id_devolucion : INT <<FK>>
@@ -221,49 +292,35 @@ entity "NOTA_CREDITO" as NOTA_CREDITO {
   estado : VARCHAR(30)
 }
 
-' Relaciones
-USUARIO ||--o| CLIENTE
-USUARIO ||--o| EMPLEADO
+PEDIDO ||--o{ DEVOLUCION : "puede generar"
+CLIENTE ||--o{ DEVOLUCION : "solicita"
+EMPLEADO ||--o{ DEVOLUCION : "resuelve"
+DEVOLUCION ||--|{ DET_DEVOLUCION : "contiene"
+VARIANTE ||--o{ DET_DEVOLUCION : "devuelta"
+DEVOLUCION ||--o| NOTA_CREDITO : "genera"
+CLIENTE ||--o{ NOTA_CREDITO : "recibe"
+EMPLEADO ||--o{ NOTA_CREDITO : "emite"
 
-CATEGORIA ||--o{ PRODUCTO
-PRODUCTO ||--|{ VARIANTE_PRODUCTO
+' ============================================================
+' ORGANIZACION VISUAL
+' Estas relaciones ocultas ayudan a mantener los módulos
+' ordenados sin agregar relaciones del modelo.
+' ============================================================
 
-PRODUCTO ||--o{ PRODUCTO_PROVEEDOR
-PROVEEDOR ||--o{ PRODUCTO_PROVEEDOR
+USUARIO -[hidden]down- CLIENTE
+CLIENTE -[hidden]down- CARRITO
+CARRITO -[hidden]down- PEDIDO
 
-EMPLEADO ||--o{ INGRESO_STOCK
-PROVEEDOR ||--o{ INGRESO_STOCK
-INGRESO_STOCK ||--|{ DETALLE_INGRESO_STOCK
-VARIANTE_PRODUCTO ||--o{ DETALLE_INGRESO_STOCK
+CATEGORIA -[hidden]right- PRODUCTO
+PRODUCTO -[hidden]right- PROVEEDOR
+PROVEEDOR -[hidden]right- INGRESO
 
-CLIENTE ||--o| CARRITO
-CARRITO ||--o{ DETALLE_CARRITO
-VARIANTE_PRODUCTO ||--o{ DETALLE_CARRITO
+VARIANTE -[hidden]down- DET_CARRITO
+DET_CARRITO -[hidden]down- DET_PEDIDO
+DET_PEDIDO -[hidden]down- DET_DEVOLUCION
 
-CLIENTE ||--o{ PEDIDO
-EMPLEADO ||--o{ PEDIDO
-PEDIDO ||--|{ DETALLE_PEDIDO
-VARIANTE_PRODUCTO ||--o{ DETALLE_PEDIDO
-
-PRODUCTO ||--o{ PROMOCION
-CATEGORIA ||--o{ PROMOCION
-
-CUPON ||--o{ CUPON_USADO
-PEDIDO ||--o{ CUPON_USADO
-CLIENTE ||--o{ CUPON_USADO
-
-PRODUCTO ||--o{ RESENA
-CLIENTE ||--o{ RESENA
-PEDIDO ||--o{ RESENA
-
-PEDIDO ||--o{ DEVOLUCION
-CLIENTE ||--o{ DEVOLUCION
-EMPLEADO ||--o{ DEVOLUCION
-DEVOLUCION ||--|{ DETALLE_DEVOLUCION
-VARIANTE_PRODUCTO ||--o{ DETALLE_DEVOLUCION
-
-DEVOLUCION ||--o| NOTA_CREDITO
-CLIENTE ||--o{ NOTA_CREDITO
-EMPLEADO ||--o{ NOTA_CREDITO
+PROMOCION -[hidden]right- CUPON
+CUPON -[hidden]right- RESENA
+RESENA -[hidden]right- DEVOLUCION
 
 @enduml
