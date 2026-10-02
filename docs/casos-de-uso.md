@@ -203,35 +203,74 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 ---
 
 
-## CU-06 — [Consultar seguimiento del pedido]
+## CU-06 — Agregar productos al carrito
 
 | Campo | Detalle |
 |-------|---------|
 | Identificador | CU-06 |
-| Nombre |Consultar seguimiento del pedido |
-| Descripción |El cliente consulta desde "Mi Cuenta" el estado y el número de seguimiento de un pedido con envío a domicilio, para conocer el estado de su entrega. |
-| Actores | Principal: Cliente / Secundario: Sistema, proveedor logístico |
-| Precondiciones |- El cliente está registrado y autenticado. - El cliente tiene un pedido con envío a domicilio. - El pedido fue pagado. - El pedido tiene un número de seguimiento informado por el proveedor logístico. |
-| Postcondiciones | Éxito: El cliente puede consultar el estado de su pedido, visualizar el número de seguimiento y la información del seguimiento queda asociada al pedido. / Fallo: El estado del pedido no se modifica y el sistema informa al cliente que la información de seguimiento no está disponible. |
+| Nombre | Agregar productos al carrito |
+| Descripción | El Cliente o Visitante elige un producto del catálogo especificando obligatoriamente su talle y color, y lo suma a su carrito de compras. |
+| Actores | Principal: Cliente, Visitante |
+| Precondiciones | El catálogo de productos está disponible. El producto seleccionado cuenta con stock. |
+| Postcondiciones | Éxito: El producto se incorpora al carrito con el talle, color y cantidad elegidos, actualizando la suma total a pagar. Fallo: El producto no se suma al carrito y el sistema le informa el motivo al cliente/visitante. |
 
 ### Secuencia normal
 
 | # | Acción (actor) | Reacción (sistema) |
 |---|----------------|--------------------|
-| 1 | El cliente ingresa a "Mis pedidos". | El sistema muestra sus pedidos.|
-| 2 | El cliente selecciona un pedido. | El sistema muestra los datos del pedido y la opción de "Seguimiento detallado". (Si no posee envío a domicilio o el seguimiento no está disponible, el sistema lo informa).|
-| 3 | El cliente consulta seguimiento detallado. | El sistema obtiene y muestra el número de seguimiento con la información actualizada del proveedor logístico (Estado del envío: "En preparación", "En camino", "Recibido").|
+| 1 | El cliente elige un producto que le gusta del catálogo. | El sistema le muestra la información del producto, los talles y colores disponibles, y la opción para sumarlo al carrito. |
+| 2 | El cliente elige el talle, el color y cuántas unidades quiere, y pide agregar el producto al carrito. | El sistema verifica que se hayan seleccionado talle y color (RF-26), valida que haya stock suficiente (RF-13), guarda el producto en el carrito y le confirma la acción. |
 
 ### Excepciones
 
 | # | Situación | Respuesta del sistema |
 |---|-----------|-----------------------|
-| E1 | El proveedor logístico no está disponible temporalmente. | El sistema deberá mostrar un mensaje de error indicando que no se puede obtener el seguimiento en este momento. |
-| E2 | El pedido todavía no posee un número de seguimiento registrado. | El sistema informará que todavía no se encuentra disponible. |
+| E1 | El cliente intenta agregar un producto sin elegir el talle o el color. | El sistema no lo deja avanzar y le avisa que tiene que seleccionar talle y color obligatoriamente. |
+| E2 | El cliente pide más unidades de las que hay guardadas en el depósito. | El sistema no suma esa cantidad y le avisa que no hay tantas unidades disponibles en stock. |
+| E3 | El cliente quiere agregar un producto que no tiene stock. | El sistema le avisa que el producto está agotado y no lo suma al carrito. |
+| E4 | Se corta la conexión u ocurre un error al intentar guardar el producto. | El sistema le avisa que no se pudo agregar el producto y deja el carrito como estaba antes del intento. |
 
 | Campo | Detalle |
 |-------|---------|
-| Rendimiento |La consulta de la información del pedido desde "Mis pedidos" deberá responder en un máximo de 3 segundos. |
-| Frecuencia |Se espera que este caso de uso se lleve a cabo una media de 50 veces al día. |
-| Importancia |Importante |
-| Urgencia |Hay presión |
+| Rendimiento | Cada paso debe responder al instante, en menos de 3 segundos (RNF-01). |
+| Frecuencia | Se calcula que se va a usar unas 100 veces por día. |
+| Importancia | Vital. |
+| Urgencia | Inmediatamente. |
+
+---
+
+
+## CU-07 — Modificar cantidad o eliminar producto del carrito
+
+| Campo | Detalle |
+|-------|---------|
+| Identificador | CU-07 |
+| Nombre | Modificar cantidad o eliminar producto del carrito |
+| Descripción | El cliente o visitante revisa los productos guardados en su carrito y ajusta la cantidad de unidades de un ítem o lo remueve individualmente de la lista. |
+| Actores | Principal: Cliente, Visitante |
+| Precondiciones | El cliente tiene al menos un producto guardado en su carrito de compras. |
+| Postcondiciones | Éxito: Las cantidades o el listado de productos se actualizan y el sistema recalcula los montos automáticamente. Fallo: El carrito no sufre cambios y se mantiene como estaba antes del intento. |
+
+### Secuencia normal
+
+| # | Acción (actor) | Reacción (sistema) |
+|---|----------------|--------------------|
+| 1 | El cliente entra a ver su carrito de compras. | El sistema le muestra el listado de productos elegidos con talle, color, precio de cada uno y el total a pagar. |
+| 2 | El cliente cambia la cantidad de unidades de uno de los productos de su lista. | El sistema valida si hay stock suficiente para esa nueva cantidad, actualiza el número de productos y vuelve a calcular el total. |
+| 3 | El cliente pide quitar un producto que ya no quiere de su lista. | El sistema borra ese producto del carrito y recalcula el monto total. |
+
+### Excepciones
+
+| # | Situación | Respuesta del sistema |
+|---|-----------|-----------------------|
+| E1 | El cliente intenta aumentar las unidades a un número mayor que el stock disponible en depósito. | El sistema no actualiza la cantidad y le avisa que no hay tantos productos disponibles. |
+| E2 | Ocurre un fallo en el sistema o de conexión al intentar actualizar el carrito. | El sistema avisa que no se pudo procesar la modificación y conserva las cantidades anteriores. |
+
+| Campo | Detalle |
+|-------|---------|
+| Rendimiento | Cada paso debe responder al instante, en menos de 3 segundos (RNF-01). |
+| Frecuencia | Estimado de 60 ejecuciones diarias. |
+| Importancia | Alta. |
+| Urgencia | Inmediata. |
+
+---
