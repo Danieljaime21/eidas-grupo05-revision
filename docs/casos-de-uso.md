@@ -15,7 +15,29 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 | Proveedor Logístico | Secundario (externo) | Sistema externo que calcula la tarifa de envío y confirma cobertura. |
 | Mercado Pago | Secundario (externo) | Pasarela de pago externa que procesa la transacción. |
 
+
+## Relaciones `<<include>>` (obligatorias)
+
+| Caso origen | Caso incluido | Justificación |
+|-------------|---------------|---------------|
+| CU-06 Agregar productos al carrito | CU-04 Consultar catálogo | Para agregar un producto, primero hay que haber consultado el catálogo (aunque sea implícitamente). |
+| CU-09 Verificación con datos de entrega y envío | CU-06 Agregar productos al carrito | El checkout sólo puede iniciarse si el carrito tiene al menos un producto. |
+| CU-10 Realizar pago | CU-09 Verificación con datos de entrega y envío | No se puede pagar sin haber confirmado antes los datos de entrega y el tipo de envío. |
 ---
+
+
+## Relaciones `<<extend>>` (opcionales /condicionales )
+
+| Caso origen | Caso extendido | Justificación |
+|-------------|----------------|---------------|
+| CU-09 Verificación con datos de entrega y envío | CU-02 Iniciar sesión (cliente) | Si el Visitante no tiene sesión iniciada, debe autenticarse antes de continuar; el Cliente ya logueado saltea este paso. |
+| CU-09 Verificación con datos de entrega y envío | CU-01 Registrar cliente | Si el Visitante no tiene cuenta, se le ofrece registrarse en ese momento, conservando el carrito gracias a RF-12. |
+| CU-06 Agregar productos al carrito | CU-02 Iniciar sesión (cliente) | El Visitante puede agregar al carrito sin loguearse, pero si quiere guardarlo se le ofrece iniciar sesión. |
+
+
+
+---
+
 
 ## CU-01 — Registrar cliente
 
