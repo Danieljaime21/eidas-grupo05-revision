@@ -64,6 +64,5 @@ UC09 .> UC02 : <<extend>>
 UC09 .> UC01 : <<extend>>
 UC06 .> UC02 : <<extend>>
 
-UC16 .> UC02 : <<include>>
 
 @enduml
