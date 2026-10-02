@@ -164,42 +164,44 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 ---
 
-
-## CU-05 — [Procesar pago con Mercado Pago]
+## CU-05 — Agregar producto al catálogo
 
 | Campo | Detalle |
 |-------|---------|
 | Identificador | CU-05 |
-| Nombre |Procesar pago con Mercado Pago |
-| Descripción |El cliente realiza el pago de su compra mediante tarjeta de crédito o débito a través de Mercado Pago. |
-| Actores | Principal: Cliente / Secundario: Sistema, Mercado Pago (pasarela de pago) |
-| Precondiciones |- El cliente completó el checkout. - Existe un importe a pagar. - Mercado Pago se encuentra disponible. |
-| Postcondiciones | Éxito: El pago queda registrado con estado, fecha, importe y medio de pago. El pedido queda en estado "pagado". / Fallo: El pago es rechazado, el pedido permanece "pendiente de pago" y se informa al cliente. |
+| Nombre | Agregar producto al catálogo |
+| Descripción | El Dueño agrega un nuevo producto al catálogo con sus datos, categoría, talles, colores y fotografías, para ponerlo a disposición de los visitantes y clientes. |
+| Actores | Principal: Dueño |
+| Precondiciones | El Dueño tiene una sesión iniciada. Existe al menos una categoría activa (RF-18). |
+| Postcondiciones | Éxito: El producto queda registrado, activo y asignado a una categoría. El producto tiene entre 2 y 4 fotografías y su tabla de medidas. El producto se muestra en el catálogo. |
 
 ### Secuencia normal
 
 | # | Acción (actor) | Reacción (sistema) |
 |---|----------------|--------------------|
-| 1 | El cliente selecciona "Pagar con Mercado Pago". | El sistema redirige a la pasarela de Mercado Pago.|
-| 2 | El cliente selecciona tarjeta de crédito o débito e ingresa los datos solicitados. | Mercado Pago procesa la operación.|
-| 3 | Mercado Pago devuelve el resultado de la transacción. | El sistema registra estado, fecha, importe y medio de pago (RF-22).|
-| 4 | Mercado Pago informa el resultado aprobado. | El sistema actualiza el pedido a estado "pagado" y notifica al cliente por email (RF-23).|
+| 1 | Accede a la sección "Productos" y selecciona "Agregar producto". | El sistema muestra el formulario a llenar con: nombre, descripción, precio, categoría (lista de categorías activas), talles, colores y fotografías. |
+| 2 | Completa los datos, elige la categoría, los talles y los colores, adjunta entre 2 y 4 fotografías y confirma. | El sistema valida los datos ingresados. Comprime cada fotografía a menos de 300 KB (RNF-14). Guarda el producto como activo y muestra una confirmación. |
+| 3 | | Actualiza el listado de productos y el catálogo con el nuevo producto. |
 
 ### Excepciones
 
 | # | Situación | Respuesta del sistema |
 |---|-----------|-----------------------|
-| E1 | Mercado Pago no está disponible. | El sistema deberá mostrar un mensaje de error indicando que el servicio de pago no está disponible temporalmente. |
-| E2 | Mercado Pago rechaza el pago. | El sistema informa al cliente que el pago fue rechazado y el pedido no pasa a "pagado". |
+| E1 | Falta algún dato obligatorio o la cantidad de fotografías no está entre 2 y 4. | El sistema deberá indicar el campo con error y volver al paso 2 (RNF-10). |
+| E2 | El archivo adjunto no es una imagen válida. | El sistema deberá indicar que no es una imagen válida y solicitar que se reemplace. |
+| E3 | El Dueño cancela la operación. | El sistema deberá descartar los datos y las fotografías cargadas y volver al listado de productos. |
+| E4 | Ocurre un error al guardar el producto. | El sistema deberá informarlo, registrar fecha, hora y descripción del error (RNF-16), conservar los datos ingresados y dar la posibilidad de reintentar. |
+
 
 | Campo | Detalle |
 |-------|---------|
-| Rendimiento |El sistema deberá completar el flujo de pago en un máximo de 5 segundos, sin contar el tiempo de respuesta de Mercado Pago (RNF-02). |
-| Frecuencia |Se espera que este caso de uso se lleve a cabo una media de 70 veces al día. |
-| Importancia |Vital |
-| Urgencia |Inmediatamente |
+| Rendimiento | El sistema deberá realizar la acción descrita en el paso 2 en un máximo de 5 segundos. |
+| Frecuencia | Este caso de uso se espera que se lleve a cabo una media de 10 veces al mes. |
+| Importancia | Vital |
+| Urgencia | Hay presión |
 
 ---
+
 
 ## CU-06 — [Consultar seguimiento del pedido]
 
