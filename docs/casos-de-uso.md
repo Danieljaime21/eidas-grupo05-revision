@@ -9,76 +9,76 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 ---
 
-## CU-01 — [Registro y Autenticación de Cliente]
+## CU-01 — Registrar cliente
 
 | Campo | Detalle |
 |-------|---------|
 | Identificador | CU-01 |
-| Nombre |Registro y Autenticación de Cliente |
-| Descripción |El cliente completa el formulario con sus datos personales para crear una cuenta e iniciar sesión en la plataforma, habilitando la navegación personalizada y el acceso obligatorio al paso de compra. |
-| Actores | Principal: Cliente/ Secundario: Sistema |
-| Precondiciones |- El cliente se encuentra navegando en la plataforma. - El cliente no cuenta con una sesión activa. |
-| Postcondiciones | Éxito:La cuenta del cliente queda registrada con la contraseña cifrada, la sesión se inicia automáticamente y el usuario accede a sus funciones privadas. / Fallo: El registro no se realiza, la sesión no se inicia y se informa al cliente el motivo del error. |
+| Nombre | Registrar cliente |
+| Descripción | El Visitante se registra en el sistema cargando sus datos personales para obtener una cuenta de Cliente que le permita comprar y consultar sus pedidos. |
+| Actores | Principal: Visitante |
+| Precondiciones | El visitante no tiene una sesión iniciada. |
+| Postcondiciones | Éxito: Se crea una cuenta de Cliente habilitada. El nuevo cliente puede iniciar sesión. Si el visitante llegó desde la finalización de una compra, el contenido de su carrito se conserva (RF-12). |
 
 ### Secuencia normal
 
 | # | Acción (actor) | Reacción (sistema) |
 |---|----------------|--------------------|
-| 1 | El cliente solicita registrarse en la plataforma o intenta avanzar a pagar sin estar identificado.|El sistema le pide los datos obligatorios para la cuenta (nombre, apellido, email, fecha de nacimiento, teléfono, DNI, contraseña, dirección, código postal, ciudad y provincia).|
-| 2 | El cliente ingresa los datos solicitados y pide crear la cuenta.| El sistema revisa que el email y el DNI no estén registrados previamente, guarda la cuenta con la contraseña protegida (RNF-06), inicia la sesión automáticamente y le confirma que el registro fue exitoso.|
+| 1 | El visitante selecciona la opción "Registrarse". | El sistema solicita la identificación inicial pidiendo únicamente el número de DNI. |
+| 2 | Ingresa su DNI y presiona "Continuar". | El sistema valida el formato del DNI y verifica que no exista previamente en la base de datos. Al no existir, habilita y muestra el formulario completo con los campos restantes: nombre, apellido, email, fecha de nacimiento, teléfono, contraseña, dirección, CP, ciudad, provincia. |
+| 3 | El visitante completa los datos restantes y confirma el registro. | El sistema valida que los datos estén completos y tengan un formato válido, y que el email no esté registrado. |
+| 4 | El visitante confirma el registro. | El sistema crea la cuenta de cliente, muestra un mensaje de confirmación de registro exitoso. |
 
 ### Excepciones
 
 | # | Situación | Respuesta del sistema |
 |---|-----------|-----------------------|
-| E1 | El cliente intenta registrarse omitiendo campos obligatorios o con datos con formato inválido.| El sistema no completará el registro, resaltará los campos con error y mostrará un mensaje indicando las correcciones requeridas (RNF-10) |
-| E2 | El cliente intenta registrarse con un correo electrónico o DNI previamente existente. | El sistema informará que el usuario ya existe y ofrecerá opciones directas para iniciar sesión o recuperar la contraseña.|
-| E3 | El cliente intenta finalizar una compra sin haber iniciado sesión. |El sistema interrumpe el checkout, exige el registro o inicio de sesión obligatorio (RF-12) y, tras completarse con éxito, redirige al cliente a la confirmación de su pedido. | 
-| E4 | Se produce un error de conexión o servidor durante el proceso. | El sistema informa que no fue posible procesar la solicitud y mantiene el formulario con los datos ingresados para reintentar. |
+| E1 | El visitante intenta registrarse omitiendo campos obligatorios o con datos con formato inválido. | El sistema no completará el registro, resaltará los campos con error y mostrará un mensaje indicando las correcciones requeridas (RNF-10). |
+| E2 | El visitante intenta registrarse con un DNI previamente existente. | El sistema informará que el usuario ya existe y ofrecerá opciones directas para iniciar sesión o recuperar la contraseña. |
+| E3 | Se produce un error de conexión o servidor durante el proceso. | El sistema informa que no fue posible procesar la solicitud y mantiene el formulario con los datos ingresados para reintentar. |
 
 | Campo | Detalle |
 |-------|---------|
-| Rendimiento |El sistema procesará las solicitudes de registro e inicio de sesión en un máximo de 3 segundos (RNF-01). |
-| Frecuencia |Se estima una media de 50 a 100 ejecuciones diarias. |
-| Importancia |Vital |
-| Urgencia |Inmediatamente |
+| Rendimiento | El sistema procesará las solicitudes de registro en un máximo de 3 segundos (RNF-01). |
+| Frecuencia | Este caso de uso se espera que se lleve a cabo una media de 40 veces al día. |
+| Importancia | Vital |
+| Urgencia | Inmediatamente |
 
 ---
 
-## CU-02 — [Gestionar Productos y Variantes]
+## CU-02 — Iniciar sesión (cliente)
 
 | Campo | Detalle |
 |-------|---------|
 | Identificador | CU-02 |
-| Nombre |Gestionar Productos y Variantes |
-| Descripción |El dueño agrega productos nuevos al catálogo con sus variantes (talle, color y stock), modifica las características e imágenes de las existentes o las desactiva para mantener actualizado el stock y la oferta de la tienda. |
-| Actores | Principal: Dueño / Secundario: Sistema |
-| Precondiciones |- El dueño se encuentra autenticado en el panel de administración con los permisos del rol correspondientes (RF-04). - El catálogo se encuentra disponible. |
-| Postcondiciones | Éxito: El producto o variante queda creado, modificado o desactivado en la base de datos y los cambios se reflejan inmediatamente en el catálogo público. / Fallo: El producto no se crea, modifica ni desactiva y se informa al dueño el motivo del error. |
+| Nombre | Iniciar sesión (cliente) |
+| Descripción | El Cliente ingresa su email y contraseña para acceder a su cuenta y a las funcionalidades correspondientes a su rol. |
+| Actores | Principal: Cliente |
+| Precondiciones | El cliente posee una cuenta habilitada. |
+| Postcondiciones | Éxito: El cliente queda autenticado. |
 
 ### Secuencia normal
 
 | # | Acción (actor) | Reacción (sistema) |
 |---|----------------|--------------------|
-| 1 | El dueño pide consultar la lista de productos del catálogo. | El sistema verifica los permisos del usuario (RF-04) y le muestra los productos registrados con sus variantes y opciones de administración.|
-| 2 | El dueño ingresa los datos de un nuevo producto (o las correcciones de uno existente) definiendo sus variantes (talle, color y stock unificado) y adjunta entre 2 y 4 fotos. | El sistema verifica que la información esté completa, que la cantidad de imágenes sea la requerida (RF-11), comprime las fotos para no sobrecargar el servidor (RNF-14), guarda los cambios y le confirma la actualización.|
-| 3 | El dueño pide desactivar un producto o una variante específica que ya no se comercializa.| El sistema pide confirmación para evitar borrados accidentales, cambia el estado a inactivo y actualiza el catálogo público para ocultar la prenda sin borrar su historial de ventas.|
-
+| 1 | El cliente selecciona la opción "Iniciar sesión". | El sistema muestra el formulario con los campos email y contraseña. |
+| 2 | Ingresa su email y contraseña y confirma. | Verifica que la cuenta exista y que la contraseña sea correcta. |
+| 3 | | Inicia la sesión y redirige al cliente a la pantalla principal de la tienda. |
 
 ### Excepciones
 
 | # | Situación | Respuesta del sistema |
 |---|-----------|-----------------------|
-| E1 | El dueño intenta guardar un producto omitiendo campos obligatorios o con valores numéricos inválidos. | El sistema no guardará los cambios, resaltará los campos con error y mostrará un mensaje indicando las correcciones necesarias (RNF-10). |
-| E2 | El dueño intenta guardar un producto con menos de 2 o más de 4 fotografías. | El sistema notifica que se deben subir entre 2 y 4 imágenes por producto y detiene el proceso de guardado (RF-11). |
-| E3 | Se produce un error durante la compresión o carga de imágenes en el servidor. | El sistema informa que no fue posible guardar el producto y mantiene el formulario cargado para reintentar. |
+| E1 | El email o la contraseña son incorrectos. | El sistema deberá informar que las credenciales son inválidas (sin indicar cuál de los dos datos falló), sumar un intento fallido y volver al paso 1. Si acumula 5 intentos fallidos de inicio de sesión, el sistema deberá bloquear su acceso durante 15 minutos e informárselo (RNF-07). |
+| E2 | El email ingresado no se encuentra registrado en el sistema. | El sistema notifica que el email no está asociado a ninguna cuenta existente y ofrecerá opción directa para registrarse. |
 
 | Campo | Detalle |
 |-------|---------|
-| Rendimiento |Las consultas a la base de datos para mostrar y modificar productos y stock responderán en menos de 2 segundos (RNF-13). |
-| Frecuencia |Se estima una media de 10 a 20 ejecuciones diarias. |
-| Importancia |Vital |
-| Urgencia |Inmediatamente |
+| Rendimiento | El sistema deberá realizar las acciones descriptas en un máximo de 3 segundos. |
+| Frecuencia | Este caso de uso se espera que se lleve a cabo una media de 100 veces al día. |
+| Importancia | Vital. |
+| Urgencia | Inmediatamente. |
+
 
 ---
 
