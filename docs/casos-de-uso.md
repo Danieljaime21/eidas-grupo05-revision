@@ -274,3 +274,80 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 | Urgencia | Inmediata. |
 
 ---
+
+
+## CU-08 — Vaciar carrito de compras
+
+| Campo | Detalle |
+|-------|---------|
+| Identificador | CU-08 |
+| Nombre | Vaciar carrito de compras |
+| Descripción | El cliente/visitante elimina de una sola vez la totalidad de los productos almacenados en su carrito de compras. |
+| Actores | Principal: Cliente/Visitante |
+| Precondiciones | El carrito contiene al menos un producto. |
+| Postcondiciones | Éxito: El carrito queda totalmente vacío y el importe total se reinicia en cero. Fallo: El contenido del carrito se conserva intacto. |
+
+### Secuencia normal
+
+| # | Acción (actor) | Reacción (sistema) |
+|---|----------------|--------------------|
+| 1 | El cliente entra a ver su carrito de compras. | El sistema le muestra la lista de productos acumulados y la suma total. |
+| 2 | El cliente solicita vaciar todo el carrito. | El sistema le pide confirmación antes de borrar el contenido para evitar descuidos. |
+| 3 | El cliente confirma que desea borrar todo. | El sistema elimina todos los productos guardados y deja la lista vacía con el total en cero. |
+
+### Excepciones
+
+| # | Situación | Respuesta del sistema |
+|---|-----------|-----------------------|
+| E1 | En el paso 2, el cliente cancela la confirmación de vaciado. | El sistema interrumpe el proceso y mantiene los productos en el carrito tal como estaban. |
+| E2 | Ocurre un error de sistema o corte de conexión al intentar vaciar la lista. | El sistema informa que no se pudo vaciar el carrito y mantiene los productos guardados. |
+
+| Campo | Detalle |
+|-------|---------|
+| Rendimiento | Cada paso debe responder al instante, en menos de 3 segundos (RNF-01). |
+| Frecuencia | Estimado de 20 ejecuciones diarias. |
+| Importancia | Media. |
+| Urgencia | Inmediata. |
+
+
+---
+
+
+
+## CU-09 — Realizar verificación con datos de entrega y de envío
+
+| Campo | Detalle |
+|-------|---------|
+| Identificador | CU-09 |
+| Nombre | Realizar verificación con datos de entrega y de envío |
+| Descripción | El cliente confirma o edita sus datos de entrega, elige cómo va a recibir el pedido (envío a domicilio o retiro en el local) y ve el costo correspondiente antes de continuar con el pago. |
+| Actores | Principal: Visitante o Cliente. Secundario: Proveedor logístico. |
+| Precondiciones | El carrito contiene al menos un producto. Los productos elegidos siguen disponibles. |
+| Postcondiciones | Éxito: Los datos de entrega quedan confirmados, el tipo de entrega queda elegido, el costo de envío queda calculado cuando corresponde y el checkout queda listo para continuar con el pago. Fallo: El pedido no avanza, la información de envío no se guarda y el pedido se mantiene sin cambios en el carrito. |
+
+### Secuencia normal
+
+| # | Acción (actor) | Reacción (sistema) |
+|---|----------------|--------------------|
+| 1 | Hace clic en "Finalizar Compra" desde el carrito. | Muestra el resumen del carrito con los datos del cliente ya cargados. |
+| 2 | Confirma o modifica los datos de contacto y la dirección de entrega (calle, número, piso/dpto, ciudad, provincia, código postal). | Valida que los campos obligatorios estén completos. |
+| 3 | Elige "Envío a domicilio". | Calcula y muestra el costo de envío según la dirección, y actualiza el total (subtotal + envío). |
+| 3.1 | Si en cambio elige "Retiro en local"... | ...fija el costo de envío en $0, muestra la dirección del local y su horario. |
+
+### Excepciones
+
+| # | Situación | Respuesta del sistema |
+|---|-----------|-----------------------|
+| E1 | El cliente intenta avanzar dejando campos obligatorios vacíos (dirección, ciudad, código postal o teléfono). | Impide avanzar e indica qué campo falta o está mal completado. |
+| E2 | El cliente ingresa un código postal no cubierto o inválido. | Avisa que no hay cobertura de envío a domicilio para esa zona y sugiere retirar en el local o corregir el dato. |
+| E3 | Falla la consulta de tarifa al proveedor logístico. | Pide reintentar sin perder los datos ya cargados. |
+
+| Campo | Detalle |
+|-------|---------|
+| Rendimiento | El sistema realiza los pasos 1 a 3 en un máximo de 5 segundos. |
+| Frecuencia | Se estima una media de 50 ejecuciones diarias. |
+| Importancia | Vital. |
+| Urgencia | Inmediatamente. |
+
+
+---
