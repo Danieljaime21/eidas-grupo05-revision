@@ -9,6 +9,7 @@ skinparam actorStyle awesome
 actor "Visitante" as Visitante
 actor "Cliente" as Cliente
 actor "Dueño" as Dueno
+actor "Empleado" as Empleado
 actor "Proveedor\nLogístico" as Proveedor #LightGray
 actor "Mercado Pago\n(Pasarela de pago)" as MP #LightGray
 
@@ -27,6 +28,7 @@ rectangle "Sistema de Tienda Online" {
   usecase "CU-08\nVaciar carrito de compras" as UC08
   usecase "CU-09\nRealizar verificación con\ndatos de entrega y de envío" as UC09
   usecase "CU-10\nRealizar pago" as UC10
+  usecase "CU-16\nRegistrar venta presencial" as UC16
 }
 
 ' --- Relaciones actor - caso de uso ---
@@ -48,6 +50,8 @@ Cliente --> UC10
 Dueno --> UC03
 Dueno --> UC05
 
+Empleado --> UC16
+
 Proveedor --> UC09
 MP --> UC10
 
@@ -59,5 +63,7 @@ UC10 .> UC09 : <<include>>
 UC09 .> UC02 : <<extend>>
 UC09 .> UC01 : <<extend>>
 UC06 .> UC02 : <<extend>>
+
+UC16 .> UC02 : <<include>>
 
 @enduml
