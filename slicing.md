@@ -184,7 +184,7 @@ Como cliente, quiero registrarme ingresando mis datos obligatorios, para crear u
 
 ### Requisitos relacionados
 
-RF-08, RF-09
+RF-04, RF-06, RF-07
 
 ### Criterios de aceptación
 
@@ -208,39 +208,8 @@ RF-08, RF-09
 
 ---
 
-# Slice 02 — Inicio de sesión
 
-### Historia
-
-Como cliente registrado, quiero iniciar sesión con mis credenciales, para acceder de forma segura a mi cuenta y a las funcionalidades disponibles para usuarios autenticados.
-
-### Requisitos relacionados
-
-RF-10, RF-11
-
-### Criterios de aceptación
-
-1. El sistema debe permitir ingresar el correo electrónico y la contraseña asociados a una cuenta registrada.
-2. El sistema debe verificar que las credenciales ingresadas sean correctas.
-3. Si las credenciales son válidas, el sistema debe autenticar al cliente y permitirle acceder a su cuenta.
-4. Si las credenciales son incorrectas, el sistema debe informar que los datos ingresados no son válidos.
-5. El sistema no debe permitir el acceso a la cuenta cuando la autenticación sea incorrecta.
-6. El cliente autenticado debe poder acceder a la sección "Mi Cuenta".
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                                                                   |
-| ------------- | ----------- | --------------------------------------------------------------------------------------------- |
-| Independiente | Sí          | Puede probarse a partir de una cuenta previamente registrada, sin depender de pagos o envíos. |
-| Negociable    | Sí          | El mecanismo y las reglas de autenticación pueden ajustarse.                                  |
-| Valiosa       | Sí          | Permite al cliente acceder de forma segura a su cuenta.                                       |
-| Estimable     | Sí          | El alcance se limita al proceso de autenticación.                                             |
-| Pequeña       | Sí          | Se concentra en el acceso de un cliente registrado.                                           |
-| Verificable   | Sí          | Puede comprobarse utilizando credenciales válidas e inválidas.                                |
-
----
-
-# Slice 03 — Recuperación de contraseña
+# Slice 02 — Recuperación de contraseña
 
 ### Historia
 
@@ -248,7 +217,7 @@ Como cliente registrado, quiero recuperar mi contraseña mediante un enlace envi
 
 ### Requisitos relacionados
 
-RF-12, RF-13
+RF-09
 
 ### Criterios de aceptación
 
@@ -273,7 +242,7 @@ RF-12, RF-13
 
 ---
 
-# Slice 04 — Consulta de perfil
+# Slice 03 — Consulta de perfil
 
 ### Historia
 
@@ -281,7 +250,7 @@ Como cliente autenticado, quiero consultar mis datos personales y de contacto de
 
 ### Requisitos relacionados
 
-RF-14
+RF-07
 
 ### Criterios de aceptación
 
@@ -305,7 +274,7 @@ RF-14
 
 ---
 
-# Slice 05 — Edición de perfil
+# Slice 04 — Edición de perfil
 
 ### Historia
 
@@ -313,7 +282,7 @@ Como cliente autenticado, quiero modificar mis datos de contacto desde la secci�
 
 ### Requisitos relacionados
 
-RF-15, RF-16
+RF-08
 
 ### Criterios de aceptación
 
@@ -338,7 +307,7 @@ RF-15, RF-16
 
 ---
 
-# Slicing — HU-02: Consulta, Búsqueda y Filtrado de Productos por Variante
+# Slicing — HU-02: Consulta y Filtrado de Productos
 
 ## Slice 01 — Consulta del catálogo
 
@@ -348,7 +317,7 @@ Como cliente, quiero consultar el catálogo de productos, para conocer las prend
 
 ### Requisitos relacionados
 
-RF-24, RF-25
+RF-14
 
 ### Criterios de aceptación
 
@@ -369,44 +338,15 @@ RF-24, RF-25
 
 ---
 
-## Slice 02 — Búsqueda de productos
+## Slice 02 — Filtrado de productos
 
 ### Historia
 
-Como cliente, quiero buscar productos mediante palabras clave, para encontrar rápidamente las prendas que me interesan.
+Como cliente, quiero filtrar los productos por categoría, talle y color para encontrar prendas que se adapten a mis preferencias.
 
 ### Requisitos relacionados
 
-RF-26
-
-### Criterios de aceptación
-
-1. El sistema debe permitir ingresar una palabra clave.
-2. Debe mostrar los productos relacionados con la búsqueda.
-3. Si no existen coincidencias, debe informar que no se encontraron productos.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                     |
-| ------------- | ----------- | ----------------------------------------------- |
-| Independiente | Sí          | Funciona sobre el catálogo existente.           |
-| Negociable    | Sí          | El mecanismo de búsqueda puede ajustarse.       |
-| Valiosa       | Sí          | Reduce el tiempo de búsqueda.                   |
-| Estimable     | Sí          | Tiene un alcance acotado.                       |
-| Pequeña       | Sí          | Se limita a la búsqueda.                        |
-| Verificable   | Sí          | Se prueba con palabras con y sin coincidencias. |
-
----
-
-## Slice 03 — Filtrado de productos
-
-### Historia
-
-Como cliente, quiero filtrar los productos por categoría, talle, color, precio y disponibilidad, para encontrar prendas que se adapten a mis preferencias.
-
-### Requisitos relacionados
-
-RF-27, RF-28, RF-32
+RF-19
 
 ### Criterios de aceptación
 
@@ -427,95 +367,10 @@ RF-27, RF-28, RF-32
 
 ---
 
-## Slice 04 — Ordenamiento de productos
 
-### Historia
+# Slicing — HU-03: Carrito y Reserva Temporal de Stock
 
-Como cliente, quiero ordenar los productos por precio, novedad o popularidad, para visualizar primero los que sean más relevantes para mí.
-
-### Requisitos relacionados
-
-RF-33, RF-34
-
-### Criterios de aceptación
-
-1. El sistema debe permitir ordenar por precio ascendente y descendente.
-2. Debe permitir ordenar por novedad y popularidad.
-3. Los productos deben mostrarse respetando el criterio seleccionado.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                                      |
-| ------------- | ----------- | ---------------------------------------------------------------- |
-| Independiente | Sí          | Puede aplicarse sobre el catálogo sin depender de otros módulos. |
-| Negociable    | Sí          | Los criterios de ordenamiento pueden ajustarse.                  |
-| Valiosa       | Sí          | Facilita la exploración del catálogo.                            |
-| Estimable     | Sí          | Se limita al ordenamiento de resultados.                         |
-| Pequeña       | Sí          | Tiene un alcance reducido.                                       |
-| Verificable   | Sí          | Se comprueba utilizando cada criterio de ordenamiento.           |
-
----
-
-## Slice 05 — Disponibilidad por variante
-
-### Historia
-
-Como cliente, quiero conocer la disponibilidad de cada variante de una prenda, para evitar seleccionar productos que no tengan stock.
-
-### Requisitos relacionados
-
-RF-35
-
-### Criterios de aceptación
-
-1. El sistema debe mostrar las variantes disponibles de cada prenda.
-2. Cuando una variante tenga stock cero, debe mostrar el indicador "Sin stock".
-3. Una variante sin stock no debe poder agregarse al carrito.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                      |
-| ------------- | ----------- | ------------------------------------------------ |
-| Independiente | Sí          | La disponibilidad se consulta desde el catálogo. |
-| Negociable    | Sí          | La forma de mostrar el stock puede modificarse.  |
-| Valiosa       | Sí          | Evita seleccionar productos no disponibles.      |
-| Estimable     | Sí          | Se limita al control de disponibilidad.          |
-| Pequeña       | Sí          | Tiene un alcance concreto.                       |
-| Verificable   | Sí          | Se prueba con variantes con y sin stock.         |
-
-
-# Slicing — HU-03: Selección de Variantes, Carrito y Reserva Temporal de Stock
-
-## Slice 01 — Selección de variantes
-
-### Historia
-
-Como cliente, quiero seleccionar una variante específica de una prenda, para agregar al carrito el producto que deseo comprar.
-
-### Requisitos relacionados
-
-RF-49, RF-50
-
-### Criterios de aceptación
-
-1. El sistema debe permitir seleccionar las variantes disponibles de una prenda.
-2. El cliente debe poder seleccionar talle y color cuando correspondan.
-3. El sistema debe permitir agregar al carrito la variante seleccionada.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                     |
-| ------------- | ----------- | ----------------------------------------------- |
-| Independiente | Sí          | Puede probarse desde el catálogo.               |
-| Negociable    | Sí          | La forma de selección puede modificarse.        |
-| Valiosa       | Sí          | Permite elegir exactamente el producto deseado. |
-| Estimable     | Sí          | Tiene un alcance concreto.                      |
-| Pequeña       | Sí          | Se limita a la selección de variantes.          |
-| Verificable   | Sí          | Se prueba seleccionando diferentes variantes.   |
-
----
-
-## Slice 02 — Agregar productos al carrito
+## Slice 01 — Agregar productos al carrito
 
 ### Historia
 
@@ -523,7 +378,7 @@ Como cliente, quiero agregar prendas al carrito, para reunir los productos que d
 
 ### Requisitos relacionados
 
-RF-51, RF-52
+RF-27
 
 ### Criterios de aceptación
 
@@ -552,7 +407,7 @@ Como cliente, quiero modificar cantidades o eliminar productos del carrito, para
 
 ### Requisitos relacionados
 
-RF-53, RF-54
+RF-27
 
 ### Criterios de aceptación
 
@@ -581,7 +436,7 @@ Como cliente, quiero que el carrito recalcule automáticamente los importes, par
 
 ### Requisitos relacionados
 
-RF-55, RF-56
+RF-28, RF-29
 
 ### Criterios de aceptación
 
@@ -602,34 +457,6 @@ RF-55, RF-56
 
 ---
 
-## Slice 05 — Persistencia y reserva temporal de stock
-
-### Historia
-
-Como cliente, quiero conservar los productos de mi carrito durante un período limitado, para mantener mi selección mientras decido completar la compra.
-
-### Requisitos relacionados
-
-RF-57, RF-58
-
-### Criterios de aceptación
-
-1. Los productos agregados deben conservarse aunque el cliente cierre el navegador o finalice la sesión.
-2. El carrito debe conservarse durante un máximo de 24 horas.
-3. Una vez transcurridas las 24 horas, el sistema debe liberar la reserva temporal del stock correspondiente.
-4. El sistema debe reflejar correctamente la disponibilidad una vez liberado el stock.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                                             |
-| ------------- | ----------- | ----------------------------------------------------------------------- |
-| Independiente | Sí          | Puede probarse sin completar el proceso de pago.                        |
-| Negociable    | Sí          | La presentación del tiempo de reserva puede modificarse.                |
-| Valiosa       | Sí          | Permite conservar temporalmente la selección del cliente.               |
-| Estimable     | Sí          | El alcance está limitado a persistencia y reserva temporal.             |
-| Pequeña       | Sí          | Agrupa funcionalidades relacionadas con la permanencia del carrito.     |
-| Verificable   | Sí          | Se prueba cerrando la sesión y verificando la liberación tras 24 horas. |
-
 
 # Slicing — HU-04: Checkout, Pago Integrado y Transición de Estados del Pedido
 
@@ -641,7 +468,7 @@ Como cliente, quiero seleccionar la modalidad de entrega, para elegir cómo reci
 
 ### Requisitos relacionados
 
-RF-59, RF-60
+RF-28
 
 ### Criterios de aceptación
 
@@ -670,7 +497,7 @@ Como cliente, quiero pagar mi compra mediante Mercado Pago, para completar la tr
 
 ### Requisitos relacionados
 
-RF-61, RF-62, RF-63
+RF-29
 
 ### Criterios de aceptación
 
@@ -699,7 +526,7 @@ Como cliente, quiero que se genere mi pedido cuando el pago sea aprobado, para c
 
 ### Requisitos relacionados
 
-RF-64, RF-65, RF-66
+RF-30
 
 ### Criterios de aceptación
 
@@ -728,7 +555,7 @@ Como cliente, quiero conocer el estado de mi pedido, para saber en qué etapa se
 
 ### Requisitos relacionados
 
-RF-68, RF-69, RF-70
+RF-30
 
 ### Criterios de aceptación
 
@@ -757,7 +584,7 @@ Como cliente, quiero recibir notificaciones sobre los cambios de estado de mi pe
 
 ### Requisitos relacionados
 
-RF-74, RF-75, RF-77
+RF-39
 
 ### Criterios de aceptación
 
@@ -786,7 +613,7 @@ Como usuario de Depósito o Administrador, quiero consultar el stock disponible,
 
 ### Requisitos relacionados
 
-RF-36, RF-37
+RF-44
 
 ### Criterios de aceptación
 
@@ -815,7 +642,7 @@ Como usuario de Depósito, quiero registrar el ingreso de mercadería, para actu
 
 ### Requisitos relacionados
 
-RF-38, RF-39, RF-40
+RF-15
 
 ### Criterios de aceptación
 
@@ -844,7 +671,7 @@ Como usuario de Depósito o Administrador, quiero que el stock se actualice auto
 
 ### Requisitos relacionados
 
-RF-41, RF-42
+RF-20
 
 ### Criterios de aceptación
 
@@ -873,7 +700,7 @@ Como usuario de Depósito o Administrador, quiero consultar los movimientos de s
 
 ### Requisitos relacionados
 
-RF-43, RF-44
+RF-44
 
 ### Criterios de aceptación
 
@@ -902,7 +729,7 @@ Como usuario de Depósito, quiero recibir alertas cuando una variante tenga poco
 
 ### Requisitos relacionados
 
-RF-45, RF-47, RF-48
+RF-22
 
 ### Criterios de aceptación
 
@@ -932,7 +759,7 @@ Como cliente registrado, quiero solicitar la devolución de un producto, para ge
 
 ### Requisitos relacionados
 
-RF-88, RF-89, RF-90
+RF-38
 
 ### Criterios de aceptación
 
@@ -961,7 +788,7 @@ Como cliente, quiero que el sistema valide el plazo para solicitar una devoluci�
 
 ### Requisitos relacionados
 
-RF-91, RF-92
+RF-38, RF-40
 
 ### Criterios de aceptación
 
@@ -990,7 +817,7 @@ Como usuario de Ventas, quiero revisar y actualizar las solicitudes de devoluci�
 
 ### Requisitos relacionados
 
-RF-93, RF-94, RF-95
+RF-40
 
 ### Criterios de aceptación
 
@@ -1019,7 +846,7 @@ Como usuario de Ventas, quiero resolver una solicitud de devolución, para aprob
 
 ### Requisitos relacionados
 
-RF-96, RF-97, RF-98
+RF-40, RF-41
 
 ### Criterios de aceptación
 
@@ -1048,7 +875,7 @@ Como usuario de Ventas, quiero que una devolución aprobada genere la nota de cr
 
 ### Requisitos relacionados
 
-RF-99, RF-100, RF-101
+RF-41
 
 ### Criterios de aceptación
 
