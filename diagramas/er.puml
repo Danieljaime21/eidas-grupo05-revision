@@ -1,7 +1,4 @@
 @startuml
-' ============================================================
-' MODELO ENTIDAD-RELACIÓN - ECOMMERCE GRUPO 2
-' ============================================================
 
 skinparam linetype ortho
 skinparam classAttributeIconSize 0
@@ -10,10 +7,6 @@ skinparam roundcorner 8
 skinparam nodesep 35
 skinparam ranksep 45
 hide circle
-
-' ============================================================
-' USUARIOS
-' ============================================================
 
 entity "USUARIO" as USUARIO {
   * dni : VARCHAR(20) <<PK>>
@@ -45,10 +38,6 @@ entity "EMPLEADO" as EMPLEADO {
 
 USUARIO ||--|| CLIENTE : "es"
 USUARIO ||--|| EMPLEADO : "es"
-
-' ============================================================
-' CATALOGO
-' ============================================================
 
 entity "CATEGORIA" as CATEGORIA {
   * id_categoria : INT <<PK>>
@@ -103,10 +92,6 @@ PRODUCTO ||--|{ VARIANTE : "tiene"
 PRODUCTO ||--o{ PROD_PROV : "se abastece"
 PROVEEDOR ||--o{ PROD_PROV : "provee"
 
-' ============================================================
-' INGRESO DE STOCK
-' ============================================================
-
 entity "INGRESO_STOCK" as INGRESO {
   * id_ingreso : INT <<PK>>
   --
@@ -130,10 +115,6 @@ PROVEEDOR ||--o{ INGRESO : "realiza"
 INGRESO ||--|{ DET_INGRESO : "contiene"
 VARIANTE ||--o{ DET_INGRESO : "ingresa"
 
-' ============================================================
-' CARRITO
-' ============================================================
-
 entity "CARRITO" as CARRITO {
   * id_carrito : INT <<PK>>
   --
@@ -152,10 +133,6 @@ entity "DETALLE_CARRITO" as DET_CARRITO {
 CLIENTE ||--|| CARRITO : "posee"
 CARRITO ||--o{ DET_CARRITO : "contiene"
 VARIANTE ||--o{ DET_CARRITO : "selecciona"
-
-' ============================================================
-' PEDIDOS
-' ============================================================
 
 entity "PEDIDO" as PEDIDO {
   * id_pedido : INT <<PK>>
@@ -188,10 +165,6 @@ CLIENTE ||--o{ PEDIDO : "realiza"
 EMPLEADO ||--o{ PEDIDO : "gestiona"
 PEDIDO ||--|{ DET_PEDIDO : "contiene"
 VARIANTE ||--o{ DET_PEDIDO : "vendida"
-
-' ============================================================
-' PROMOCIONES Y CUPONES
-' ============================================================
 
 entity "PROMOCION" as PROMOCION {
   * id_promocion : INT <<PK>>
@@ -236,10 +209,6 @@ CUPON ||--o{ CUPON_USADO : "se utiliza"
 PEDIDO ||--o{ CUPON_USADO : "aplica"
 CLIENTE ||--o{ CUPON_USADO : "utiliza"
 
-' ============================================================
-' RESEÑAS
-' ============================================================
-
 entity "RESENA" as RESENA {
   * id_resena : INT <<PK>>
   --
@@ -255,10 +224,6 @@ entity "RESENA" as RESENA {
 PRODUCTO ||--o{ RESENA : "recibe"
 CLIENTE ||--o{ RESENA : "realiza"
 PEDIDO ||--o{ RESENA : "acredita"
-
-' ============================================================
-' DEVOLUCIONES
-' ============================================================
 
 entity "DEVOLUCION" as DEVOLUCION {
   * id_devolucion : INT <<PK>>
@@ -300,12 +265,6 @@ VARIANTE ||--o{ DET_DEVOLUCION : "devuelta"
 DEVOLUCION ||--o| NOTA_CREDITO : "genera"
 CLIENTE ||--o{ NOTA_CREDITO : "recibe"
 EMPLEADO ||--o{ NOTA_CREDITO : "emite"
-
-' ============================================================
-' ORGANIZACION VISUAL
-' Estas relaciones ocultas ayudan a mantener los módulos
-' ordenados sin agregar relaciones del modelo.
-' ============================================================
 
 USUARIO -[hidden]down- CLIENTE
 CLIENTE -[hidden]down- CARRITO
