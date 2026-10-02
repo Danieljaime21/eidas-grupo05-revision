@@ -50,7 +50,7 @@ Cliente --> UC10
 Dueno --> UC03
 Dueno --> UC05
 
-Empleado --> UC16
+Empleado --> UC11
 
 Proveedor --> UC09
 MP --> UC10
