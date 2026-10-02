@@ -6,7 +6,14 @@ _Incluir el código PlantUML en `diagramas/casos-de-uso.puml`._
 _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 
 ## Actores
-
+| Actor | Tipo | Descripción |
+|-------|------|-------------|
+| Visitante | Principal | Persona no autenticada que navega el catálogo, puede armar un carrito y decide registrarse para concretar la compra. |
+| Cliente | Principal | Usuario registrado y autenticado. Hereda las capacidades del Visitante y suma las funcionalidades de checkout, envío y pago. |
+| Dueño | Principal | Usuario con máximos privilegios. Administra el personal y el catálogo de productos. |
+| Empleado | Principal | Usuario del personal operativo del local. Registra las ventas presenciales descontando stock compartido con las ventas online. |
+| Proveedor Logístico | Secundario (externo) | Sistema externo que calcula la tarifa de envío y confirma cobertura. |
+| Mercado Pago | Secundario (externo) | Pasarela de pago externa que procesa la transacción. |
 
 ---
 
