@@ -82,84 +82,88 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 ---
 
-## CU-03 — [Gestionar carrito de compras]
+
+## CU-03 — Registrar usuario del personal
 
 | Campo | Detalle |
 |-------|---------|
 | Identificador | CU-03 |
-| Nombre |Gestionar carrito de compras |
-| Descripción |El cliente agrega productos al carrito, modifica cantidades, elimina productos o vacía el carrito para organizar su compra antes de realizar el checkout. |
-| Actores | Principal: Cliente / Secundario: Sistema |
-| Precondiciones |- El catálogo se encuentra disponible. - Existe al menos un producto disponible para agregar al carrito. - El cliente se encuentra navegando el catálogo. |
-| Postcondiciones | Éxito: El carrito queda actualizado con los productos, cantidades y subtotales correspondientes. Si el cliente elimina productos o vacía el carrito, los cambios quedan registrados en el carrito. / Fallo: El carrito no se modifica y se informa al cliente el motivo del error. |
+| Nombre | Registrar usuario del personal |
+| Descripción | El Dueño da de alta a un nuevo usuario del personal y le asigna un rol, para que pueda operar el sistema con los permisos correspondientes. |
+| Actores | Principal: Dueño |
+| Precondiciones | El Dueño tiene una sesión iniciada. Existe al menos un rol del personal definido. |
+| Postcondiciones | Éxito: El usuario del personal queda creado, habilitado y con el rol asignado. |
 
 ### Secuencia normal
 
 | # | Acción (actor) | Reacción (sistema) |
 |---|----------------|--------------------|
-| 1 | El cliente selecciona un producto del catálogo. | El sistema muestra la información del producto, sus variantes disponibles y la opción de agregarlo al carrito.|
-| 2 | El cliente selecciona cantidad, talle, color y selecciona "Agregar al carrito". | El sistema valida que exista stock para la combinación producto-talle-color (RF-13), agrega el producto y actualiza el carrito. Muestra mensaje de confirmación.|
-| 3 | El cliente consulta el carrito. | El sistema muestra los productos con sus cantidades, precios unitarios y subtotales.|
-| 4 | El cliente modifica la cantidad de un producto. | El sistema valida el stock disponible, actualiza la cantidad y recalcula el subtotal.|
-| 5 | El cliente elimina un producto. | El sistema elimina el producto y actualiza el carrito.|
-| 6 | El cliente selecciona "Vaciar carrito". | El sistema solicita confirmación. (Si el cliente cancela el vaciado, el sistema deberá mantener el carrito sin cambios).|
-| 7 | El cliente confirma el vaciado. | El sistema elimina todos los productos y muestra el carrito vacío.|
+| 1 | Accede a la sección "Personal" y selecciona "Alta de usuario". | El sistema solicita la identificación del empleado pidiendo únicamente el número de DNI. |
+| 2 | Ingresa el DNI del empleado y presiona "Continuar". | El sistema valida el formato del DNI y verifica que no pertenezca a un usuario existente. Al no existir, habilita el formulario con los campos restantes (nombre, apellido, email, teléfono, etc.) y la lista de roles disponibles. |
+| 3 | Completa los datos personales restantes, selecciona el rol correspondiente y confirma. | Valida la estructura de los datos (email, teléfono, etc.) y que el email no esté registrado previamente. Crea el usuario habilitado con el rol asignado y muestra un mensaje de confirmación. |
+| 4 | | Actualiza el listado de usuarios del personal, mostrando al nuevo integrante con su rol y estado. |
 
 ### Excepciones
 
 | # | Situación | Respuesta del sistema |
 |---|-----------|-----------------------|
-| E1 | El cliente intenta agregar un producto sin seleccionar talle o color. | El sistema no agregará el producto y deberá mostrar un mensaje de error indicando que debe seleccionar talle y color (RNF-10). |
-| E2 | El cliente intenta agregar una cantidad mayor al stock disponible. | El sistema muestra un mensaje indicando que la cantidad solicitada no está disponible y no permite agregar esa cantidad. |
-| E3 | El cliente intenta agregar un producto sin stock. | El sistema deberá informar que el producto no está disponible y no podrá agregarlo al carrito. |
-| E4 | Se produce un error al actualizar el carrito. | El sistema informa que no fue posible actualizar el carrito y mantiene su estado anterior. |
+| E1 | El DNI ya pertenece a un usuario existente. | El sistema muestra un mensaje indicando que el empleado ya existe. |
+| E2 | El dueño deja campos obligatorios vacíos o con formato incorrecto. | El sistema indica el campo específico con error y vuelve al paso 3 manteniendo la información ingresada. |
+| E3 | El email ingresado pertenece a otro usuario. | El sistema informa el error y permite corregir solo ese campo sin borrar el resto de la información. |
+| E4 | Error interno al guardar el usuario. | El sistema deberá informarlo y registrar fecha, hora y descripción del error (RNF-16). |
+
 
 | Campo | Detalle |
 |-------|---------|
-| Rendimiento |El sistema deberá realizar las acciones descritas en los pasos 1 al 7 en un máximo de 3 segundos (RNF-01). |
-| Frecuencia |Se espera que este caso de uso se lleve a cabo una media de 100 veces al día. |
-| Importancia |Vital |
-| Urgencia |Inmediatamente |
+| Rendimiento | El sistema deberá realizar las acciones descritas en un máximo de 3 segundos (RNF-01). |
+| Frecuencia | Este caso de uso se espera que se lleve a cabo aproximadamente 1 vez cada dos meses. |
+| Importancia | Importante |
+| Urgencia | Hay presión |
 
 ---
 
-## CU-04 — [Realizar checkout con datos de entrega y de envío]
+
+## CU-04 — Consultar catálogo
 
 | Campo | Detalle |
 |-------|---------|
 | Identificador | CU-04 |
-| Nombre |Realizar checkout con datos de entrega y de envío |
-| Descripción |El cliente confirma o edita sus datos de entrega, selecciona la modalidad de despacho (envío a domicilio o retiro en el local) y obtiene el costo correspondiente para continuar con la compra. |
-| Actores | Principal: Cliente / Secundario: Sistema |
-| Precondiciones |- El cliente debe haber iniciado sesión en la plataforma. - El carrito de compras debe contener al menos un producto. - Los productos seleccionados están disponibles. |
-| Postcondiciones | Éxito: Los datos de entrega quedan confirmados, el tipo de entrega queda seleccionado, el costo de envío queda calculated cuando corresponde y el checkout queda listo para continuar con el pago. / Fallo: El pedido no avanza al siguiente paso, la información de envío no se guarda y el pedido se mantiene sin cambios en el carrito de compras. |
+| Nombre | Consultar catálogo |
+| Descripción | El Visitante o el Cliente consulta el catálogo y lo filtra por categoría, talle y color para encontrar los productos que le interesan. |
+| Actores | Principal: Cliente, Visitante |
+| Precondiciones | Existen productos activos en el catálogo. |
+| Postcondiciones | Éxito: El sistema muestra los productos que cumplen los criterios elegidos. |
 
 ### Secuencia normal
 
 | # | Acción (actor) | Reacción (sistema) |
 |---|----------------|--------------------|
-| 1 | El cliente hace click en "Finalizar Compra" desde la pantalla del carrito de compras. | El sistema muestra el resumen del carrito con los datos precargados del cliente.|
-| 2 | El cliente confirma o modifica los datos de contacto y la dirección de entrega predeterminada (calle, número, piso/dpto, ciudad, provincia, código postal). | El sistema valida que los campos requeridos estén completos.|
-| 3 | El cliente selecciona la opción "Envío a domicilio" (o "Retiro en local"). | El sistema calcula y muestra el costo de envío correspondiente según proveedor logístico y actualiza el total final (Subtotal + Envío). Si elige retiro en local, fija el costo en $0.00, muestra dirección e informa plazo de 15 días.|
-| 4 | El cliente presiona el botón "Continuar al pago". | El sistema guarda la información de entrega asociada al pedido en estado borrador y redirige al usuario a la pasarela de pago.|
+| 1 | Ingresa a la sección "Catálogo". | El sistema muestra un menú desplegable con las diferentes categorías disponibles. |
+| 2 | Selecciona la categoría deseada. | El sistema muestra los primeros 20 productos de esa categoría. |
+| 3 | Selecciona uno o más filtros (talle, color, marca). | El sistema muestra solo los productos que cumplen todos los filtros seleccionados. |
+
+
 
 ### Excepciones
 
 | # | Situación | Respuesta del sistema |
 |---|-----------|-----------------------|
-| E1 | El cliente intenta avanzar dejando campos obligatorios vacíos (dirección, ciudad, código postal o teléfono). | El sistema deberá impedir el avance e indicar el campo que contiene el error o que debe completarse. |
-| E2 | El cliente no está autenticado. | El sistema deberá redirigirlo al inicio de sesión o registro (RF-10). |
-| E3 | El cliente ingresa un código postal no cubierto o inválido. | El sistema deberá notificar que no hay cobertura de envío a domicilio para esa zona y sugerir la opción de retiro en local o corrección de datos. |
-| E4 | Falla el servicio del proveedor logístico al consultar la tarifa. | El sistema deberá calcular la tarifa base de respaldo o solicitar reintentar el cálculo sin perder la información cargada. |
+| E1 | Ningún producto cumple los filtros elegidos. | El sistema deberá mostrar un mensaje indicando que ningún producto cumple con los filtros seleccionados y sugerirá quitar algunos de estos. |
+| E2 | Error al consultar el catálogo. | El sistema deberá mostrar un mensaje de error y registrar fecha, hora y descripción del error (RNF-16). |
+| E3 | Una operación demora más de 1 segundo. | El sistema deberá mostrar un indicador de carga (RNF-11). |
+| E4 | | |
+
 
 | Campo | Detalle |
 |-------|---------|
-| Rendimiento |El sistema deberá realizar las acciones descritas en los pasos 1 al 4 en un máximo de 5 segundos. |
-| Frecuencia |Este caso de uso se espera que se lleve a cabo una media de 50 veces al día. |
-| Importancia |Vital |
-| Urgencia |Inmediatamente |
+| Rendimiento | El sistema deberá realizar las acciones descritas en los pasos 1 al 3 en un máximo de 3 segundos con 50 usuarios simultáneos (RNF-01), y las consultas a la base de datos en menos de 2 segundos (RNF-13). |
+| Frecuencia | Este caso de uso se espera que se lleve a cabo una media de 200 veces al día. |
+| Importancia | Vital |
+| Urgencia | Inmediatamente |
+
 
 ---
+
 
 ## CU-05 — [Procesar pago con Mercado Pago]
 
