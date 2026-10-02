@@ -351,3 +351,41 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 
 
 ---
+
+## CU-10 — Realizar pago
+
+| Campo | Detalle |
+|-------|---------|
+| Identificador | CU-10 |
+| Nombre | Realizar pago |
+| Descripción | El cliente paga a través de Mercado Pago. |
+| Actores | Principal: Cliente. Secundario: Mercado Pago (pasarela de pago). |
+| Precondiciones | El cliente completó los datos para la verificación. Existe un importe a pagar. Mercado Pago está disponible. |
+| Postcondiciones | Éxito: El pago queda registrado con estado, fecha, importe y medio de pago; el pedido pasa a "Pagado". Fallo: El pago es rechazado, el pedido no cambia de estado y se informa al cliente. |
+
+### Secuencia normal
+
+| # | Acción (actor) | Reacción (sistema) |
+|---|----------------|--------------------|
+| 1 | Selecciona "Pagar con Mercado Pago". | Redirige a la pasarela de Mercado Pago. |
+| 2 | Elige la modalidad de pago y confirma. | Mercado Pago procesa la operación y el sistema registra estado, fecha, importe y medio de pago (RF-29). |
+| 3 | | El sistema actualiza el pedido a "Pagado" y notifica al cliente por email (RF-30). |
+
+### Excepciones
+
+| # | Situación | Respuesta del sistema |
+|---|-----------|-----------------------|
+| E1 | Mercado Pago no está disponible. | Muestra un mensaje indicando que el servicio de pago no está disponible por el momento. |
+| E2 | Mercado Pago rechaza el pago. | Informa al cliente que el pago fue rechazado y el pedido no pasa a "Pagado". |
+| E3 | Mercado Pago informa que el pago quedó pendiente de verificación | Deja el pedido en estado "Pendiente de pago" y avisa al cliente que se está confirmando el pago. |
+
+
+| Campo | Detalle |
+|-------|---------|
+| Rendimiento |  El sistema completa el flujo de pago en un máximo de 5 segundos, sin contar el tiempo de respuesta de Mercado Pago. |
+| Frecuencia | Se estima una media de 70 ejecuciones diarias. |
+| Importancia | Vital |
+| Urgencia | Inmediatamente. |
+---
+
+
