@@ -31,8 +31,8 @@ esperable —y deseable— que alguna no pase._
 
 ### Historia 1 — HU-01: Crear usuario interno
 
-> Como Administrador, quiero crear usuarios internos y asignarles un rol, para permitir que
-> los empleados accedan al sistema según sus responsabilidades. (RF-01, RF-03, RF-04)
+> Como Dueño, quiero crear usuarios internos y asignarles un rol, para permitir que
+> los empleados accedan al sistema según sus responsabilidades. (RF-01, RF-04, RF-05)
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
@@ -49,7 +49,7 @@ esperable —y deseable— que alguna no pase._
 ### Historia 2 — Aplicar cupón de descuento en el carrito
 
 > Como Cliente, quiero aplicar un cupón de descuento en mi carrito, para pagar menos por mi
-> compra. (RF-116, RF-117, RF-118)
+> compra. (RF-27, RF-32, RF-33)
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
@@ -66,7 +66,7 @@ esperable —y deseable— que alguna no pase._
 ### Historia 3 — Consultar estado de pedido desde "Mi Cuenta"
 
 > Como Cliente, quiero consultar el estado actual de mis pedidos desde "Mi Cuenta", para saber
-> en qué etapa se encuentra mi compra sin tener que contactar a la tienda. (RF-72, RF-75, RF-78)
+> en qué etapa se encuentra mi compra sin tener que contactar a la tienda. (RF-07, RF-30, RF-31, RF-36, RF-37)
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
