@@ -5,7 +5,8 @@
 _Incluir el código PlantUML en `diagramas/casos-de-uso.puml`._
 _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 
-_Describir brevemente los actores identificados y las relaciones principales (include, extend)._
+## Actores
+
 
 ---
 
@@ -386,6 +387,41 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 | Frecuencia | Se estima una media de 70 ejecuciones diarias. |
 | Importancia | Vital |
 | Urgencia | Inmediatamente. |
+
 ---
 
 
+## CU-11 — Registrar venta presencial
+
+| Campo | Detalle |
+|-------|---------|
+| Identificador | CU-16 |
+| Nombre | Registrar venta presencial |
+| Descripción | El Empleado registra una venta realizada en el local, indicando productos, cantidades y medio de pago. |
+| Actores | Principal: Empleado |
+| Precondiciones | El empleado tiene una sesión iniciada. Hay disponibilidad de stock de las prendas. |
+| Postcondiciones | Éxito: La venta queda registrada con sus productos, cantidades y medio de pago. El stock de cada combinación producto-talle-color vendida se descuenta sobre el mismo stock que usan las ventas online (RF-19). Fallo: La venta no se guarda y no se realiza ningún descuento sobre el stock. |
+
+### Secuencia normal
+
+| # | Acción (actor) | Reacción (sistema) |
+|---|----------------|--------------------|
+| 1 | El empleado solicita registrar una venta. | Muestra el formulario de registro de venta con buscador de productos y detalle de venta vacío. Muestra la interfaz del terminal de punto de venta presencial. |
+| 2 | Busca las prendas, selecciona el talle, color y cantidad vendida, y presiona "Agregar". | Valida la disponibilidad de stock en el sistema y calcula el subtotal. |
+| 3 | Selecciona el medio de pago (efectivo, débito, crédito o transferencia) y confirma la transacción. | Registra la venta con fecha, hora y empleado que la realizó, descuenta el stock de cada combinación vendida y muestra un resumen de la venta. |
+
+### Excepciones
+
+| # | Situación | Respuesta del sistema |
+|---|-----------|-----------------------|
+| E1 | El empleado intenta agregar una cantidad de unidades superior al stock disponible. | El sistema no agregará el ítem y mostrará un mensaje indicando las unidades exactas en existencia. |
+| E2 | El empleado intenta confirmar la venta sin seleccionar el medio de pago. | El sistema detendrá la operación, resaltará el campo de selección de medio de pago y requerirá su definición (RNF-10). |
+| E3 | Ocurre un fallo en la base de datos durante la confirmación del cobro. | El sistema anulará la transacción, conservará los ítems en la pantalla del punto de venta y registrará el error (RNF-16). |
+
+
+| Campo | Detalle |
+|-------|---------|
+| Rendimiento | El sistema registrará la venta presencial en un máximo de 3 segundos (RNF-01). |
+| Frecuencia | Este caso de uso se espera que se lleve a cabo una media de 80 veces al día. |
+| Importancia | Vital |
+| Urgencia | Inmediatamente |
