@@ -1,17 +1,25 @@
 @startuml
-title Modelo Entidad-Relación - [E-Commerce]
 
-' --- Entidades ---
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam nodesep 35
+skinparam ranksep 45
+hide circle
+
 entity "USUARIO" as USUARIO {
   * dni : VARCHAR(20) <<PK>>
   --
   nombre : VARCHAR(100)
+  apellido : VARCHAR(100)
   email : VARCHAR(150)
   contrasena_hash : VARCHAR(255)
   rol : VARCHAR(30)
   estado_activo : BOOLEAN
   intentos_fallidos : INTEGER
   bloqueado_hasta : DATETIME
+  fecha_alta : DATETIME
 }
 
 entity "CLIENTE" as CLIENTE {
@@ -25,41 +33,24 @@ entity "EMPLEADO" as EMPLEADO {
   * dni : VARCHAR(20) <<PK, FK>>
   --
   departamento : VARCHAR(50)
+  fecha_ingreso : DATE
 }
 
-entity "CARRITO" as CARRITO {
-  * id_carrito : INT <<PK>>
-  * dni_cliente : VARCHAR(20) <<FK>>
-  --
-  fecha_actualizacion : DATETIME
-}
-
-entity "PEDIDO" as PEDIDO {
-  * id_pedido : INT <<PK>>
-  * dni_cliente : VARCHAR(20) <<FK>>
-  --
-  fecha_pedido : DATETIME
-  estado_pedido : VARCHAR(50)
-  tipo_entrega : VARCHAR(50)
-  costo_envio : DECIMAL(10,2)
-  monto_total : DECIMAL(10,2)
-  id_transaccion_mp : VARCHAR(100)
-  estado_pago : VARCHAR(50)
-  numero_seguimiento : VARCHAR(100)
-  fecha_vencimiento_retiro : DATETIME
-}
+USUARIO ||--|| CLIENTE : "es"
+USUARIO ||--|| EMPLEADO : "es"
 
 entity "CATEGORIA" as CATEGORIA {
   * id_categoria : INT <<PK>>
   --
   nombre : VARCHAR(100)
   descripcion : TEXT
+  estado_activo : BOOLEAN
 }
 
 entity "PRODUCTO" as PRODUCTO {
   * id_producto : INT <<PK>>
-  * id_categoria : INT <<FK>>
   --
+  id_categoria : INT <<FK>>
   nombre : VARCHAR(150)
   descripcion : TEXT
   precio_base : DECIMAL(10,2)
@@ -67,13 +58,15 @@ entity "PRODUCTO" as PRODUCTO {
   estado_activo : BOOLEAN
 }
 
-entity "VARIANTE_PRODUCTO" as VARIANTE_PRODUCTO {
+entity "VARIANTE_PRODUCTO" as VARIANTE {
   * sku : VARCHAR(50) <<PK>>
-  * id_producto : INT <<FK>>
   --
+  id_producto : INT <<FK>>
   talle : VARCHAR(20)
   color : VARCHAR(50)
   stock : INT
+  stock_minimo : INT
+  estado_activo : BOOLEAN
 }
 
 entity "PROVEEDOR" as PROVEEDOR {
@@ -81,64 +74,213 @@ entity "PROVEEDOR" as PROVEEDOR {
   --
   razon_social : VARCHAR(150)
   cuit : VARCHAR(20)
+  telefono : VARCHAR(30)
+  email : VARCHAR(150)
+  direccion : VARCHAR(255)
   estado_activo : BOOLEAN
 }
 
-entity "PRODUCTO_PROVEEDOR" as PRODUCTO_PROVEEDOR {
+entity "PRODUCTO_PROVEEDOR" as PROD_PROV {
   * id_producto : INT <<PK, FK>>
   * id_proveedor : INT <<PK, FK>>
   --
-  ' Clave primaria compuesta por ambos IDs
+  ' PK compuesta
 }
 
-entity "INGRESO_STOCK" as INGRESO_STOCK {
+CATEGORIA ||--o{ PRODUCTO : "clasifica"
+PRODUCTO ||--|{ VARIANTE : "tiene"
+PRODUCTO ||--o{ PROD_PROV : "se abastece"
+PROVEEDOR ||--o{ PROD_PROV : "provee"
+
+entity "INGRESO_STOCK" as INGRESO {
   * id_ingreso : INT <<PK>>
-  * dni_empleado : VARCHAR(20) <<FK>>
-  * id_proveedor : INT <<FK>>
   --
+  dni_empleado : VARCHAR(20) <<FK>>
+  id_proveedor : INT <<FK>>
   fecha_ingreso : DATETIME
+  observaciones : TEXT
 }
 
-entity "DETALLE_CARRITO" as DETALLE_CARRITO {
-  * id_detalle_carrito : INT <<PK>>
-  * id_carrito : INT <<FK>>
-  * sku : VARCHAR(50) <<FK>>
+entity "DETALLE_INGRESO_STOCK" as DET_INGRESO {
+  * id_detalle_ingreso : INT <<PK>>
   --
+  id_ingreso : INT <<FK>>
+  sku : VARCHAR(50) <<FK>>
+  cantidad : INT
+  costo_unitario : DECIMAL(10,2)
+}
+
+EMPLEADO ||--o{ INGRESO : "registra"
+PROVEEDOR ||--o{ INGRESO : "realiza"
+INGRESO ||--|{ DET_INGRESO : "contiene"
+VARIANTE ||--o{ DET_INGRESO : "ingresa"
+
+entity "CARRITO" as CARRITO {
+  * id_carrito : INT <<PK>>
+  --
+  dni_cliente : VARCHAR(20) <<FK>>
+  fecha_actualizacion : DATETIME
+}
+
+entity "DETALLE_CARRITO" as DET_CARRITO {
+  * id_detalle_carrito : INT <<PK>>
+  --
+  id_carrito : INT <<FK>>
+  sku : VARCHAR(50) <<FK>>
   cantidad : INT
 }
 
-entity "DETALLE_PEDIDO" as DETALLE_PEDIDO {
-  * id_detalle_pedido : INT <<PK>>
-  * id_pedido : INT <<FK>>
-  * sku : VARCHAR(50) <<FK>>
+CLIENTE ||--|| CARRITO : "posee"
+CARRITO ||--o{ DET_CARRITO : "contiene"
+VARIANTE ||--o{ DET_CARRITO : "selecciona"
+
+entity "PEDIDO" as PEDIDO {
+  * id_pedido : INT <<PK>>
   --
+  dni_cliente : VARCHAR(20) <<FK, nullable>>
+  dni_empleado : VARCHAR(20) <<FK>>
+  fecha_pedido : DATETIME
+  estado_pedido : VARCHAR(50)
+  tipo_entrega : VARCHAR(50)
+  costo_envio : DECIMAL(10,2)
+  monto_total : DECIMAL(10,2)
+  medio_pago : VARCHAR(50)
+  id_transaccion_mp : VARCHAR(100)
+  estado_pago : VARCHAR(50)
+  numero_seguimiento : VARCHAR(100)
+  fecha_vencimiento_retiro : DATETIME
+  es_presencial : BOOLEAN
+}
+
+entity "DETALLE_PEDIDO" as DET_PEDIDO {
+  * id_detalle_pedido : INT <<PK>>
+  --
+  id_pedido : INT <<FK>>
+  sku : VARCHAR(50) <<FK>>
   cantidad : INT
   precio_unitario : DECIMAL(10,2)
 }
 
-' --- Relaciones ---
-' Sintaxis: EntidadA [cardinalidad] -- [cardinalidad] EntidadB : "etiqueta"
-USUARIO ||--|| CLIENTE : "dni"
-USUARIO ||--|| EMPLEADO : "dni"
-CLIENTE ||--|| CARRITO : "propietario"
 CLIENTE ||--o{ PEDIDO : "realiza"
-EMPLEADO ||--o{ INGRESO_STOCK : "registra"
-CATEGORIA ||--o{ PRODUCTO : "contiene"
-PRODUCTO ||--o{ VARIANTE_PRODUCTO : "tiene variante"
-PRODUCTO ||--o{ PRODUCTO_PROVEEDOR : ""
-PROVEEDOR ||--o{ PRODUCTO_PROVEEDOR : ""
-PROVEEDOR ||--o{ INGRESO_STOCK : "abastece"
-CARRITO ||--o{ DETALLE_CARRITO : "contiene"
-VARIANTE_PRODUCTO ||--o{ DETALLE_CARRITO : "se agrega en"
-PEDIDO ||--o{ DETALLE_PEDIDO : "contiene"
-VARIANTE_PRODUCTO ||--o{ DETALLE_PEDIDO : "se vende en"
-PRODUCTO }o--|| CATEGORIA : ""
-PRODUCTO_PROVEEDOR }o--|| PRODUCTO : ""
-PRODUCTO_PROVEEDOR }o--|| PROVEEDOR : ""
-DETALLE_CARRITO }o--|| CARRITO : ""
-DETALLE_CARRITO }o--|| VARIANTE_PRODUCTO : ""
-DETALLE_PEDIDO }o--|| PEDIDO : ""
-DETALLE_PEDIDO }o--|| VARIANTE_PRODUCTO : ""
-INGRESO_STOCK }o--|| EMPLEADO : ""
-INGRESO_STOCK }o--|| PROVEEDOR : ""
+EMPLEADO ||--o{ PEDIDO : "gestiona"
+PEDIDO ||--|{ DET_PEDIDO : "contiene"
+VARIANTE ||--o{ DET_PEDIDO : "vendida"
+
+entity "PROMOCION" as PROMOCION {
+  * id_promocion : INT <<PK>>
+  --
+  nombre : VARCHAR(150)
+  tipo_descuento : VARCHAR(20)
+  valor_descuento : DECIMAL(10,2)
+  aplicacion : VARCHAR(30)
+  id_producto : INT <<FK, nullable>>
+  id_categoria : INT <<FK, nullable>>
+  fecha_inicio : DATETIME
+  fecha_fin : DATETIME
+  estado_activo : BOOLEAN
+}
+
+entity "CUPON" as CUPON {
+  * id_cupon : INT <<PK>>
+  --
+  codigo : VARCHAR(50) <<UK>>
+  tipo_descuento : VARCHAR(20)
+  valor_descuento : DECIMAL(10,2)
+  uso_unico : BOOLEAN
+  limite_usos : INT
+  usos_actuales : INT
+  fecha_inicio : DATETIME
+  fecha_fin : DATETIME
+  estado_activo : BOOLEAN
+}
+
+entity "CUPON_USADO" as CUPON_USADO {
+  * id_cupon_usado : INT <<PK>>
+  --
+  id_cupon : INT <<FK>>
+  id_pedido : INT <<FK>>
+  dni_cliente : VARCHAR(20) <<FK>>
+  fecha_uso : DATETIME
+}
+
+PRODUCTO ||--o{ PROMOCION : "aplica a"
+CATEGORIA ||--o{ PROMOCION : "aplica a"
+CUPON ||--o{ CUPON_USADO : "se utiliza"
+PEDIDO ||--o{ CUPON_USADO : "aplica"
+CLIENTE ||--o{ CUPON_USADO : "utiliza"
+
+entity "RESENA" as RESENA {
+  * id_resena : INT <<PK>>
+  --
+  id_producto : INT <<FK>>
+  dni_cliente : VARCHAR(20) <<FK>>
+  id_pedido : INT <<FK>>
+  calificacion : INT
+  comentario : TEXT
+  fecha_resena : DATETIME
+  estado_activo : BOOLEAN
+}
+
+PRODUCTO ||--o{ RESENA : "recibe"
+CLIENTE ||--o{ RESENA : "realiza"
+PEDIDO ||--o{ RESENA : "acredita"
+
+entity "DEVOLUCION" as DEVOLUCION {
+  * id_devolucion : INT <<PK>>
+  --
+  id_pedido : INT <<FK>>
+  dni_cliente : VARCHAR(20) <<FK>>
+  fecha_solicitud : DATETIME
+  motivo : VARCHAR(50)
+  estado : VARCHAR(50)
+  observaciones : TEXT
+  fecha_resolucion : DATETIME
+  dni_empleado : VARCHAR(20) <<FK>>
+}
+
+entity "DETALLE_DEVOLUCION" as DET_DEVOLUCION {
+  * id_detalle_devolucion : INT <<PK>>
+  --
+  id_devolucion : INT <<FK>>
+  sku : VARCHAR(50) <<FK>>
+  cantidad : INT
+}
+
+entity "NOTA_CREDITO" as NOTA_CREDITO {
+  * id_nota_credito : INT <<PK>>
+  --
+  id_devolucion : INT <<FK>>
+  dni_cliente : VARCHAR(20) <<FK>>
+  monto : DECIMAL(10,2)
+  fecha_emision : DATETIME
+  dni_empleado : VARCHAR(20) <<FK>>
+  estado : VARCHAR(30)
+}
+
+PEDIDO ||--o{ DEVOLUCION : "puede generar"
+CLIENTE ||--o{ DEVOLUCION : "solicita"
+EMPLEADO ||--o{ DEVOLUCION : "resuelve"
+DEVOLUCION ||--|{ DET_DEVOLUCION : "contiene"
+VARIANTE ||--o{ DET_DEVOLUCION : "devuelta"
+DEVOLUCION ||--o| NOTA_CREDITO : "genera"
+CLIENTE ||--o{ NOTA_CREDITO : "recibe"
+EMPLEADO ||--o{ NOTA_CREDITO : "emite"
+
+USUARIO -[hidden]down- CLIENTE
+CLIENTE -[hidden]down- CARRITO
+CARRITO -[hidden]down- PEDIDO
+
+CATEGORIA -[hidden]right- PRODUCTO
+PRODUCTO -[hidden]right- PROVEEDOR
+PROVEEDOR -[hidden]right- INGRESO
+
+VARIANTE -[hidden]down- DET_CARRITO
+DET_CARRITO -[hidden]down- DET_PEDIDO
+DET_PEDIDO -[hidden]down- DET_DEVOLUCION
+
+PROMOCION -[hidden]right- CUPON
+CUPON -[hidden]right- RESENA
+RESENA -[hidden]right- DEVOLUCION
+
 @enduml
+
