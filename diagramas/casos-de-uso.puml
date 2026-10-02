@@ -1,26 +1,63 @@
 @startuml
-title Diagrama de Casos de Uso - [Nombre del Sistema]
+title Diagrama de Casos de Uso - Mundo Sport - Ecommerce
 
 left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
 
 ' --- Actores ---
-actor "[Actor principal]" as A1
-actor "[Actor secundario]" as A2
+actor "Visitante" as Visitante
+actor "Cliente" as Cliente
+actor "Dueño" as Dueno
+actor "Proveedor\nLogístico" as Proveedor #LightGray
+actor "Mercado Pago\n(Pasarela de pago)" as MP #LightGray
+
+' Herencia: Cliente es un Visitante autenticado
+Cliente --|> Visitante
 
 ' --- Sistema ---
-rectangle "[Nombre del Sistema]" {
-  usecase "[Caso de uso 1]" as UC1
-  usecase "[Caso de uso 2]" as UC2
-  usecase "[Caso de uso 3]" as UC3
+rectangle "Sistema de Tienda Online" {
+  usecase "CU-01\nRegistrar cliente" as UC01
+  usecase "CU-02\nIniciar sesión (cliente)" as UC02
+  usecase "CU-03\nRegistrar usuario del personal" as UC03
+  usecase "CU-04\nConsultar catálogo" as UC04
+  usecase "CU-05\nAgregar producto al catálogo" as UC05
+  usecase "CU-06\nAgregar productos al carrito" as UC06
+  usecase "CU-07\nModificar cantidad o\neliminar producto del carrito" as UC07
+  usecase "CU-08\nVaciar carrito de compras" as UC08
+  usecase "CU-09\nRealizar verificación con\ndatos de entrega y de envío" as UC09
+  usecase "CU-10\nRealizar pago" as UC10
 }
 
-' --- Relaciones actor-caso de uso ---
-A1 --> UC1
-A1 --> UC2
-A2 --> UC3
+' --- Relaciones actor - caso de uso ---
+Visitante --> UC01
+Visitante --> UC02
+Visitante --> UC04
+Visitante --> UC06
+Visitante --> UC07
+Visitante --> UC08
+
+Cliente --> UC02
+Cliente --> UC04
+Cliente --> UC06
+Cliente --> UC07
+Cliente --> UC08
+Cliente --> UC09
+Cliente --> UC10
+
+Dueno --> UC03
+Dueno --> UC05
+
+Proveedor --> UC09
+MP --> UC10
 
 ' --- Relaciones entre casos de uso ---
-' UC2 .> UC1 : <<include>>
-' UC3 .> UC1 : <<extend>>
+UC06 .> UC04 : <<include>>
+UC09 .> UC06 : <<include>>
+UC10 .> UC09 : <<include>>
+
+UC09 .> UC02 : <<extend>>
+UC09 .> UC01 : <<extend>>
+UC06 .> UC02 : <<extend>>
 
 @enduml
