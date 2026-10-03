@@ -1,4 +1,4 @@
-# Slice 01 — Registro de cliente
+# Slice 01 — Registrarme con mis datos
 
 ### Historia
 
