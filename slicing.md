@@ -1,181 +1,3 @@
-# Slicing — HU-01: Registro, Autenticación y Gestión de Perfil de Cliente
-
-## HU-01 — Registro, Autenticación y Gestión de Perfil de Cliente
-
-**Historia original:**
-Como cliente, quiero registrarme ingresando mis datos obligatorios, iniciar sesión y acceder a mi perfil, para administrar mi información personal, consultar el historial y estado de mis pedidos y realizar compras en la plataforma.
-
-**Módulo:** 02 - Clientes y Cuentas
-
----
-############## ###########
-# Slicing — HU-01 Registro y Autenticación de Cliente
-
-### Historia 1 — Formulario de registro
-
-| Campo    | Detalle                                                                    |
-| -------- | -------------------------------------------------------------------------- |
-| Historia | Como cliente, quiero completar mis datos personales para crear una cuenta. |
-
-**Criterios de aceptación**
-
-1. Se muestran todos los campos obligatorios.
-2. El sistema valida que estén completos.
-3. Se informa si falta algún dato.
-
-### Historia 2 — Validación de datos
-
-| Campo    | Detalle                                                                               |
-| -------- | ------------------------------------------------------------------------------------- |
-| Historia | Como cliente, quiero que mis datos sean validados para evitar errores en el registro. |
-
-**Criterios de aceptación**
-
-1. Se valida el formato del email y DNI.
-2. No se permiten datos duplicados.
-3. Se informa el error correspondiente.
-
-### Historia 3 — Creación de cuenta
-
-| Campo    | Detalle                                                            |
-| -------- | ------------------------------------------------------------------ |
-| Historia | Como cliente, quiero crear mi cuenta para acceder a la plataforma. |
-
-**Criterios de aceptación**
-
-1. El sistema registra los datos válidos.
-2. La contraseña se almacena de forma segura.
-3. Se confirma la creación de la cuenta.
-
-### Historia 4 — Inicio de sesión
-
-| Campo    | Detalle                                                                  |
-| -------- | ------------------------------------------------------------------------ |
-| Historia | Como cliente registrado, quiero iniciar sesión para acceder a mi cuenta. |
-
-**Criterios de aceptación**
-
-1. El sistema solicita email y contraseña.
-2. Valida las credenciales.
-3. Permite el acceso si son correctas.
-
-### Historia 5 — Autenticación para compra
-
-| Campo    | Detalle                                                           |
-| -------- | ----------------------------------------------------------------- |
-| Historia | Como cliente, quiero estar autenticado para finalizar una compra. |
-
-**Criterios de aceptación**
-
-1. El sistema verifica que el cliente haya iniciado sesión.
-2. No permite finalizar la compra sin autenticación.
-3. Permite continuar si el cliente está autenticado.
-
----
-
-## Caminos fallidos
-
-| Pregunta                                         | Qué hace el sistema                        | Quién decide |
-| ------------------------------------------------ | ------------------------------------------ | ------------ |
-| ¿Qué pasa si falta un dato obligatorio?          | Informa el campo que debe completarse.     | Negocio      |
-| ¿Qué pasa si el email o DNI ya existe?           | Rechaza el registro e informa el motivo.   | Negocio      |
-| ¿Qué pasa si las credenciales son incorrectas?   | Deniega el acceso e informa el error.      | Negocio      |
-| ¿Qué pasa si intenta comprar sin iniciar sesión? | Solicita autenticación antes de continuar. | Negocio      |
-
-# Slicing — HU-02 Consulta de Historial de Compras y Estado de Pedidos
-
-### Historia 1 — Acceso al historial
-
-| Campo    | Detalle                                                                                              |
-| -------- | ---------------------------------------------------------------------------------------------------- |
-| Historia | Como cliente, quiero acceder a mi historial de compras desde "Mi Cuenta" para consultar mis pedidos. |
-
-**Criterios de aceptación**
-
-1. El cliente autenticado puede acceder a "Mi Cuenta".
-2. Se muestra el historial de pedidos.
-3. Los pedidos pertenecen únicamente al cliente.
-
-### Historia 2 — Listado de pedidos
-
-| Campo    | Detalle                                                                                                       |
-| -------- | ------------------------------------------------------------------------------------------------------------- |
-| Historia | Como cliente, quiero visualizar mis pedidos ordenados cronológicamente para consultar mis compras anteriores. |
-
-**Criterios de aceptación**
-
-1. Los pedidos se muestran ordenados por fecha.
-2. Se muestran todos los pedidos realizados.
-3. Se identifica cada pedido individualmente.
-
-### Historia 3 — Estado del pedido
-
-| Campo    | Detalle                                                                             |
-| -------- | ----------------------------------------------------------------------------------- |
-| Historia | Como cliente, quiero conocer el estado de mis pedidos para realizar su seguimiento. |
-
-**Criterios de aceptación**
-
-1. Cada pedido muestra su estado actualizado.
-2. El estado corresponde al pedido seleccionado.
-3. La información se muestra de forma clara.
-
-### Historia 4 — Datos principales del pedido
-
-| Campo    | Detalle                                                                                        |
-| -------- | ---------------------------------------------------------------------------------------------- |
-| Historia | Como cliente, quiero consultar los datos principales de un pedido para conocer su información. |
-
-**Criterios de aceptación**
-
-1. Se muestra el código identificador.
-2. Se muestra la fecha y el importe total.
-3. Se muestra el método de entrega.
-
-### Historia 5 — Detalle de compra
-
-| Campo    | Detalle                                                                                      |
-| -------- | -------------------------------------------------------------------------------------------- |
-| Historia | Como cliente, quiero consultar el detalle de un pedido para conocer los productos comprados. |
-
-**Criterios de aceptación**
-
-1. Se muestran los artículos comprados.
-2. Se muestran las cantidades.
-3. El detalle corresponde al pedido seleccionado.
-
----
-
-## Caminos fallidos
-
-| Pregunta                                        | Qué hace el sistema                                     | Quién decide |
-| ----------------------------------------------- | ------------------------------------------------------- | ------------ |
-| ¿Qué pasa si el cliente no tiene pedidos?       | Informa que no existen compras registradas.             | Negocio      |
-| ¿Qué pasa si intenta consultar un pedido ajeno? | Impide el acceso a la información.                      | Técnica      |
-| ¿Qué pasa si no se puede obtener el estado?     | Informa que el estado no está disponible temporalmente. | Técnica      |
-| ¿Qué pasa si el pedido no existe?               | Informa que el pedido no fue encontrado.                | Negocio      |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#####################################################
 # Slice 01 — Registro de cliente
 
 ### Historia
@@ -338,34 +160,34 @@ RF-14
 
 ---
 
-## Slice 02 — Filtrado de productos
+## Slice 02 — Pago mediante Mercado Pago
 
 ### Historia
 
-Como cliente, quiero filtrar los productos por categoría, talle y color para encontrar prendas que se adapten a mis preferencias.
+Como cliente, quiero pagar mi compra mediante Mercado Pago, para completar la transacción de forma segura.
 
 ### Requisitos relacionados
 
-RF-19
+RF-29
 
 ### Criterios de aceptación
 
-1. El sistema debe permitir aplicar filtros por categoría, talle, color, precio y disponibilidad.
-2. Los filtros deben poder combinarse.
-3. El catálogo debe mostrar únicamente los productos que cumplan con los filtros seleccionados.
+1. El sistema debe permitir iniciar el pago mediante Mercado Pago y registrar el resultado de la operación.
+
+2. Si Mercado Pago aprueba el pago pero el pedido no puede crearse, el sistema debe conservar la operación aprobada y evitar un nuevo cobro al cliente.
+
+3. Si el cliente presiona dos veces "Pagar" o se interrumpe la conexión durante el pago, el sistema debe evitar operaciones duplicadas y consultar el estado de la operación antes de permitir un nuevo intento.
 
 ### Validación INVEST
 
-| Criterio      | ¿Se cumple? | Observación                                            |
-| ------------- | ----------- | ------------------------------------------------------ |
-| Independiente | Sí          | No depende del carrito ni del proceso de compra.       |
-| Negociable    | Sí          | Los filtros pueden modificarse según las necesidades.  |
-| Valiosa       | Sí          | Facilita encontrar productos específicos.              |
-| Estimable     | Sí          | El alcance está limitado al filtrado.                  |
-| Pequeña       | Sí          | Agrupa filtros relacionados.                           |
-| Verificable   | Sí          | Se prueba aplicando filtros individuales y combinados. |
-
----
+| Criterio      | ¿Se cumple? | Observación                                                                             |
+| ------------- | ----------- | --------------------------------------------------------------------------------------- |
+| Independiente | Sí          | Se integra directamente con la pasarela de pago.                                        |
+| Negociable    | Sí          | Las reglas de integración pueden ajustarse.                                             |
+| Valiosa       | Sí          | Permite concretar la compra de forma segura.                                            |
+| Estimable     | Sí          | Se basa en la integración con la pasarela de pago.                                      |
+| Pequeña       | Sí          | Se concentra en el procesamiento del pago.                                              |
+| Verificable   | Sí          | Puede probarse con pagos aprobados, fallos de creación, doble clic y corte de conexión. |
 
 
 # Slicing — HU-03: Carrito y Reserva Temporal de Stock
@@ -399,7 +221,7 @@ RF-27
 
 ---
 
-## Slice 03 — Modificar y eliminar productos
+## Slice 02 — Modificar y eliminar productos
 
 ### Historia
 
@@ -428,7 +250,7 @@ RF-27
 
 ---
 
-## Slice 04 — Cálculo del total
+## Slice 03 — Cálculo del total
 
 ### Historia
 
