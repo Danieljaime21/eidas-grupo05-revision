@@ -1,717 +1,154 @@
-# Slice 01 — Registrarme con mis datos
+# Ejercicio: partir una épica en slices verticales
 
-### Historia
+## La épica
 
-Como cliente, quiero registrarme ingresando mis datos obligatorios, para crear una cuenta y poder utilizar las funcionalidades de la plataforma asociadas a usuarios registrados.
+> Como cliente de Mundo Sport, quiero comprar prendas desde la tienda online y pagarlas con
+> Mercado Pago, para recibirlas en mi casa o retirarlas en el local sin tener que ir a elegirlas
+> al negocio.
 
-### Requisitos relacionados
+_Así como está, es una épica gorda: no se puede estimar, no se puede terminar en una
+iteración, y esconde decisiones que nadie tomó todavía._
 
-RF-04, RF-06, RF-07
-
-### Criterios de aceptación
-
-1. El sistema debe solicitar todos los datos definidos como obligatorios para el registro.
-2. El sistema debe validar que el correo electrónico tenga un formato válido.
-3. El sistema debe validar que el DNI ingresado tenga un formato válido.
-4. El sistema debe impedir el registro cuando el correo electrónico ya se encuentre asociado a otra cuenta.
-5. Si todos los datos son válidos, el sistema debe crear la cuenta del cliente correctamente.
-6. Si existen datos inválidos o faltantes, el sistema debe informar el error y no crear la cuenta.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                                                              |
-| ------------- | ----------- | ---------------------------------------------------------------------------------------- |
-| Independiente | Sí          | Puede desarrollarse y probarse sin depender del inicio de sesión, pagos o envíos.        |
-| Negociable    | Sí          | Los datos obligatorios y sus reglas de validación pueden ajustarse según los requisitos. |
-| Valiosa       | Sí          | Permite al cliente crear una cuenta para acceder a funcionalidades personalizadas.       |
-| Estimable     | Sí          | El alcance está limitado al proceso de alta y validación de datos.                       |
-| Pequeña       | Sí          | Se concentra únicamente en el registro de una cuenta.                                    |
-| Verificable   | Sí          | Puede comprobarse mediante registros válidos, inválidos y correos duplicados.            |
+Esta épica reúne HU-03 (carrito), HU-04 (checkout) y HU-05 (pago), y se apoya en RF-12, RF-27 a RF-31 y RF-33.
 
 ---
 
+## Parte A — Historias verticales
 
-# Slice 02 — Recuperación de contraseña
+_Entre 5 y 8 historias VERTICALES. Vertical significa que cada historia, sola, entrega algo
+usable de punta a punta ("diseñar la pantalla de envío" no es vertical; "enviar dinero a un
+contacto de la agenda con saldo suficiente" sí)._
 
-### Historia
+### Historia 1 — Comprar con retiro en el local y pago aprobado
 
-Como cliente registrado, quiero recuperar mi contraseña mediante un enlace enviado a mi correo electrónico, para volver a acceder a mi cuenta cuando haya olvidado mis credenciales.
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente registrado, quiero comprar una prenda eligiendo talle y color, retirarla en el local y pagarla con Mercado Pago, para completar mi compra sin cargar datos de envío. |
+| Requisitos relacionados | RF-12, RF-27, RF-28, RF-29, RF-30 |
 
-### Requisitos relacionados
+**Criterios de aceptación**
 
-RF-09
-
-### Criterios de aceptación
-
-1. El sistema debe ofrecer una opción para iniciar el proceso de recuperación de contraseña.
-2. El cliente debe poder indicar el correo electrónico asociado a su cuenta.
-3. Si el correo corresponde a una cuenta registrada, el sistema debe enviar un enlace de recuperación al correo electrónico.
-4. El enlace enviado debe permitir al cliente establecer una nueva contraseña.
-5. La nueva contraseña debe cumplir con las reglas de seguridad definidas por el sistema.
-6. Una vez modificada la contraseña, el cliente debe poder utilizarla para iniciar sesión.
-7. El sistema no debe modificar la contraseña si el proceso de recuperación no se completa correctamente.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                                                                  |
-| ------------- | ----------- | -------------------------------------------------------------------------------------------- |
-| Independiente | Sí          | Puede desarrollarse como una funcionalidad independiente del resto de la gestión del perfil. |
-| Negociable    | Sí          | El mecanismo de recuperación y las reglas de contraseña pueden ajustarse.                    |
-| Valiosa       | Sí          | Permite recuperar el acceso a una cuenta sin necesidad de crear una nueva.                   |
-| Estimable     | Sí          | El alcance está limitado al flujo de recuperación y cambio de contraseña.                    |
-| Pequeña       | Sí          | Se limita a la recuperación de credenciales.                                                 |
-| Verificable   | Sí          | Puede comprobarse solicitando la recuperación y estableciendo una nueva contraseña.          |
+1. El sistema exige elegir talle y color para agregar la prenda al carrito y no permite agregar una variante sin stock.
+2. Si el cliente no tiene sesión iniciada, antes de pagar se le pide ingresar o registrarse y su carrito se conserva (RF-12).
+3. Al finalizar la compra, el cliente puede elegir "Retiro en el local": el envío cuesta $0 y se muestran la dirección y el horario del local.
+4. El cliente paga con tarjeta de crédito o débito en Mercado Pago; si el pago es aprobado, el sistema crea el pedido con un número único, en estado "Pagado", y descuenta el stock de la prenda.
+5. El cliente ve el pedido en "Mi Cuenta" y recibe un email de confirmación (RF-30).
 
 ---
 
-# Slice 03 — Consulta de perfil
+### Historia 2 — Recibir la compra en mi domicilio con el costo de envío calculado
 
-### Historia
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente registrado, quiero elegir el envío a domicilio y ver su costo antes de pagar, para decidir si me conviene recibir la compra en mi casa. |
+| Requisitos relacionados | RF-28, RF-29 |
 
-Como cliente autenticado, quiero consultar mis datos personales y de contacto desde la sección "Mi Cuenta", para conocer la información asociada a mi cuenta.
+**Criterios de aceptación**
 
-### Requisitos relacionados
-
-RF-07
-
-### Criterios de aceptación
-
-1. El cliente autenticado debe poder acceder a la sección "Mi Cuenta".
-2. El sistema debe mostrar los datos personales y de contacto asociados a la cuenta.
-3. La información mostrada debe corresponder al cliente autenticado.
-4. El sistema debe permitir visualizar el DNI registrado.
-5. El cliente no debe poder modificar sus datos mientras se encuentre únicamente en modo consulta.
-6. Un cliente no autenticado no debe poder acceder a la información de una cuenta.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                                                               |
-| ------------- | ----------- | ----------------------------------------------------------------------------------------- |
-| Independiente | Sí          | Puede desarrollarse y probarse con una cuenta autenticada, sin depender de otros módulos. |
-| Negociable    | Sí          | La información mostrada puede ajustarse según los datos definidos para el perfil.         |
-| Valiosa       | Sí          | Permite al cliente consultar la información asociada a su cuenta.                         |
-| Estimable     | Sí          | El alcance se limita a la visualización de los datos del perfil.                          |
-| Pequeña       | Sí          | Solo contempla la consulta de información, sin modificación.                              |
-| Verificable   | Sí          | Puede comprobarse accediendo con diferentes cuentas y verificando los datos mostrados.    |
+1. Al elegir "Envío a domicilio", el cliente confirma o edita su teléfono y su dirección (calle, número, piso/depto, ciudad, provincia y código postal); si falta un dato obligatorio, el sistema indica cuál (RNF-10).
+2. El sistema calcula el costo de envío con el proveedor logístico según la dirección y lo suma al total antes del pago.
+3. Si el código postal no tiene cobertura, el sistema lo informa y ofrece retirar en el local o corregir el dato.
+4. Si falla la consulta de tarifa, el sistema permite reintentar sin perder los datos cargados.
+5. El pedido pagado queda registrado con el costo de envío y la dirección de entrega elegida.
 
 ---
 
-# Slice 04 — Edición de perfil
+### Historia 3 — Reintentar o esperar cuando el pago no se aprueba
 
-### Historia
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero que si Mercado Pago rechaza mi pago o lo deja pendiente pueda reintentar o esperar la confirmación sin perder mi compra, para no tener que armar el carrito de nuevo ni pagar dos veces. |
+| Requisitos relacionados | RF-29, RF-30 |
 
-Como cliente autenticado, quiero modificar mis datos de contacto desde la sección "Mi Cuenta", para mantener actualizada mi información personal.
+**Criterios de aceptación**
 
-### Requisitos relacionados
-
-RF-08
-
-### Criterios de aceptación
-
-1. El cliente autenticado debe poder acceder a la opción de edición de su perfil.
-2. El sistema debe permitir modificar los datos de contacto definidos como editables.
-3. El DNI debe mostrarse bloqueado y no debe poder modificarse.
-4. El sistema debe validar los datos ingresados antes de guardar los cambios.
-5. Si los datos son válidos, el sistema debe actualizar correctamente la información del perfil.
-6. Si existe algún dato inválido, el sistema debe informar el error y no guardar los cambios correspondientes.
-7. Una vez guardados los cambios, el sistema debe mostrar la información actualizada.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                                                             |
-| ------------- | ----------- | --------------------------------------------------------------------------------------- |
-| Independiente | Sí          | Puede desarrollarse sobre un perfil existente sin depender de pagos o envíos.           |
-| Negociable    | Sí          | Los datos editables y sus reglas de validación pueden ajustarse.                        |
-| Valiosa       | Sí          | Permite al cliente mantener actualizada su información de contacto.                     |
-| Estimable     | Sí          | El alcance se limita a la modificación y validación de datos del perfil.                |
-| Pequeña       | Sí          | Se concentra exclusivamente en la edición del perfil.                                   |
-| Verificable   | Sí          | Puede comprobarse modificando datos válidos e inválidos y verificando el DNI bloqueado. |
+1. Si Mercado Pago rechaza el pago, el sistema informa el rechazo, no cambia el estado del pedido ni cobra nada, y permite reintentar o volver al carrito.
+2. Si el pago queda pendiente de verificación, el pedido queda en "Pendiente de pago" y el cliente recibe un aviso de que se está confirmando.
+3. Cuando Mercado Pago confirma un pago pendiente, el pedido pasa a "Pagado" y el cliente recibe el email correspondiente.
+4. Si el cliente reintenta el pago, el nuevo intento se asocia al mismo pedido y no se genera un segundo pedido.
 
 ---
 
-# Slicing — HU-02: Consulta y Filtrado de Productos
+### Historia 4 — Ajustar el carrito antes de pagar
 
-## Slice 01 — Consulta del catálogo
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como visitante o cliente, quiero cambiar cantidades, quitar productos o vaciar el carrito viendo el total actualizado, para armar la compra que realmente quiero. |
+| Requisitos relacionados | RF-20, RF-27 |
 
-### Historia
+**Criterios de aceptación**
 
-Como cliente, quiero consultar el catálogo de productos, para conocer las prendas disponibles antes de realizar una compra.
-
-### Requisitos relacionados
-
-RF-14
-
-### Criterios de aceptación
-
-1. El catálogo debe estar disponible públicamente.
-2. Cada prenda debe mostrar entre 2 y 4 fotos, descripción, tabla de medidas y sus variantes.
-3. La información mostrada debe corresponder al producto seleccionado.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                     |
-| ------------- | ----------- | ----------------------------------------------- |
-| Independiente | Sí          | Puede consultarse sin depender del carrito.     |
-| Negociable    | Sí          | El diseño visual puede modificarse.             |
-| Valiosa       | Sí          | Permite conocer los productos disponibles.      |
-| Estimable     | Sí          | Se limita a la visualización del catálogo.      |
-| Pequeña       | Sí          | Se concentra en la consulta de productos.       |
-| Verificable   | Sí          | Se comprueba visualizando diferentes productos. |
+1. El sistema permite aumentar o disminuir la cantidad de un producto y recalcula el subtotal y el total en el momento.
+2. Si la cantidad supera el stock, el sistema no la actualiza e informa cuántas unidades hay disponibles.
+3. El sistema permite quitar un producto individual y vaciar todo el carrito; para vaciarlo pide confirmación.
+4. Si el carrito queda sin productos, el sistema lo muestra vacío con un acceso al catálogo.
 
 ---
 
-## Slice 02 — Pago mediante Mercado Pago
+### Historia 5 — Seguir el estado de mi pedido
 
-### Historia
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero ver el estado de mis pedidos en "Mi Cuenta" y recibir un email en cada cambio, para saber cuándo recibirlo o retirarlo sin consultar al local. |
+| Requisitos relacionados | RF-07, RF-30, RF-34, RF-36 |
 
-Como cliente, quiero pagar mi compra mediante Mercado Pago, para completar la transacción de forma segura.
+**Criterios de aceptación**
 
-### Requisitos relacionados
-
-RF-29
-
-### Criterios de aceptación
-
-1. El sistema debe permitir iniciar el pago mediante Mercado Pago y registrar el resultado de la operación.
-
-2. Si Mercado Pago aprueba el pago pero el pedido no puede crearse, el sistema debe conservar la operación aprobada y evitar un nuevo cobro al cliente.
-
-3. Si el cliente presiona dos veces "Pagar" o se interrumpe la conexión durante el pago, el sistema debe evitar operaciones duplicadas y consultar el estado de la operación antes de permitir un nuevo intento.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                                                             |
-| ------------- | ----------- | --------------------------------------------------------------------------------------- |
-| Independiente | Sí          | Se integra directamente con la pasarela de pago.                                        |
-| Negociable    | Sí          | Las reglas de integración pueden ajustarse.                                             |
-| Valiosa       | Sí          | Permite concretar la compra de forma segura.                                            |
-| Estimable     | Sí          | Se basa en la integración con la pasarela de pago.                                      |
-| Pequeña       | Sí          | Se concentra en el procesamiento del pago.                                              |
-| Verificable   | Sí          | Puede probarse con pagos aprobados, fallos de creación, doble clic y corte de conexión. |
-
-
-# Slicing — HU-03: Carrito y Reserva Temporal de Stock
-
-## Slice 01 — Agregar productos al carrito
-
-### Historia
-
-Como cliente, quiero agregar prendas al carrito, para reunir los productos que deseo comprar.
-
-### Requisitos relacionados
-
-RF-27
-
-### Criterios de aceptación
-
-1. El cliente debe poder agregar una variante seleccionada al carrito.
-2. El carrito debe mostrar los productos agregados y sus cantidades.
-3. El sistema debe actualizar el contenido del carrito al agregar un producto.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                          |
-| ------------- | ----------- | ---------------------------------------------------- |
-| Independiente | Sí          | No requiere confirmar el pedido ni realizar el pago. |
-| Negociable    | Sí          | La presentación del carrito puede ajustarse.         |
-| Valiosa       | Sí          | Permite reunir los productos antes de comprar.       |
-| Estimable     | Sí          | Es una funcionalidad de alcance definido.            |
-| Pequeña       | Sí          | Se limita al agregado de productos.                  |
-| Verificable   | Sí          | Se comprueba agregando diferentes productos.         |
+1. "Mi Cuenta" muestra un listado cronológico con número de pedido, fecha, importe total y estado (Pendiente de pago, Pagado / En preparación, Enviado, Listo para retirar, Entregado o Cancelado).
+2. El sistema envía un email al cliente cada vez que el pedido cambia de estado.
+3. Si el pedido tiene envío, el cliente ve el número de seguimiento informado por el proveedor; si está listo para retirar, ve la fecha límite de retiro.
+4. Si el cliente todavía no tiene pedidos, el sistema lo informa y ofrece ir al catálogo.
 
 ---
 
-## Slice 02 — Modificar y eliminar productos
+### Historia 6 — Cancelar un pedido antes del despacho
 
-### Historia
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero cancelar mi pedido mientras no fue enviado ni entregado, para no recibir una compra que ya no quiero. |
+| Requisitos relacionados | RF-30, RF-31 |
 
-Como cliente, quiero modificar cantidades o eliminar productos del carrito, para ajustar mi compra antes de confirmarla.
+**Criterios de aceptación**
 
-### Requisitos relacionados
-
-RF-27
-
-### Criterios de aceptación
-
-1. El cliente debe poder aumentar o disminuir la cantidad de un producto.
-2. El cliente debe poder eliminar un producto del carrito.
-3. El sistema debe actualizar el contenido del carrito después de cada modificación.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                              |
-| ------------- | ----------- | -------------------------------------------------------- |
-| Independiente | Sí          | Se realiza sobre productos ya agregados al carrito.      |
-| Negociable    | Sí          | La interfaz de edición puede modificarse.                |
-| Valiosa       | Sí          | Permite ajustar la compra antes de confirmarla.          |
-| Estimable     | Sí          | El alcance está limitado a editar y eliminar productos.  |
-| Pequeña       | Sí          | Agrupa acciones relacionadas del carrito.                |
-| Verificable   | Sí          | Se prueba modificando cantidades y eliminando productos. |
+1. "Cancelar pedido" solo está disponible mientras el pedido no fue enviado ni entregado; después aparece deshabilitado con el motivo.
+2. Antes de cancelar, el sistema pide confirmación al cliente.
+3. Al cancelar, el pedido pasa a "Cancelado", se repone el stock de sus prendas y el cliente recibe el email correspondiente.
 
 ---
 
-## Slice 03 — Cálculo del total
+### Historia 7 — Pagar menos con un cupón de descuento
 
-### Historia
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero aplicar un cupón vigente en mi carrito, para pagar menos por mi compra. |
+| Requisitos relacionados | RF-27, RF-33 |
 
-Como cliente, quiero que el carrito recalcule automáticamente los importes, para conocer el monto de mi compra en todo momento.
+**Criterios de aceptación**
 
-### Requisitos relacionados
-
-RF-28, RF-29
-
-### Criterios de aceptación
-
-1. El sistema debe calcular el subtotal de los productos del carrito.
-2. El sistema debe actualizar automáticamente los importes al modificar cantidades.
-3. El total mostrado debe corresponder a los productos y cantidades actuales.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                            |
-| ------------- | ----------- | ------------------------------------------------------ |
-| Independiente | Sí          | Puede probarse con productos y cantidades del carrito. |
-| Negociable    | Sí          | La forma de presentar los importes puede modificarse.  |
-| Valiosa       | Sí          | Permite conocer el monto acumulado de la compra.       |
-| Estimable     | Sí          | Se limita al cálculo y actualización de importes.      |
-| Pequeña       | Sí          | Tiene un alcance concreto.                             |
-| Verificable   | Sí          | Se comprueban los cálculos con diferentes cantidades.  |
+1. El cliente ingresa el código del cupón en el carrito y el sistema valida que esté vigente y que tenga usos disponibles.
+2. Si el cupón es válido, el sistema muestra el descuento aplicado y el nuevo total.
+3. Si el cupón está vencido, agotado o ya hay otro aplicado, el sistema informa el motivo y no modifica el total (solo se admite un cupón por pedido).
+4. Al confirmarse el pago, el sistema registra el uso del cupón en el pedido.
 
 ---
 
+## Parte B — Los caminos que no salen bien
 
-# Slicing — HU-04: Checkout, Pago Integrado y Transición de Estados del Pedido
+_Elijan UNA de las historias de la Parte A. Las últimas tres preguntas son las importantes:
+para cada una, indiquen qué debería hacer el sistema y quién tendría que decidirlo._
 
-## Slice 01 — Modalidad de entrega
+**Historia elegida:** Historia 1 — Comprar con retiro en el local y pago aprobado
 
-### Historia
-
-Como cliente, quiero seleccionar la modalidad de entrega, para elegir cómo recibir mi pedido.
-
-### Requisitos relacionados
-
-RF-28
-
-### Criterios de aceptación
-
-1. El sistema debe permitir elegir entre envío a domicilio o retiro en local.
-2. El envío debe calcular su costo correspondiente.
-3. El retiro en local debe tener costo $0.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                |
-| ------------- | ----------- | ------------------------------------------ |
-| Independiente | Sí          | Puede seleccionarse antes del pago.        |
-| Negociable    | Sí          | Las modalidades y reglas pueden ajustarse. |
-| Valiosa       | Sí          | Permite elegir cómo recibir la compra.     |
-| Estimable     | Sí          | Tiene un alcance concreto.                 |
-| Pequeña       | Sí          | Se limita a la selección de entrega.       |
-| Verificable   | Sí          | Se prueba cada modalidad y su costo.       |
+| Pregunta | Qué hace el sistema | Quién decide (analista / negocio / técnica) |
+|----------|----------------------|-----------------------------------------------|
+| ¿Qué pasa si la prenda se agota mientras el cliente paga? | Antes de enviar al cliente a Mercado Pago, el sistema vuelve a verificar el stock de cada prenda. Si alguna se agotó, no inicia el pago: avisa cuál y deja ajustar el carrito. Si el stock se agota recién con el pago ya aprobado, el pedido queda "Pagado" y se avisa al Empleado para que contacte al cliente y le ofrezca esperar la reposición o reintegrarle el pago. | Negocio (si se reserva el stock mientras el cliente paga, y qué se ofrece si se agota con el pago aprobado) + Técnica (verificar y descontar el stock de forma atómica). |
+| ¿Qué pasa si Mercado Pago rechaza el pago o lo deja pendiente? | Rechazado: informa el rechazo, no cobra ni cambia el estado del pedido y permite reintentar o volver al carrito. Pendiente: el pedido queda en "Pendiente de pago", se avisa al cliente que se está confirmando y se actualiza cuando Mercado Pago lo notifica. | Analista (mensajes y estados que ve el cliente) + Negocio (cuánto tiempo se mantiene un pedido pendiente antes de cancelarlo y liberar el stock). |
+| ¿Qué pasa si Mercado Pago cobra pero el sistema falla antes de crear el pedido? | Apenas Mercado Pago notifica el pago aprobado, el sistema guarda el identificador de la transacción y recién después crea el pedido. Si la creación falla, se reintenta sola con ese identificador, sin cobrar de nuevo ni duplicar el pedido. Mientras tanto el cliente ve "Estamos confirmando tu pago". Si tras los reintentos no se pudo crear, se registra el error (RNF-18) y se avisa al Dueño para completar el pedido a mano o reintegrar el pago. | Técnica (guardar la transacción antes de crear el pedido y reintentar sin duplicados) + Negocio (quién resuelve los casos que no se recuperan solos y en qué plazo se reintegra). |
+| ¿Qué pasa si el cliente aprieta "Pagar" dos veces? | El botón se deshabilita en el primer clic y cada pago lleva como referencia el número del pedido, así que un segundo clic reutiliza el mismo pago de Mercado Pago: se genera un solo cobro y un solo pedido. | Técnica (que la operación sea idempotente) + Analista (qué ve el cliente: botón deshabilitado e indicador de carga, RNF-11). |
+| ¿Qué pasa si se cae la conexión justo después de confirmar el pago? | El resultado no depende del navegador: Mercado Pago avisa al servidor y el pedido se crea o se actualiza igual. Cuando el cliente vuelve, "Mis pedidos" muestra el estado real (Pagado o Pendiente de pago) y recibe el email correspondiente, así que nunca queda en un estado ambiguo. | Técnica (confirmación de servidor a servidor, independiente del cliente) + Analista (cómo se comunica el estado final al volver). |
 
 ---
 
-## Slice 02 — Pago mediante Mercado Pago
+## Parte C — Defensa
 
-### Historia
-
-Como cliente, quiero pagar mi compra mediante Mercado Pago, para completar la transacción de forma segura.
-
-### Requisitos relacionados
-
-RF-29
-
-### Criterios de aceptación
-
-1. El sistema debe permitir iniciar el pago mediante Mercado Pago.
-2. Debe registrar el resultado del pago.
-3. Los pagos aprobados deben continuar con la generación del pedido.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                      |
-| ------------- | ----------- | ------------------------------------------------ |
-| Independiente | Sí          | Se integra directamente con la pasarela de pago. |
-| Negociable    | Sí          | Las reglas de integración pueden ajustarse.      |
-| Valiosa       | Sí          | Permite concretar la compra.                     |
-| Estimable     | Sí          | Se basa en la integración con la pasarela.       |
-| Pequeña       | Sí          | Se limita al procesamiento del pago.             |
-| Verificable   | Sí          | Se prueba con pagos aprobados y rechazados.      |
-
----
-
-## Slice 03 — Generación del pedido
-
-### Historia
-
-Como cliente, quiero que se genere mi pedido cuando el pago sea aprobado, para confirmar mi compra.
-
-### Requisitos relacionados
-
-RF-30
-
-### Criterios de aceptación
-
-1. El sistema debe generar un número de pedido único tras un pago aprobado.
-2. Debe registrar los productos, cantidades e importe de la compra.
-3. Debe descontar el stock correspondiente.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                         |
-| ------------- | ----------- | --------------------------------------------------- |
-| Independiente | Sí          | Se ejecuta luego de recibir la aprobación del pago. |
-| Negociable    | Sí          | El formato del número de pedido puede ajustarse.    |
-| Valiosa       | Sí          | Confirma y registra la compra.                      |
-| Estimable     | Sí          | Tiene un alcance definido.                          |
-| Pequeña       | Sí          | Se limita a generar y registrar el pedido.          |
-| Verificable   | Sí          | Se comprueba con un pago aprobado.                  |
-
----
-
-## Slice 04 — Estados del pedido
-
-### Historia
-
-Como cliente, quiero conocer el estado de mi pedido, para saber en qué etapa se encuentra mi compra.
-
-### Requisitos relacionados
-
-RF-30
-
-### Criterios de aceptación
-
-1. El sistema debe actualizar el estado del pedido según su avance.
-2. El cliente debe poder consultar el estado actual.
-3. Cada cambio debe quedar registrado correctamente.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                     |
-| ------------- | ----------- | ----------------------------------------------- |
-| Independiente | Sí          | Puede gestionarse sobre pedidos existentes.     |
-| Negociable    | Sí          | Los estados y su presentación pueden ajustarse. |
-| Valiosa       | Sí          | Permite realizar seguimiento de la compra.      |
-| Estimable     | Sí          | Se limita a la gestión de estados.              |
-| Pequeña       | Sí          | Agrupa funcionalidades relacionadas.            |
-| Verificable   | Sí          | Se prueba avanzando el pedido entre estados.    |
-
----
-
-## Slice 05 — Notificaciones del pedido
-
-### Historia
-
-Como cliente, quiero recibir notificaciones sobre los cambios de estado de mi pedido, para mantenerme informado sobre su evolución.
-
-### Requisitos relacionados
-
-RF-39
-
-### Criterios de aceptación
-
-1. El sistema debe notificar al cliente cuando cambie el estado de su pedido.
-2. La notificación debe enviarse por email y mostrarse en la plataforma.
-3. El mensaje debe informar el nuevo estado del pedido.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                            |
-| ------------- | ----------- | ------------------------------------------------------ |
-| Independiente | Sí          | Se activa a partir de cambios de estado.               |
-| Negociable    | Sí          | Los medios y formato de notificación pueden ajustarse. |
-| Valiosa       | Sí          | Mantiene informado al cliente.                         |
-| Estimable     | Sí          | Tiene un alcance definido.                             |
-| Pequeña       | Sí          | Se concentra en las notificaciones.                    |
-| Verificable   | Sí          | Se prueba generando cambios de estado.                 |
-
-# Slicing — HU-05: Control de Stock Unificado e Ingreso de Mercadería
-
-## Slice 01 — Consulta de stock
-
-### Historia
-
-Como usuario de Depósito o Administrador, quiero consultar el stock disponible, para conocer las existencias actuales.
-
-### Requisitos relacionados
-
-RF-44
-
-### Criterios de aceptación
-
-1. El sistema debe mostrar el stock disponible por producto y variante.
-2. La información debe mantenerse centralizada.
-3. Solo los usuarios autorizados deben acceder a esta información.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                      |
-| ------------- | ----------- | ------------------------------------------------ |
-| Independiente | Sí          | Puede consultarse sin depender de otros módulos. |
-| Negociable    | Sí          | La forma de visualización puede ajustarse.       |
-| Valiosa       | Sí          | Permite conocer las existencias.                 |
-| Estimable     | Sí          | Tiene un alcance concreto.                       |
-| Pequeña       | Sí          | Se limita a la consulta.                         |
-| Verificable   | Sí          | Se comprueba consultando diferentes variantes.   |
-
----
-
-## Slice 02 — Registro de ingreso de mercadería
-
-### Historia
-
-Como usuario de Depósito, quiero registrar el ingreso de mercadería, para actualizar las existencias disponibles.
-
-### Requisitos relacionados
-
-RF-15
-
-### Criterios de aceptación
-
-1. El sistema debe permitir registrar proveedor, contacto, producto, cantidad, fecha y costo unitario.
-2. Debe validar los datos obligatorios antes de guardar el ingreso.
-3. El stock debe actualizarse con la cantidad ingresada.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                     |
-| ------------- | ----------- | ----------------------------------------------- |
-| Independiente | Sí          | Puede realizarse sobre el inventario existente. |
-| Negociable    | Sí          | Los datos y su presentación pueden ajustarse.   |
-| Valiosa       | Sí          | Permite mantener actualizado el inventario.     |
-| Estimable     | Sí          | Se limita al registro de ingresos.              |
-| Pequeña       | Sí          | Tiene un alcance concreto.                      |
-| Verificable   | Sí          | Se prueba registrando un ingreso.               |
-
----
-
-## Slice 03 — Actualización de stock
-
-### Historia
-
-Como usuario de Depósito o Administrador, quiero que el stock se actualice automáticamente, para mantener sincronizadas las existencias.
-
-### Requisitos relacionados
-
-RF-20
-
-### Criterios de aceptación
-
-1. El sistema debe actualizar el stock ante movimientos registrados.
-2. El stock debe reflejarse correctamente en la tienda online.
-3. Una venta online debe descontar stock únicamente cuando el pago sea aprobado.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                            |
-| ------------- | ----------- | ------------------------------------------------------ |
-| Independiente | Sí          | Gestiona la actualización centralizada del inventario. |
-| Negociable    | Sí          | Las reglas de actualización pueden ajustarse.          |
-| Valiosa       | Sí          | Evita inconsistencias de stock.                        |
-| Estimable     | Sí          | Tiene reglas de actualización definidas.               |
-| Pequeña       | Sí          | Se concentra en la actualización.                      |
-| Verificable   | Sí          | Se comprueban diferentes movimientos de stock.         |
-
----
-
-## Slice 04 — Historial de movimientos
-
-### Historia
-
-Como usuario de Depósito o Administrador, quiero consultar los movimientos de stock, para controlar los ingresos y modificaciones realizadas.
-
-### Requisitos relacionados
-
-RF-44
-
-### Criterios de aceptación
-
-1. El sistema debe registrar los movimientos de stock.
-2. Debe permitir consultar los movimientos realizados.
-3. La información debe incluir los datos necesarios para identificar cada movimiento.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                         |
-| ------------- | ----------- | --------------------------------------------------- |
-| Independiente | Sí          | Puede consultarse sobre el inventario existente.    |
-| Negociable    | Sí          | La información mostrada puede ajustarse.            |
-| Valiosa       | Sí          | Facilita el control del inventario.                 |
-| Estimable     | Sí          | Se limita a la consulta de movimientos.             |
-| Pequeña       | Sí          | Tiene un alcance reducido.                          |
-| Verificable   | Sí          | Se comprueba registrando y consultando movimientos. |
-
----
-
-## Slice 05 — Alertas de bajo stock
-
-### Historia
-
-Como usuario de Depósito, quiero recibir alertas cuando una variante tenga poco stock, para poder reponerla a tiempo.
-
-### Requisitos relacionados
-
-RF-22
-
-### Criterios de aceptación
-
-1. El sistema debe comparar el stock con el umbral mínimo configurado.
-2. Debe mostrar una alerta en el panel cuando el stock sea inferior al mínimo.
-3. Debe enviar una notificación por correo al área de Depósito.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                        |
-| ------------- | ----------- | -------------------------------------------------- |
-| Independiente | Sí          | Funciona sobre el stock registrado.                |
-| Negociable    | Sí          | El umbral y formato de alerta pueden ajustarse.    |
-| Valiosa       | Sí          | Permite anticipar la reposición de mercadería.     |
-| Estimable     | Sí          | Se basa en una regla de comparación definida.      |
-| Pequeña       | Sí          | Se limita a las alertas de stock.                  |
-| Verificable   | Sí          | Se prueba configurando distintos niveles de stock. |
-
-
-# Slicing — HU-06: Solicitud, Gestión y Resolución de Devoluciones
-
-## Slice 01 — Solicitud de devolución
-
-### Historia
-
-Como cliente registrado, quiero solicitar la devolución de un producto, para gestionar un cambio o devolución ante un inconveniente.
-
-### Requisitos relacionados
-
-RF-38
-
-### Criterios de aceptación
-
-1. El sistema debe permitir solicitar devoluciones de pedidos finalizados dentro de los 5 días hábiles.
-2. El cliente debe seleccionar un motivo.
-3. El cliente debe poder adjuntar fotografías del producto.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                       |
-| ------------- | ----------- | ------------------------------------------------- |
-| Independiente | Sí          | Funciona sobre pedidos finalizados.               |
-| Negociable    | Sí          | Los motivos y cantidad de fotos pueden ajustarse. |
-| Valiosa       | Sí          | Permite iniciar el reclamo de forma online.       |
-| Estimable     | Sí          | Tiene un alcance definido.                        |
-| Pequeña       | Sí          | Se limita a crear la solicitud.                   |
-| Verificable   | Sí          | Se prueba creando solicitudes válidas.            |
-
----
-
-## Slice 02 — Validación del plazo
-
-### Historia
-
-Como cliente, quiero que el sistema valide el plazo para solicitar una devolución, para conocer si mi pedido cumple con las condiciones establecidas.
-
-### Requisitos relacionados
-
-RF-38, RF-40
-
-### Criterios de aceptación
-
-1. El sistema debe verificar que el pedido esté dentro de los 5 días hábiles.
-2. No debe permitir solicitudes fuera del plazo.
-3. Debe informar al cliente cuando la devolución no sea válida por vencimiento del plazo.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                               |
-| ------------- | ----------- | --------------------------------------------------------- |
-| Independiente | Sí          | Se basa en la fecha del pedido finalizado.                |
-| Negociable    | Sí          | El plazo puede configurarse según las reglas del sistema. |
-| Valiosa       | Sí          | Garantiza el cumplimiento del plazo establecido.          |
-| Estimable     | Sí          | Se limita a la validación de fechas.                      |
-| Pequeña       | Sí          | Tiene un alcance reducido.                                |
-| Verificable   | Sí          | Se prueban solicitudes dentro y fuera de plazo.           |
-
----
-
-## Slice 03 — Gestión de solicitudes
-
-### Historia
-
-Como usuario de Ventas, quiero revisar y actualizar las solicitudes de devolución, para gestionar los reclamos de los clientes.
-
-### Requisitos relacionados
-
-RF-40
-
-### Criterios de aceptación
-
-1. Ventas debe poder consultar las solicitudes recibidas.
-2. Debe poder actualizar el estado de una solicitud.
-3. El sistema debe registrar el estado actual del caso.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                            |
-| ------------- | ----------- | -------------------------------------- |
-| Independiente | Sí          | Gestiona solicitudes ya creadas.       |
-| Negociable    | Sí          | Los estados pueden ajustarse.          |
-| Valiosa       | Sí          | Permite administrar los reclamos.      |
-| Estimable     | Sí          | Se limita a la gestión de solicitudes. |
-| Pequeña       | Sí          | Agrupa acciones relacionadas.          |
-| Verificable   | Sí          | Se prueba cambiando estados.           |
-
----
-
-## Slice 04 — Resolución de devolución
-
-### Historia
-
-Como usuario de Ventas, quiero resolver una solicitud de devolución, para aprobar un cambio de producto o una devolución.
-
-### Requisitos relacionados
-
-RF-40, RF-41
-
-### Criterios de aceptación
-
-1. El sistema debe permitir aprobar o rechazar una solicitud.
-2. Si corresponde, debe permitir registrar el cambio de producto.
-3. La resolución debe quedar asociada a la solicitud.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                   |
-| ------------- | ----------- | --------------------------------------------- |
-| Independiente | Sí          | Se realiza sobre solicitudes existentes.      |
-| Negociable    | Sí          | Las opciones de resolución pueden ajustarse.  |
-| Valiosa       | Sí          | Permite finalizar el reclamo del cliente.     |
-| Estimable     | Sí          | Tiene un alcance concreto.                    |
-| Pequeña       | Sí          | Se concentra en la resolución.                |
-| Verificable   | Sí          | Se prueba aprobando y rechazando solicitudes. |
-
----
-
-## Slice 05 — Nota de crédito y actualización de stock
-
-### Historia
-
-Como usuario de Ventas, quiero que una devolución aprobada genere la nota de crédito y actualice el stock, para completar correctamente la operación.
-
-### Requisitos relacionados
-
-RF-41
-
-### Criterios de aceptación
-
-1. Si no se realiza un cambio, el sistema debe generar automáticamente una nota de crédito.
-2. El producto devuelto debe reingresar al inventario.
-3. El sistema debe notificar al cliente sobre la resolución.
-
-### Validación INVEST
-
-| Criterio      | ¿Se cumple? | Observación                                                  |
-| ------------- | ----------- | ------------------------------------------------------------ |
-| Independiente | Sí          | Se ejecuta a partir de una devolución aprobada.              |
-| Negociable    | Sí          | El formato de la nota y la notificación pueden ajustarse.    |
-| Valiosa       | Sí          | Completa la devolución y actualiza el inventario.            |
-| Estimable     | Sí          | Se limita a la resolución contable y de stock.               |
-| Pequeña       | Sí          | Agrupa acciones posteriores a la aprobación.                 |
-| Verificable   | Sí          | Se comprueba la nota de crédito, el stock y la notificación. |
+_Se hace oral, en el plenario. No se documenta en este archivo._
