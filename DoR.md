@@ -24,37 +24,37 @@ _7 ítems, en formato sí/no verificable._
 
 ## Aplicación a tres historias propias
 
-_Las tres historias corresponden al propio proyecto (Sistema de e-commerce Mundo Sport). La
-Historia 1 ya está redactada en `docs/historias-de-usuario.md`; las Historias 2 y 3 se
-construyeron para este ejercicio a partir de requisitos funcionales ya relevados. Es
-esperable —y deseable— que alguna no pase._
+_Las tres historias corresponden al propio proyecto (Sistema de e-commerce Mundo Sport). Las
+Historias 1 y 2 son hipotéticas: se construyeron para este ejercicio a partir de requisitos y
+casos de uso ya relevados, y no figuran en `docs/historias-de-usuario.md`. La Historia 3 es la
+HU-02 real del proyecto. Es esperable —y deseable— que alguna no pase._
 
-### Historia 1 — HU-01: Crear usuario interno
+### Historia 1 — Alta de usuario del personal (hipotética)
 
-> Como Dueño, quiero crear usuarios internos y asignarles un rol, para permitir que
+> Como Dueño, quiero crear usuarios del personal y asignarles un rol, para permitir que
 > los empleados accedan al sistema según sus responsabilidades. (RF-01, RF-04, RF-05)
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
-| 1 | Parcial | 3 de los 4 criterios son concretos, pero el primero ("ingresar los datos necesarios") no dice cuáles son esos datos. |
-| 2 | **No** | Faltan RF-05 (el Administrador gestiona usuarios, incluida su creación) y RF-06 (registrar qué usuario hizo cada modificación), ambos aplicables a esta acción y no citados. |
-| 3 | Sí | El alcance se limita a crear un usuario y asignarle un rol; entra cómodo en un sprint. |
-| 4 | Sí | Actor "Administrador" identificado sin ambigüedad. |
-| 5 | Sí | El sistema informa al Administrador si el usuario fue creado correctamente. |
-| 6 | **No** | No están definidos los campos exactos del formulario de alta. |
+| 1 | **No** | No tiene criterios de aceptación redactados: existe el CU-03 con su secuencia y excepciones, pero no una lista de criterios verificables para la historia. |
+| 2 | Sí | RF-01 (alta con rol), RF-04 (ingreso con las funcionalidades del rol) y RF-05 (funcionalidades por rol) cubren la historia. |
+| 3 | Sí | El alcance se limita a crear un usuario del personal y asignarle un rol; entra cómodo en un sprint. |
+| 4 | Sí | Actor "Dueño" identificado sin ambigüedad (RF-01). |
+| 5 | Sí | El sistema muestra una confirmación y el nuevo usuario aparece en el listado del personal (CU-03, pasos 3 y 4). |
+| 6 | **No** | CU-03 deja los campos del formulario abiertos ("nombre, apellido, email, teléfono, etc.") y no define el formato de la salida. |
 | 7 | Sí | El valor ("permitir que los empleados accedan al sistema según sus responsabilidades") está explícito. |
 
 ---
 
-### Historia 2 — Aplicar cupón de descuento en el carrito
+### Historia 2 — Aplicar cupón de descuento en el carrito (hipotética)
 
 > Como Cliente, quiero aplicar un cupón de descuento en mi carrito, para pagar menos por mi
-> compra. (RF-27, RF-32, RF-33)
+> compra. (RF-27, RF-33)
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
 | 1 | **No** | No tiene ningún criterio de aceptación redactado. |
-| 2 | Sí | RF-116, RF-117 y RF-118 cubren la acción de aplicar el cupón; los de creación del cupón (RF-108 a RF-112) corresponden a otra historia (HU-09). |
+| 2 | Parcial | RF-27 (carrito) y RF-33 (vigencia, límite de usos y un solo cupón por pedido) cubren la acción, pero ningún requisito dice si un cupón se acumula con una promoción activa (RF-32). |
 | 3 | **No** | Mezcla validar el cupón, calcular el descuento y actualizar el resumen del pedido sin desglosar. |
 | 4 | Sí | Actor "Cliente" identificado sin ambigüedad. |
 | 5 | **No** | No hay ningún criterio de terminado definido. |
@@ -63,17 +63,18 @@ esperable —y deseable— que alguna no pase._
 
 ---
 
-### Historia 3 — Consultar estado de pedido desde "Mi Cuenta"
+### Historia 3 — HU-02: Consulta de historial de compras y estado de pedidos
 
-> Como Cliente, quiero consultar el estado actual de mis pedidos desde "Mi Cuenta", para saber
-> en qué etapa se encuentra mi compra sin tener que contactar a la tienda. (RF-07, RF-30, RF-31, RF-36, RF-37)
+> Como cliente, quiero visualizar el historial de mis compras y el estado de mis pedidos
+> dentro de "Mi Cuenta", para hacer seguimiento de mis pedidos y consultar mis compras
+> anteriores. (RF-07)
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
-| 1 | **No** | No tiene ningún criterio de aceptación redactado. |
-| 2 | Sí | RF-72 (consultar estado), RF-75 (estados posibles) y RF-78 (fecha/hora de cada cambio) cubren la historia completa. |
-| 3 | Sí | Es solo lectura de un estado ya calculado por el sistema; no agrega lógica nueva. |
-| 4 | Sí | Actor "Cliente" identificado sin ambigüedad. |
-| 5 | Sí | Se puede comprobar que el estado mostrado coincide con el registrado en la base. |
-| 6 | **No** | No se especifica qué se muestra exactamente en pantalla (solo el estado, o también fecha/hora del cambio, historial completo, etc.). |
-| 7 | Sí | El valor ("saber en qué etapa está mi compra sin contactar a la tienda") está explícito. |
+| 1 | Sí | Tiene 3 criterios concretos en `docs/historias-de-usuario.md`: listado cronológico, datos de cada pedido (código, fecha, importe y estado) y detalle (artículos, cantidades y método de entrega). |
+| 2 | **No** | Cita solo RF-07; los estados que muestra salen de RF-30 (Pendiente de pago, Pagado / En preparación, Enviado, Listo para retirar, Entregado y Cancelado), que no está incluido. |
+| 3 | Sí | Es solo lectura de datos que ya existen; no agrega lógica nueva y entra en un sprint. |
+| 4 | Sí | Actor "cliente" identificado sin ambigüedad. |
+| 5 | Sí | Se puede comprobar que los pedidos del cliente aparezcan con sus datos, detalle y estado (criterios 1 a 3). |
+| 6 | Sí | Los criterios 2 y 3 enumeran lo que se muestra: código, fecha, importe y estado en el listado; artículos, cantidades y método de entrega en el detalle. No requiere datos de entrada. |
+| 7 | Sí | El valor ("hacer seguimiento de mis pedidos y consultar mis compras anteriores") está explícito. |

@@ -103,12 +103,12 @@ Los wireframes son de baja fidelidad (grises y un único color de acción) y cad
 
 **Patrones de diseño utilizados:** formulario de progreso gradual en 3 pasos con barra de avance, validación en el momento y botones con verbo y destino.
 
-**Justificación:** RF-06 pide 11 datos, demasiados para una sola pantalla en un celular. Se reparten en 3 pasos de 2 a 5 campos, agrupados por tema (cuenta, datos personales, dirección) y cada uno con título y barra de avance, para que el cliente sepa cuánto falta. Cada error se muestra junto al campo, con la causa y el formato esperado (por ejemplo "Ingresá el DNI sin puntos (7 u 8 números)"). Si el email ya existe, el mensaje ofrece la salida ("¿Querés ingresar?") en vez de solo rechazar. Los botones dicen qué viene después ("Continuar: tus datos", "Crear cuenta") y "Atrás" es una acción secundaria que conserva lo ya cargado.
+**Justificación:** RF-06 pide 11 datos, demasiados para una sola pantalla en un celular. Se reparten en 3 pasos, agrupados por tema y cada uno con título y barra de avance, para que el cliente sepa cuánto falta. El primer paso pide solo el DNI y lo valida antes de mostrar el resto, igual que el CU-01 (pasos 1 y 2), de modo que quien ya tiene cuenta lo sabe de entrada y no pierde tiempo completando todo el formulario. Cada error se muestra junto al campo, con la causa y el formato esperado (por ejemplo "Ingresá el DNI sin puntos (7 u 8 números)"). Si el DNI o el email ya existen, el mensaje ofrece la salida (ingresar o recuperar la contraseña, "¿Querés ingresar?") en vez de solo rechazar. Los botones dicen qué viene después ("Continuar: tus datos", "Crear cuenta") y "Atrás" es una acción secundaria que conserva lo ya cargado.
 
 **Formulario (si aplica):**
-- Cantidad de campos: 11, repartidos en 3 pasos (2 + 5 + 4): email y contraseña; nombre, apellido, fecha de nacimiento, DNI y teléfono; dirección, código postal, ciudad y provincia.
+- Cantidad de campos: 11, repartidos en 3 pasos (1 + 6 + 4): DNI; nombre, apellido, fecha de nacimiento, teléfono, email y contraseña; dirección, código postal, ciudad y provincia.
 - Flujo: por pasos.
-- Validaciones relevantes: todos los datos son obligatorios; formato válido de email y DNI; no se permite registrar un email o DNI ya existente (HU-01, criterio 2); mensaje de error junto al campo (RNF-10).
+- Validaciones relevantes: todos los datos son obligatorios; formato válido de email y DNI; no se permite registrar un email o DNI ya existente (HU-01, criterio 2; CU-01, E2); mensaje de error junto al campo (RNF-10).
 
 ---
 

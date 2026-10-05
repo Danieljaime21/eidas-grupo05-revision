@@ -9,8 +9,9 @@ skinparam ranksep 45
 hide circle
 
 entity "USUARIO" as USUARIO {
-  * dni : VARCHAR(20) <<PK>>
+  * id_usuario : INT <<PK>>
   --
+  dni : VARCHAR(20) <<UK>>
   nombre : VARCHAR(100)
   apellido : VARCHAR(100)
   email : VARCHAR(150)
@@ -23,14 +24,18 @@ entity "USUARIO" as USUARIO {
 }
 
 entity "CLIENTE" as CLIENTE {
-  * dni : VARCHAR(20) <<PK, FK>>
+  * id_usuario : INT <<PK, FK>>
   --
+  fecha_nacimiento : DATE
   telefono : VARCHAR(30)
   direccion : VARCHAR(255)
+  codigo_postal : VARCHAR(10)
+  ciudad : VARCHAR(100)
+  provincia : VARCHAR(100)
 }
 
 entity "EMPLEADO" as EMPLEADO {
-  * dni : VARCHAR(20) <<PK, FK>>
+  * id_usuario : INT <<PK, FK>>
   --
   departamento : VARCHAR(50)
   fecha_ingreso : DATE
@@ -95,7 +100,7 @@ PROVEEDOR ||--o{ PROD_PROV : "provee"
 entity "INGRESO_STOCK" as INGRESO {
   * id_ingreso : INT <<PK>>
   --
-  dni_empleado : VARCHAR(20) <<FK>>
+  id_empleado : INT <<FK>>
   id_proveedor : INT <<FK>>
   fecha_ingreso : DATETIME
   observaciones : TEXT
@@ -118,7 +123,7 @@ VARIANTE ||--o{ DET_INGRESO : "ingresa"
 entity "CARRITO" as CARRITO {
   * id_carrito : INT <<PK>>
   --
-  dni_cliente : VARCHAR(20) <<FK>>
+  id_cliente : INT <<FK>>
   fecha_actualizacion : DATETIME
 }
 
@@ -137,11 +142,16 @@ VARIANTE ||--o{ DET_CARRITO : "selecciona"
 entity "PEDIDO" as PEDIDO {
   * id_pedido : INT <<PK>>
   --
-  dni_cliente : VARCHAR(20) <<FK, nullable>>
-  dni_empleado : VARCHAR(20) <<FK>>
+  id_cliente : INT <<FK, nullable>>
+  id_empleado : INT <<FK>>
   fecha_pedido : DATETIME
   estado_pedido : VARCHAR(50)
   tipo_entrega : VARCHAR(50)
+  telefono_contacto : VARCHAR(30)
+  direccion_entrega : VARCHAR(255)
+  codigo_postal_entrega : VARCHAR(10)
+  ciudad_entrega : VARCHAR(100)
+  provincia_entrega : VARCHAR(100)
   costo_envio : DECIMAL(10,2)
   monto_total : DECIMAL(10,2)
   medio_pago : VARCHAR(50)
@@ -199,7 +209,7 @@ entity "CUPON_USADO" as CUPON_USADO {
   --
   id_cupon : INT <<FK>>
   id_pedido : INT <<FK>>
-  dni_cliente : VARCHAR(20) <<FK>>
+  id_cliente : INT <<FK>>
   fecha_uso : DATETIME
 }
 
@@ -213,7 +223,7 @@ entity "RESENA" as RESENA {
   * id_resena : INT <<PK>>
   --
   id_producto : INT <<FK>>
-  dni_cliente : VARCHAR(20) <<FK>>
+  id_cliente : INT <<FK>>
   id_pedido : INT <<FK>>
   calificacion : INT
   comentario : TEXT
@@ -229,13 +239,13 @@ entity "DEVOLUCION" as DEVOLUCION {
   * id_devolucion : INT <<PK>>
   --
   id_pedido : INT <<FK>>
-  dni_cliente : VARCHAR(20) <<FK>>
+  id_cliente : INT <<FK>>
   fecha_solicitud : DATETIME
   motivo : VARCHAR(50)
   estado : VARCHAR(50)
   observaciones : TEXT
   fecha_resolucion : DATETIME
-  dni_empleado : VARCHAR(20) <<FK>>
+  id_empleado : INT <<FK>>
 }
 
 entity "DETALLE_DEVOLUCION" as DET_DEVOLUCION {
@@ -250,10 +260,10 @@ entity "NOTA_CREDITO" as NOTA_CREDITO {
   * id_nota_credito : INT <<PK>>
   --
   id_devolucion : INT <<FK>>
-  dni_cliente : VARCHAR(20) <<FK>>
+  id_cliente : INT <<FK>>
   monto : DECIMAL(10,2)
   fecha_emision : DATETIME
-  dni_empleado : VARCHAR(20) <<FK>>
+  id_empleado : INT <<FK>>
   estado : VARCHAR(30)
 }
 

@@ -18,17 +18,29 @@ Cliente --|> Visitante
 
 ' --- Sistema ---
 rectangle "Sistema de Tienda Online" {
+  ' Módulo 1 - Usuarios y Clientes
   usecase "CU-01\nRegistrar cliente" as UC01
   usecase "CU-02\nIniciar sesión (cliente)" as UC02
   usecase "CU-03\nRegistrar usuario del personal" as UC03
+
+  ' Módulo 2 - Productos, Stock y Proveedores
   usecase "CU-04\nConsultar catálogo" as UC04
   usecase "CU-05\nAgregar producto al catálogo" as UC05
+  usecase "CU-11\nRegistrar venta presencial" as UC11
+  usecase "CU-16\nVerificar stock disponible" as UC16
+
+  ' Módulo 3 - Carrito, Pedidos y Promociones
   usecase "CU-06\nAgregar productos al carrito" as UC06
   usecase "CU-07\nModificar cantidad o\neliminar producto del carrito" as UC07
   usecase "CU-08\nVaciar carrito de compras" as UC08
   usecase "CU-09\nRealizar verificación con\ndatos de entrega y de envío" as UC09
   usecase "CU-10\nRealizar pago" as UC10
-  usecase "CU-11\nRegistrar venta presencial" as UC11
+  usecase "CU-12\nConsultar estado y\nseguimiento de pedidos" as UC12
+
+  ' Módulo 4 - Envíos y Devoluciones
+  usecase "CU-13\nSolicitar devolución" as UC13
+  usecase "CU-14\nGestionar solicitud\nde devolución" as UC14
+  usecase "CU-15\nGestionar retiro en el local" as UC15
 }
 
 ' --- Relaciones actor - caso de uso ---
@@ -38,31 +50,31 @@ Visitante --> UC04
 Visitante --> UC06
 Visitante --> UC07
 Visitante --> UC08
+Visitante --> UC09
 
-Cliente --> UC02
-Cliente --> UC04
-Cliente --> UC06
-Cliente --> UC07
-Cliente --> UC08
-Cliente --> UC09
 Cliente --> UC10
+Cliente --> UC12
+Cliente --> UC13
 
 Dueno --> UC03
 Dueno --> UC05
 
 Empleado --> UC11
+Empleado --> UC14
+Empleado --> UC15
 
 Proveedor --> UC09
+Proveedor --> UC12
 MP --> UC10
 
 ' --- Relaciones entre casos de uso ---
-UC06 .> UC04 : <<include>>
-UC09 .> UC06 : <<include>>
-UC10 .> UC09 : <<include>>
+' <<include>>: el caso base SIEMPRE ejecuta al incluido (flecha: base --> incluido)
+UC06 .> UC16 : <<include>>
+UC11 .> UC16 : <<include>>
 
-UC09 .> UC02 : <<extend>>
-UC09 .> UC01 : <<extend>>
-UC06 .> UC02 : <<extend>>
-
+' <<extend>>: el caso que extiende agrega comportamiento SOLO bajo una condición
+' (flecha: caso que extiende --> caso base)
+UC02 .> UC09 : <<extend>>
+UC01 .> UC09 : <<extend>>
 
 @enduml

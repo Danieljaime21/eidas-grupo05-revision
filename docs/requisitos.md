@@ -59,7 +59,7 @@ Por otro lado, el personal de la tienda contará con un panel administrativo des
 | RF-30 | El sistema notificará al cliente mediante email por cada cambio de estado de su pedido (Pendiente de pago, Pagado / En preparación, Enviado, Listo para Retirar, Entregado y Cancelado). |
 | RF-31 | El sistema permitirá al Cliente cancelar el pedido antes de su despacho. |
 | RF-32 | El sistema deberá permitir al Dueño crear promociones (descuento porcentual o fijo) aplicables a producto específico, categoría o catálogo completo, con fechas de inicio y fin configurables. |
-| RF-33 | El sistema permitirá al Dueño crear cupones (de uso único o múltiple, con limite de usos), definiendo un período de vigencia para su activación y desactivación. |
+| RF-33 | El sistema permitirá al Dueño crear cupones (de uso único o múltiple, con limite de usos), definiendo un período de vigencia para su activación y desactivación, y permitirá al Cliente aplicar un cupón vigente y con usos disponibles a su carrito (un solo cupón por pedido). |
 
 
 ### Módulo 4 — Envios y Devoluciones
