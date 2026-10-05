@@ -9,32 +9,43 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 | Actor | Tipo | Descripción |
 |-------|------|-------------|
 | Visitante | Principal | Persona no autenticada que navega el catálogo, puede armar un carrito y decide registrarse para concretar la compra. |
-| Cliente | Principal | Usuario registrado y autenticado. Hereda las capacidades del Visitante y suma las funcionalidades de checkout, envío y pago. |
+| Cliente | Principal | Usuario registrado y autenticado. Hereda las capacidades del Visitante y suma las funcionalidades de checkout, envío y pago, seguimiento de pedidos y devoluciones. |
 | Dueño | Principal | Usuario con máximos privilegios. Administra el personal y el catálogo de productos. |
-| Empleado | Principal | Usuario del personal operativo del local. Registra las ventas presenciales descontando stock compartido con las ventas online. |
-| Proveedor Logístico | Secundario (externo) | Sistema externo que calcula la tarifa de envío y confirma cobertura. |
+| Empleado | Principal | Usuario del personal operativo del local. Registra las ventas presenciales descontando stock compartido con las ventas online, gestiona las devoluciones y los retiros en el local. |
+| Proveedor Logístico | Secundario (externo) | Sistema externo que calcula la tarifa de envío, confirma cobertura e informa el número de seguimiento. |
 | Mercado Pago | Secundario (externo) | Pasarela de pago externa que procesa la transacción. |
 
+## Casos de uso por módulo
+
+| Módulo (requisitos) | Casos de uso |
+|---------------------|--------------|
+| 1 — Usuarios y Clientes | CU-01 Registrar cliente · CU-02 Iniciar sesión (cliente) · CU-03 Registrar usuario del personal |
+| 2 — Productos, Stock y Proveedores | CU-04 Consultar catálogo · CU-05 Agregar producto al catálogo · CU-11 Registrar venta presencial · CU-16 Verificar stock disponible |
+| 3 — Carrito, Pedidos y Promociones | CU-06 Agregar productos al carrito · CU-07 Modificar cantidad o eliminar producto del carrito · CU-08 Vaciar carrito de compras · CU-09 Realizar verificación con datos de entrega y de envío · CU-10 Realizar pago · CU-12 Consultar estado y seguimiento de pedidos |
+| 4 — Envíos y Devoluciones | CU-13 Solicitar devolución · CU-14 Gestionar solicitud de devolución · CU-15 Gestionar retiro en el local |
+| 5 — Reportes y Panel de Administración | Sin casos de uso desarrollados (corresponden a HU-09, HU-10 y HU-11). |
 
 ## Relaciones `<<include>>` (obligatorias)
 
+_`<<include>>` significa que el caso de uso base **siempre** ejecuta al caso incluido, como un paso propio. Lo que ocurre "antes" es una precondición, no un include._
+
 | Caso origen | Caso incluido | Justificación |
 |-------------|---------------|---------------|
-| CU-06 Agregar productos al carrito | CU-04 Consultar catálogo | Para agregar un producto, primero hay que haber consultado el catálogo (aunque sea implícitamente). |
-| CU-09 Verificación con datos de entrega y envío | CU-06 Agregar productos al carrito | El checkout sólo puede iniciarse si el carrito tiene al menos un producto. |
-| CU-10 Realizar pago | CU-09 Verificación con datos de entrega y envío | No se puede pagar sin haber confirmado antes los datos de entrega y el tipo de envío. |
+| CU-06 Agregar productos al carrito | CU-16 Verificar stock disponible | Toda vez que se agrega un producto al carrito, el sistema ejecuta la verificación de stock como parte de su paso 2. |
+| CU-11 Registrar venta presencial | CU-16 Verificar stock disponible | Toda vez que el empleado agrega una prenda a la venta, el sistema ejecuta la misma verificación sobre el stock unificado (RF-20) en su paso 2. |
+
+CU-07 (Modificar cantidad o eliminar producto) también verifica el stock, pero solo cuando se aumenta una cantidad y no al eliminar un producto; por eso no se modela como `<<include>>`.
 ---
 
 
 ## Relaciones `<<extend>>` (opcionales /condicionales )
 
-| Caso origen | Caso extendido | Justificación |
-|-------------|----------------|---------------|
-| CU-09 Verificación con datos de entrega y envío | CU-02 Iniciar sesión (cliente) | Si el Visitante no tiene sesión iniciada, debe autenticarse antes de continuar; el Cliente ya logueado saltea este paso. |
-| CU-09 Verificación con datos de entrega y envío | CU-01 Registrar cliente | Si el Visitante no tiene cuenta, se le ofrece registrarse en ese momento, conservando el carrito gracias a RF-12. |
-| CU-06 Agregar productos al carrito | CU-02 Iniciar sesión (cliente) | El Visitante puede agregar al carrito sin loguearse, pero si quiere guardarlo se le ofrece iniciar sesión. |
+_`<<extend>>` significa que el caso de uso de la flecha agrega, solo bajo una condición, un comportamiento al caso base. La flecha va del caso que extiende hacia el caso base._
 
-
+| Caso que extiende | Caso base | Condición y justificación |
+|-------------------|-----------|---------------------------|
+| CU-02 Iniciar sesión (cliente) | CU-09 Realizar verificación con datos de entrega y de envío | Solo si quien hace el checkout es un Visitante sin sesión iniciada: debe iniciar sesión para continuar. Un Cliente ya autenticado no ejecuta CU-02 durante el checkout (RF-12). |
+| CU-01 Registrar cliente | CU-09 Realizar verificación con datos de entrega y de envío | Solo si el Visitante no tiene cuenta: se le ofrece registrarse en ese momento y su carrito se conserva (RF-12). |
 
 ---
 
@@ -100,7 +111,7 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 | # | Situación | Respuesta del sistema |
 |---|-----------|-----------------------|
 | E1 | El email o la contraseña son incorrectos. | El sistema deberá informar que las credenciales son inválidas (sin indicar cuál de los dos datos falló), sumar un intento fallido y volver al paso 1. Si acumula 5 intentos fallidos de inicio de sesión, el sistema deberá bloquear su acceso durante 15 minutos e informárselo (RNF-07). |
-| E2 | El email ingresado no se encuentra registrado en el sistema. | El sistema notifica que el email no está asociado a ninguna cuenta existente y ofrecerá opción directa para registrarse. |
+| E2 | El email ingresado no se encuentra registrado en el sistema. | El sistema responde igual que en E1 (credenciales inválidas, sin indicar cuál de los datos falló) para no revelar qué emails existen, y la pantalla ofrece siempre el enlace "Crear cuenta" (CU-01). |
 
 | Campo | Detalle |
 |-------|---------|
@@ -140,7 +151,7 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 | E1 | El DNI ya pertenece a un usuario existente. | El sistema muestra un mensaje indicando que el empleado ya existe. |
 | E2 | El dueño deja campos obligatorios vacíos o con formato incorrecto. | El sistema indica el campo específico con error y vuelve al paso 3 manteniendo la información ingresada. |
 | E3 | El email ingresado pertenece a otro usuario. | El sistema informa el error y permite corregir solo ese campo sin borrar el resto de la información. |
-| E4 | Error interno al guardar el usuario. | El sistema deberá informarlo y registrar fecha, hora y descripción del error (RNF-16). |
+| E4 | Error interno al guardar el usuario. | El sistema deberá informarlo y registrar fecha, hora y descripción del error (RNF-18). |
 
 
 | Campo | Detalle |
@@ -170,7 +181,7 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 |---|----------------|--------------------|
 | 1 | Ingresa a la sección "Catálogo". | El sistema muestra un menú desplegable con las diferentes categorías disponibles. |
 | 2 | Selecciona la categoría deseada. | El sistema muestra los primeros 20 productos de esa categoría. |
-| 3 | Selecciona uno o más filtros (talle, color, marca). | El sistema muestra solo los productos que cumplen todos los filtros seleccionados. |
+| 3 | Selecciona uno o más filtros (talle y color; RF-19). | El sistema muestra solo los productos que cumplen todos los filtros seleccionados. |
 
 
 
@@ -179,7 +190,7 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 | # | Situación | Respuesta del sistema |
 |---|-----------|-----------------------|
 | E1 | Ningún producto cumple los filtros elegidos. | El sistema deberá mostrar un mensaje indicando que ningún producto cumple con los filtros seleccionados y sugerirá quitar algunos de estos. |
-| E2 | Error al consultar el catálogo. | El sistema deberá mostrar un mensaje de error y registrar fecha, hora y descripción del error (RNF-16). |
+| E2 | Error al consultar el catálogo. | El sistema deberá mostrar un mensaje de error y registrar fecha, hora y descripción del error (RNF-18). |
 | E3 | Una operación demora más de 1 segundo. | El sistema deberá mostrar un indicador de carga (RNF-11). |
 | E4 | | |
 
@@ -220,7 +231,7 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 | E1 | Falta algún dato obligatorio o la cantidad de fotografías no está entre 2 y 4. | El sistema deberá indicar el campo con error y volver al paso 2 (RNF-10). |
 | E2 | El archivo adjunto no es una imagen válida. | El sistema deberá indicar que no es una imagen válida y solicitar que se reemplace. |
 | E3 | El Dueño cancela la operación. | El sistema deberá descartar los datos y las fotografías cargadas y volver al listado de productos. |
-| E4 | Ocurre un error al guardar el producto. | El sistema deberá informarlo, registrar fecha, hora y descripción del error (RNF-16), conservar los datos ingresados y dar la posibilidad de reintentar. |
+| E4 | Ocurre un error al guardar el producto. | El sistema deberá informarlo, registrar fecha, hora y descripción del error (RNF-18), conservar los datos ingresados y dar la posibilidad de reintentar. |
 
 
 | Campo | Detalle |
@@ -249,7 +260,7 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 | # | Acción (actor) | Reacción (sistema) |
 |---|----------------|--------------------|
 | 1 | El cliente elige un producto que le gusta del catálogo. | El sistema le muestra la información del producto, los talles y colores disponibles, y la opción para sumarlo al carrito. |
-| 2 | El cliente elige el talle, el color y cuántas unidades quiere, y pide agregar el producto al carrito. | El sistema verifica que se hayan seleccionado talle y color (RF-26), valida que haya stock suficiente (RF-13), guarda el producto en el carrito y le confirma la acción. |
+| 2 | El cliente elige el talle, el color y cuántas unidades quiere, y pide agregar el producto al carrito. | El sistema verifica que se hayan seleccionado talle y color (RF-27), valida que haya stock suficiente (RF-20) ejecutando CU-16, guarda el producto en el carrito y le confirma la acción. |
 
 ### Excepciones
 
@@ -413,7 +424,7 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 | Campo | Detalle |
 |-------|---------|
 | Rendimiento |  El sistema completa el flujo de pago en un máximo de 5 segundos, sin contar el tiempo de respuesta de Mercado Pago. |
-| Frecuencia | Se estima una media de 70 ejecuciones diarias. |
+| Frecuencia | Se estima una media de 45 ejecuciones diarias: nunca más que los checkouts de CU-09 (50 por día), porque no todos los checkouts llegan a pagarse. |
 | Importancia | Vital |
 | Urgencia | Inmediatamente. |
 
@@ -424,19 +435,19 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 
 | Campo | Detalle |
 |-------|---------|
-| Identificador | CU-16 |
+| Identificador | CU-11 |
 | Nombre | Registrar venta presencial |
 | Descripción | El Empleado registra una venta realizada en el local, indicando productos, cantidades y medio de pago. |
 | Actores | Principal: Empleado |
 | Precondiciones | El empleado tiene una sesión iniciada. Hay disponibilidad de stock de las prendas. |
-| Postcondiciones | Éxito: La venta queda registrada con sus productos, cantidades y medio de pago. El stock de cada combinación producto-talle-color vendida se descuenta sobre el mismo stock que usan las ventas online (RF-19). Fallo: La venta no se guarda y no se realiza ningún descuento sobre el stock. |
+| Postcondiciones | Éxito: La venta queda registrada con sus productos, cantidades y medio de pago. El stock de cada combinación producto-talle-color vendida se descuenta sobre el mismo stock que usan las ventas online (RF-20). Fallo: La venta no se guarda y no se realiza ningún descuento sobre el stock. |
 
 ### Secuencia normal
 
 | # | Acción (actor) | Reacción (sistema) |
 |---|----------------|--------------------|
 | 1 | El empleado solicita registrar una venta. | Muestra el formulario de registro de venta con buscador de productos y detalle de venta vacío. Muestra la interfaz del terminal de punto de venta presencial. |
-| 2 | Busca las prendas, selecciona el talle, color y cantidad vendida, y presiona "Agregar". | Valida la disponibilidad de stock en el sistema y calcula el subtotal. |
+| 2 | Busca las prendas, selecciona el talle, color y cantidad vendida, y presiona "Agregar". | Valida la disponibilidad de stock ejecutando CU-16 y calcula el subtotal. |
 | 3 | Selecciona el medio de pago (efectivo, débito, crédito o transferencia) y confirma la transacción. | Registra la venta con fecha, hora y empleado que la realizó, descuenta el stock de cada combinación vendida y muestra un resumen de la venta. |
 
 ### Excepciones
@@ -445,7 +456,7 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 |---|-----------|-----------------------|
 | E1 | El empleado intenta agregar una cantidad de unidades superior al stock disponible. | El sistema no agregará el ítem y mostrará un mensaje indicando las unidades exactas en existencia. |
 | E2 | El empleado intenta confirmar la venta sin seleccionar el medio de pago. | El sistema detendrá la operación, resaltará el campo de selección de medio de pago y requerirá su definición (RNF-10). |
-| E3 | Ocurre un fallo en la base de datos durante la confirmación del cobro. | El sistema anulará la transacción, conservará los ítems en la pantalla del punto de venta y registrará el error (RNF-16). |
+| E3 | Ocurre un fallo en la base de datos durante la confirmación del cobro. | El sistema anulará la transacción, conservará los ítems en la pantalla del punto de venta y registrará el error (RNF-18). |
 
 
 | Campo | Detalle |
@@ -454,3 +465,192 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 | Frecuencia | Este caso de uso se espera que se lleve a cabo una media de 80 veces al día. |
 | Importancia | Vital |
 | Urgencia | Inmediatamente |
+
+---
+
+
+## CU-12 — Consultar estado y seguimiento de pedidos
+
+| Campo | Detalle |
+|-------|---------|
+| Identificador | CU-12 |
+| Nombre | Consultar estado y seguimiento de pedidos |
+| Descripción | El Cliente consulta desde "Mi Cuenta" el historial de sus pedidos, el estado actual de cada uno y, si corresponde, el número de seguimiento del envío o la fecha límite para retirarlo. |
+| Actores | Principal: Cliente. Secundario: Proveedor logístico (informa el número de seguimiento). |
+| Precondiciones | El Cliente tiene una sesión iniciada. |
+| Postcondiciones | Éxito: El Cliente visualiza sus pedidos con su estado actualizado. Fallo: No se muestra información y no se modifica ningún dato. |
+
+### Secuencia normal
+
+| # | Acción (actor) | Reacción (sistema) |
+|---|----------------|--------------------|
+| 1 | Ingresa a "Mi Cuenta" y selecciona "Mis pedidos". | El sistema muestra el listado de sus pedidos, del más reciente al más antiguo, con número de pedido, fecha, importe total y estado (RF-07). |
+| 2 | Selecciona un pedido. | El sistema muestra el detalle: productos con talle, color y cantidad, método de entrega y estado actual (Pendiente de pago, Pagado / En preparación, Enviado, Listo para retirar, Entregado o Cancelado; RF-30). |
+| 3 | Consulta el seguimiento o el plazo de retiro del pedido. | Si el pedido tiene envío, el sistema muestra el número de seguimiento informado por el proveedor logístico (RF-34). Si está listo para retirar, muestra la fecha límite de retiro (RF-36). |
+
+### Excepciones
+
+| # | Situación | Respuesta del sistema |
+|---|-----------|-----------------------|
+| E1 | El Cliente todavía no realizó ninguna compra. | El sistema muestra un mensaje indicando que no tiene pedidos y ofrece ir al catálogo. |
+| E2 | El pedido fue enviado pero el proveedor logístico todavía no informó el número de seguimiento. | El sistema indica que el número de seguimiento aún no está disponible. |
+| E3 | Error al consultar los pedidos. | El sistema muestra un mensaje de error y registra fecha, hora y descripción del error (RNF-18). |
+| E4 | Una operación demora más de 1 segundo. | El sistema muestra un indicador de carga (RNF-11). |
+
+| Campo | Detalle |
+|-------|---------|
+| Rendimiento | El sistema deberá mostrar el listado y el detalle en un máximo de 3 segundos con 50 usuarios simultáneos (RNF-01). |
+| Frecuencia | Se estima una media de 120 ejecuciones diarias. |
+| Importancia | Alta. |
+| Urgencia | Inmediata. |
+
+---
+
+
+## CU-13 — Solicitar devolución
+
+| Campo | Detalle |
+|-------|---------|
+| Identificador | CU-13 |
+| Nombre | Solicitar devolución |
+| Descripción | El Cliente solicita desde "Mi Cuenta" la devolución de un pedido ya entregado o retirado, indicando el motivo, dentro del plazo de 5 días hábiles. |
+| Actores | Principal: Cliente |
+| Precondiciones | El Cliente tiene una sesión iniciada. El pedido está en estado "Entregado" y no pasaron más de 5 días hábiles desde la entrega o el retiro. |
+| Postcondiciones | Éxito: La solicitud queda registrada en estado "Solicitada" con fecha y hora, el Cliente recibe una confirmación y la solicitud aparece como pendiente en el panel del personal (RF-44). Fallo: No se registra la solicitud. |
+
+### Secuencia normal
+
+| # | Acción (actor) | Reacción (sistema) |
+|---|----------------|--------------------|
+| 1 | Desde el detalle de un pedido entregado, selecciona "Solicitar devolución". | El sistema verifica que el pedido esté dentro de los 5 días hábiles posteriores a la entrega o el retiro (RF-38) y muestra el formulario con el pedido seleccionado y el motivo. |
+| 2 | Elige el motivo (talle incorrecto, producto defectuoso o producto equivocado), agrega comentarios si lo desea y confirma. | El sistema valida los datos, registra la solicitud en estado "Solicitada", muestra una confirmación y notifica al Cliente por email (RF-39). |
+
+### Excepciones
+
+| # | Situación | Respuesta del sistema |
+|---|-----------|-----------------------|
+| E1 | Pasaron más de 5 días hábiles desde la entrega o el retiro. | El sistema no permite iniciar la solicitud: muestra la acción deshabilitada junto con la fecha en que venció el plazo. |
+| E2 | El Cliente confirma sin elegir un motivo. | El sistema resalta el campo "Motivo" y no registra la solicitud (RNF-10). |
+| E3 | El pedido no está entregado (por ejemplo, está cancelado o todavía en preparación). | El sistema no ofrece la acción "Solicitar devolución" para ese pedido. |
+| E4 | Error al guardar la solicitud. | El sistema informa que no se pudo registrar, conserva los datos cargados, permite reintentar y registra fecha, hora y descripción del error (RNF-18). |
+
+| Campo | Detalle |
+|-------|---------|
+| Rendimiento | El sistema deberá registrar la solicitud en un máximo de 3 segundos (RNF-01). |
+| Frecuencia | Se estima una media de 2 ejecuciones diarias. |
+| Importancia | Importante. |
+| Urgencia | Hay presión. |
+
+---
+
+
+## CU-14 — Gestionar solicitud de devolución
+
+| Campo | Detalle |
+|-------|---------|
+| Identificador | CU-14 |
+| Nombre | Gestionar solicitud de devolución |
+| Descripción | El Empleado revisa una solicitud de devolución, la aprueba o la rechaza y, si la aprueba sin cambio de producto, emite una nota de crédito a favor del Cliente. |
+| Actores | Principal: Empleado |
+| Precondiciones | El Empleado tiene una sesión iniciada. Existe una solicitud en estado "Solicitada" o "En revisión". |
+| Postcondiciones | Éxito: La solicitud queda "Aprobada" o "Rechazada" (y luego "Producto recibido" y "Finalizada" si corresponde), el Cliente es notificado de cada cambio y, si se aprobó sin cambio, queda emitida la nota de crédito. Fallo: La solicitud conserva su estado anterior. |
+
+### Secuencia normal
+
+| # | Acción (actor) | Reacción (sistema) |
+|---|----------------|--------------------|
+| 1 | Accede a las devoluciones pendientes desde el panel (RF-44) y abre una solicitud. | El sistema muestra el pedido, el motivo, los comentarios del Cliente y la fecha, y pasa la solicitud a "En revisión". |
+| 2 | Aprueba o rechaza la solicitud e indica una observación (RF-40). | El sistema registra la decisión con el empleado, la fecha y la hora, y notifica al Cliente por email (RF-39). |
+| 3 | Si aprobó la solicitud y no corresponde un cambio de producto, solicita emitir la nota de crédito (RF-41). | El sistema genera la nota de crédito a favor del Cliente por el importe de los productos devueltos y registra su emisión. |
+| 4 | Cuando el Cliente entrega la prenda, confirma "Producto recibido" y cierra el trámite. | El sistema actualiza el estado a "Producto recibido", luego a "Finalizada", y notifica al Cliente (RF-39). |
+
+### Excepciones
+
+| # | Situación | Respuesta del sistema |
+|---|-----------|-----------------------|
+| E1 | El Empleado rechaza la solicitud sin escribir una observación. | El sistema exige una observación, que se informa al Cliente junto con el rechazo. |
+| E2 | Se aprueba la solicitud y el Cliente prefiere un cambio de producto. | El sistema no emite nota de crédito y registra la resolución como cambio de producto. |
+| E3 | Otro empleado ya resolvió la solicitud. | El sistema informa el estado actual y no permite resolverla de nuevo. |
+| E4 | Error al guardar la resolución. | El sistema informa el error, conserva el estado anterior de la solicitud y registra fecha, hora y descripción del error (RNF-18). |
+
+| Campo | Detalle |
+|-------|---------|
+| Rendimiento | El sistema deberá registrar cada acción en un máximo de 3 segundos (RNF-01). |
+| Frecuencia | Se estima una media de 2 ejecuciones diarias. |
+| Importancia | Importante. |
+| Urgencia | Hay presión. |
+
+---
+
+
+## CU-15 — Gestionar retiro en el local
+
+| Campo | Detalle |
+|-------|---------|
+| Identificador | CU-15 |
+| Nombre | Gestionar retiro en el local |
+| Descripción | El Empleado marca un pedido con retiro en el local como "Listo para retirar", lo que inicia un plazo de 15 días corridos, y confirma el retiro cuando el Cliente lo busca. |
+| Actores | Principal: Empleado |
+| Precondiciones | El Empleado tiene una sesión iniciada. El pedido tiene entrega "Retiro en el local" y está pagado y preparado. |
+| Postcondiciones | Éxito: El pedido queda "Listo para retirar" con su fecha límite, y luego "Entregado" con la fecha y hora del retiro registradas. Fallo: El pedido conserva su estado anterior. |
+
+### Secuencia normal
+
+| # | Acción (actor) | Reacción (sistema) |
+|---|----------------|--------------------|
+| 1 | Desde el panel, selecciona un pedido con retiro en el local ya preparado y lo marca como "Listo para retirar" (RF-36). | El sistema cambia el estado, calcula la fecha límite (15 días corridos desde ese momento) y notifica al Cliente por email (RF-30). |
+| 2 | | El sistema notifica al Cliente el vencimiento del plazo en el día 12 y en el día 15 (RF-37). |
+| 3 | Cuando el Cliente se presenta en el local, busca su pedido por número. | El sistema muestra el pedido con sus productos y su estado. |
+| 4 | Confirma el retiro (RF-35). | El sistema registra la fecha y la hora del retiro, cambia el estado a "Entregado" y notifica al Cliente (RF-30). |
+
+### Excepciones
+
+| # | Situación | Respuesta del sistema |
+|---|-----------|-----------------------|
+| E1 | Vence el plazo de 15 días y el pedido no fue retirado. | El sistema cambia el pedido a "Cancelado", repone el stock de sus productos y notifica al Cliente. |
+| E2 | El Empleado intenta confirmar el retiro de un pedido que no está "Listo para retirar". | El sistema no lo permite e indica el estado actual del pedido. |
+| E3 | Error al guardar el cambio de estado. | El sistema informa el error, conserva el estado anterior y registra fecha, hora y descripción del error (RNF-18). |
+
+| Campo | Detalle |
+|-------|---------|
+| Rendimiento | El sistema deberá realizar cada acción en un máximo de 3 segundos (RNF-01). |
+| Frecuencia | Se estima una media de 25 ejecuciones diarias. |
+| Importancia | Importante. |
+| Urgencia | Hay presión. |
+
+---
+
+
+## CU-16 — Verificar stock disponible
+
+| Campo | Detalle |
+|-------|---------|
+| Identificador | CU-16 |
+| Nombre | Verificar stock disponible |
+| Descripción | El sistema consulta el stock unificado (tienda online y local) de una combinación producto-talle-color y confirma si hay unidades suficientes. Es un caso de uso incluido: lo ejecutan siempre, como un paso propio, CU-06 y CU-11. |
+| Actores | Ninguno directo (es invocado por CU-06 y CU-11). |
+| Precondiciones | La variante existe y está activa. |
+| Postcondiciones | Éxito: El caso de uso base recibe la confirmación de que hay unidades suficientes. Fallo: El caso de uso base recibe la cantidad disponible (que puede ser cero) y no continúa con la cantidad pedida. |
+
+### Secuencia normal
+
+| # | Acción (actor) | Reacción (sistema) |
+|---|----------------|--------------------|
+| 1 | | El sistema recibe la variante (producto, talle y color) y la cantidad pedida por el caso de uso base. |
+| 2 | | Consulta el stock unificado de esa variante (RF-20) y lo compara con la cantidad pedida. |
+| 3 | | Si hay unidades suficientes, informa la disponibilidad al caso de uso base. |
+
+### Excepciones
+
+| # | Situación | Respuesta del sistema |
+|---|-----------|-----------------------|
+| E1 | La cantidad pedida supera el stock. | El sistema devuelve las unidades disponibles para que el caso base informe la cantidad exacta (CU-06 E2, CU-11 E1). |
+| E2 | La variante no tiene stock. | El sistema devuelve cero unidades disponibles (CU-06 E3). |
+| E3 | Error al consultar el stock. | El sistema informa el error al caso base y registra fecha, hora y descripción del error (RNF-18). |
+
+| Campo | Detalle |
+|-------|---------|
+| Rendimiento | El sistema deberá resolver la consulta en menos de 2 segundos (RNF-13). |
+| Frecuencia | Se estima una media de 180 ejecuciones diarias (las de CU-06, 100, más las de CU-11, 80). |
+| Importancia | Vital. |
+| Urgencia | Inmediatamente. |
