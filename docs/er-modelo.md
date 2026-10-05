@@ -9,7 +9,7 @@ _Visualizar en [plantuml.com]()._
 
 | Entidad | Descripción | Relaciones clave |
 |---------|-------------|-----------------|
-| USUARIO | Es la entidad base que contiene los datos necesarios para el inicio de sesión, las credenciales y la seguridad de la plataforma. Se utiliza tanto para los clientes como para los empleados. | Relación 1:1 con CLIENTE y EMPLEADO mediante dni. |
+| USUARIO | Es la entidad base que contiene los datos necesarios para el inicio de sesión, las credenciales y la seguridad de la plataforma. Se utiliza tanto para los clientes como para los empleados. | Relación 1:1 con CLIENTE y EMPLEADO mediante id_usuario. |
 | CLIENTE | Representa a las personas que realizan compras en el e-commerce. Contiene sus datos de contacto y la información necesaria para la entrega de los pedidos. | Relación 1:1 con USUARIO. Relación 1:1 con CARRITO. Relación 1:N con PEDIDO. |
 | EMPLEADO | Representa al personal interno que trabaja en la empresa y se encarga de tareas administrativas, comerciales, logísticas o relacionadas con el depósito y el ingreso de mercadería. | Relación 1:1 con USUARIO. Relación 1:N con INGRESO_STOCK. |
 | CATEGORIA | Permite organizar y clasificar los productos que forman parte del catálogo de la tienda. | Relación 1:N con PRODUCTO. |
@@ -37,7 +37,8 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 
 ### [USUARIO]
 
-- `dni` VARCHAR(20) (PK): Documento Nacional de Identidad o CUIT que identifica de manera única al usuario.
+- `id_usuario` INT (PK): Identificador interno del usuario. Es autoincremental, no tiene significado de negocio y nunca cambia.
+- `dni` VARCHAR(20) (UK): Documento Nacional de Identidad o CUIT del usuario. Es único, pero no es la clave primaria: si se carga mal, se puede corregir sin afectar a las demás tablas.
 - `nombre` VARCHAR(100): Nombre de pila del usuario.
 - `apellido` VARCHAR(100): Apellido del usuario.
 - `email` VARCHAR(150): Credencial única utilizada para iniciar sesión y recibir notificaciones.
@@ -50,13 +51,17 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 
 ### [CLIENTE]
 
-- `dni` VARCHAR(20) (PK, FK): Identificador del cliente y clave foránea que referencia a USUARIO.dni.
+- `id_usuario` INT (PK, FK): Identificador del cliente y clave foránea que referencia a USUARIO.id_usuario.
+- `fecha_nacimiento` DATE: Fecha de nacimiento declarada en el registro (RF-06).
 - `telefono` VARCHAR(30): Número telefónico utilizado para contacto y notificaciones.
 - `direccion` VARCHAR(255): Domicilio de entrega predeterminado registrado por el cliente.
+- `codigo_postal` VARCHAR(10): Código postal del domicilio predeterminado; se usa para calcular el costo de envío.
+- `ciudad` VARCHAR(100): Ciudad del domicilio predeterminado.
+- `provincia` VARCHAR(100): Provincia del domicilio predeterminado.
 
 ### [EMPLEADO]
 
-- `dni` VARCHAR(20) (PK, FK): Identificador del empleado y clave foránea que referencia a USUARIO.dni.
+- `id_usuario` INT (PK, FK): Identificador del empleado y clave foránea que referencia a USUARIO.id_usuario.
 - `departamento` VARCHAR(50): Área operativa a la que pertenece el empleado.
 - `fecha_ingreso` DATE: Fecha de ingreso a la empresa.
 
@@ -107,7 +112,7 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 ### [INGRESO_STOCK]
 
 - `id_ingreso` INT (PK): Identificador único del ingreso de mercadería.
-- `dni_empleado` VARCHAR(20) (FK): Identifica al empleado responsable del ingreso.
+- `id_empleado` INT (FK): Identifica al empleado responsable del ingreso.
 - `id_proveedor` INT (FK): Identifica al proveedor que realizó el envío.
 - `fecha_ingreso` DATETIME: Fecha y hora en la que se procesó el ingreso.
 - `observaciones` TEXT: Comentarios opcionales sobre el ingreso.
@@ -123,7 +128,7 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 ### [CARRITO]
 
 - `id_carrito` INT (PK): Identificador único del carrito.
-- `dni_cliente` VARCHAR(20) (FK): Referencia al cliente propietario del carrito.
+- `id_cliente` INT (FK): Referencia al cliente propietario del carrito.
 - `fecha_actualizacion` DATETIME: Fecha y hora de la última modificación del carrito.
 
 ### [DETALLE_CARRITO]
@@ -136,11 +141,16 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 ### [PEDIDO]
 
 - `id_pedido` INT (PK): Identificador único de la orden de compra.
-- `dni_cliente` VARCHAR(20) (FK, nullable): Referencia al cliente que realizó el pedido. Es nulo en ventas presenciales.
-- `dni_empleado` VARCHAR(20) (FK): Empleado que registró la venta presencial o gestionó el pedido.
+- `id_cliente` INT (FK, nullable): Referencia al cliente que realizó el pedido. Es nulo en ventas presenciales.
+- `id_empleado` INT (FK): Empleado que registró la venta presencial o gestionó el pedido.
 - `fecha_pedido` DATETIME: Fecha y hora correspondiente al inicio del checkout o de la venta.
 - `estado_pedido` VARCHAR(50): Estado operativo del pedido (Pendiente de pago, Pagado / En preparación, Enviado, Listo para Retirar, Entregado, Cancelado).
 - `tipo_entrega` VARCHAR(50): Modalidad seleccionada (Envío a domicilio o Retiro en local).
+- `telefono_contacto` VARCHAR(30): Teléfono confirmado por el cliente para este pedido (CU-09). Puede diferir del de su cuenta.
+- `direccion_entrega` VARCHAR(255): Domicilio de entrega confirmado para este pedido. Es nulo en retiro en local y en ventas presenciales.
+- `codigo_postal_entrega` VARCHAR(10): Código postal de la entrega, usado para calcular el costo de envío. Nulo si no hay envío.
+- `ciudad_entrega` VARCHAR(100): Ciudad de la entrega. Nula si no hay envío.
+- `provincia_entrega` VARCHAR(100): Provincia de la entrega. Nula si no hay envío.
 - `costo_envio` DECIMAL(10,2): Importe correspondiente al costo del envío.
 - `monto_total` DECIMAL(10,2): Importe total de la operación.
 - `medio_pago` VARCHAR(50): Medio de pago utilizado (efectivo, tarjeta de débito, tarjeta de crédito, transferencia/QR o Mercado Pago).
@@ -189,14 +199,14 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 - `id_cupon_usado` INT (PK): Identificador único del uso.
 - `id_cupon` INT (FK): Referencia al cupón utilizado.
 - `id_pedido` INT (FK): Referencia al pedido en el que se aplicó.
-- `dni_cliente` VARCHAR(20) (FK): Cliente que utilizó el cupón.
+- `id_cliente` INT (FK): Cliente que utilizó el cupón.
 - `fecha_uso` DATETIME: Fecha y hora en que se aplicó el cupón.
 
 ### [RESENA]
 
 - `id_resena` INT (PK): Identificador único de la reseña.
 - `id_producto` INT (FK): Producto calificado.
-- `dni_cliente` VARCHAR(20) (FK): Cliente que realizó la reseña.
+- `id_cliente` INT (FK): Cliente que realizó la reseña.
 - `id_pedido` INT (FK): Pedido que acredita la compra.
 - `calificacion` INT: Puntuación de 1 a 5 estrellas.
 - `comentario` TEXT: Comentario opcional del cliente.
@@ -207,13 +217,13 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 
 - `id_devolucion` INT (PK): Identificador único de la devolución.
 - `id_pedido` INT (FK): Pedido al que corresponde la devolución.
-- `dni_cliente` VARCHAR(20) (FK): Cliente que solicita la devolución.
+- `id_cliente` INT (FK): Cliente que solicita la devolución.
 - `fecha_solicitud` DATETIME: Fecha y hora de la solicitud.
 - `motivo` VARCHAR(50): Motivo de la devolución (talle incorrecto, defectuoso, equivocado).
 - `estado` VARCHAR(50): Estado de la devolución (Solicitada, En Revisión, Aprobada, Rechazada, Producto recibido, Finalizada).
 - `observaciones` TEXT: Comentarios adicionales.
 - `fecha_resolucion` DATETIME: Fecha y hora en que se resolvió la solicitud.
-- `dni_empleado` VARCHAR(20) (FK): Empleado que aprobó o rechazó la devolución.
+- `id_empleado` INT (FK): Empleado que aprobó o rechazó la devolución.
 
 ### [DETALLE_DEVOLUCION]
 
@@ -226,10 +236,10 @@ _Para cada entidad, describir brevemente los atributos más relevantes y su prop
 
 - `id_nota_credito` INT (PK): Identificador único de la nota de crédito.
 - `id_devolucion` INT (FK): Devolución que originó la nota.
-- `dni_cliente` VARCHAR(20) (FK): Cliente beneficiario.
+- `id_cliente` INT (FK): Cliente beneficiario.
 - `monto` DECIMAL(10,2): Importe de la nota de crédito.
 - `fecha_emision` DATETIME: Fecha y hora de emisión.
-- `dni_empleado` VARCHAR(20) (FK): Empleado que emitió la nota.
+- `id_empleado` INT (FK): Empleado que emitió la nota.
 - `estado` VARCHAR(30): Estado de la nota de crédito.
 
 ## Decisiones de diseño
@@ -240,7 +250,7 @@ qué alternativas se consideraron y por qué se descartaron._
 ### Decisión 1 — Separación de USUARIO, CLIENTE y EMPLEADO
 
 Decisión  
-Usar una entidad base USUARIO para las credenciales (email, contraseña hasheada, intentos fallidos, etc.) y dos entidades hijas: CLIENTE y EMPLEADO, relacionadas 1:1 por el DNI.
+Usar una entidad base USUARIO para las credenciales (email, contraseña hasheada, intentos fallidos, etc.) y dos entidades hijas: CLIENTE y EMPLEADO, relacionadas 1:1 por el id_usuario.
 
 Justificación  
 Así no se repiten los datos de login. Además permite que los empleados tengan atributos propios (departamento) y los clientes otros (fecha de nacimiento, dirección, CP, ciudad, provincia). El Dueño se maneja como un empleado con rol “Dueño”.
@@ -262,7 +272,7 @@ Guardar el stock en PRODUCTO. Era imposible controlar el inventario real.
 ### Decisión 3 — Datos de pago y envío dentro de PEDIDO
 
 Decisión  
-Los datos de Mercado Pago, el medio de pago, el número de seguimiento y la fecha de vencimiento de retiro se guardan directamente en la tabla PEDIDO. También se permite que dni_cliente sea nulo para las ventas presenciales.
+Los datos de Mercado Pago, el medio de pago, el número de seguimiento y la fecha de vencimiento de retiro se guardan directamente en la tabla PEDIDO. También se permite que id_cliente sea nulo para las ventas presenciales.
 
 Justificación  
 Cada pedido tiene un solo pago y un solo envío. Meter todo junto hace más simples las consultas. Además permite registrar ventas del local sin forzar la creación de un cliente.
@@ -296,3 +306,25 @@ Se modelaron entidades propias para DEVOLUCION (con DETALLE_DEVOLUCION y NOTA_CR
 
 Justificación 
 Cada uno de estos conceptos tiene su propio ciclo de vida, estados y reglas de negocio. Las devoluciones manejan motivos y un flujo de aprobación, las promociones y cupones tienen vigencia y condiciones de aplicación distintas, y las reseñas están atadas a una compra real. Separarlos en entidades propias permite controlar mejor estas reglas y facilita los reportes.
+
+### Decisión 7 — Clave primaria interna en USUARIO (id_usuario) y DNI único
+
+Decisión
+USUARIO usa un `id_usuario` numérico interno como clave primaria. El DNI se guarda como atributo único (UK), no como clave. CLIENTE y EMPLEADO comparten ese `id_usuario` como PK y FK, y el resto de las tablas referencian al cliente o al empleado mediante `id_cliente` e `id_empleado`.
+
+Justificación
+El DNI viaja como clave foránea a muchas tablas (carrito, pedido, uso de cupones, reseñas, devoluciones, notas de crédito, ingresos de stock). Si se carga mal y hay que corregirlo, con el DNI como clave habría que actualizarlo en todas ellas al mismo tiempo. Con un identificador interno que nunca cambia, la corrección toca un solo campo de USUARIO. Además, el DNI sigue siendo único (no puede haber dos usuarios con el mismo), que es lo que valida el registro (CU-01) y el alta de personal (CU-03).
+
+Alternativa descartada
+Usar el DNI como clave primaria (clave natural). Es más simple a primera vista, pero propaga cualquier corrección a todas las tablas relacionadas y mezcla en una misma columna un dato de negocio con la identidad técnica del registro.
+
+### Decisión 8 — Datos de entrega copiados en PEDIDO
+
+Decisión
+PEDIDO guarda su propio teléfono de contacto y dirección de entrega (calle y número, código postal, ciudad y provincia), aparte del domicilio predeterminado que figura en CLIENTE.
+
+Justificación
+En el checkout el cliente puede confirmar o modificar los datos de entrega solo para esa compra (CU-09), por ejemplo para enviar un regalo a otra dirección. Si el pedido leyera siempre el domicilio actual del cliente, un cambio posterior en Mi Cuenta alteraría pedidos ya despachados. Es el mismo criterio que el precio histórico de la Decisión 4: el pedido conserva lo que se acordó al momento de la compra.
+
+Alternativa descartada
+Leer siempre el domicilio de CLIENTE. No permite entregar en otra dirección y deja los pedidos viejos con datos que ya no son los de ese envío.
