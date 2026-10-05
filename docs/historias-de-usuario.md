@@ -14,14 +14,14 @@
 
 ### Validación INVEST
 
-| Criterio      | ¿Se cumple? | Observación                                                                    |
-| ------------- | ----------- | ------------------------------------------------------------------------------ |
-| Independiente | Sí          | Puede implementarse y probarse sin depender de los módulos de pago o envíos.   |
-| Negociable    | Sí          | Los datos requeridos y las reglas de validación pueden ajustarse.              |
-| Valiosa       | Sí          | Permite al cliente acceder a la plataforma y asociar sus pedidos a su cuenta.  |
-| Estimable     | Sí          | Comprende un flujo conocido de registro y autenticación.                       |
-| Pequeña       | Sí          | Se limita al registro y al inicio de sesión del cliente.                       |
-| Verificable   | Sí          | Se puede comprobar registrando una cuenta, validando datos e iniciando sesión. |
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Sí | Es el punto de entrada del cliente: no depende de otras historias y puede probarse sin los módulos de pago o envíos. |
+| Negociable | Sí | La lista de datos viene fijada por RF-06, pero las reglas de validación y la presentación del formulario (un paso o varios) pueden ajustarse. |
+| Valiosa | Sí | Permite al cliente acceder a la plataforma y asociar sus pedidos a su cuenta. |
+| Estimable | Sí | Comprende un flujo conocido de registro y autenticación. |
+| Pequeña | Parcial | Reúne dos flujos distintos (registro e inicio de sesión) en una sola historia. Entra en un sprint, pero conviene priorizar primero el registro: sin cuenta no hay sesión. |
+| Verificable | Sí | Se puede comprobar registrando una cuenta, validando datos e iniciando sesión. |
 
 ## HU-02 — Consulta de Historial de Compras y Estado de Pedidos
 
@@ -39,14 +39,14 @@
 
 ### Validación INVEST
 
-| Criterio      | ¿Se cumple? | Observación                                                                                                |
-| ------------- | ----------- | ---------------------------------------------------------------------------------------------------------- |
-| Independiente | Sí          | Funciona como una consulta de datos y no depende del flujo activo de carrito o pago.                       |
-| Negociable    | Sí          | La disposición de la lista, paginación y presentación del detalle pueden adaptarse durante el diseño.      |
-| Valiosa       | Sí          | Permite al cliente consultar sus compras y realizar el seguimiento de sus pedidos.                         |
-| Estimable     | Sí          | Sigue un patrón estándar de consulta y filtrado de pedidos por cliente.                                    |
-| Pequeña       | Sí          | Se limita a la consulta del historial y detalle de compras dentro de "Mi Cuenta".                          |
-| Verificable   | Sí          | Se puede comprobar que los pedidos del cliente aparezcan con sus datos, detalle y estado correspondientes. |
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | No | Necesita una cuenta con sesión iniciada (HU-01) y pedidos ya generados por el checkout y el pago (HU-04 y HU-05); sin ellos no hay nada que mostrar. |
+| Negociable | Sí | La disposición de la lista, la paginación y la presentación del detalle pueden adaptarse durante el diseño. |
+| Valiosa | Sí | Permite al cliente consultar sus compras y hacer el seguimiento de sus pedidos. |
+| Estimable | Sí | Es una consulta de datos con estructura conocida (PEDIDO y DETALLE_PEDIDO en el ER). |
+| Pequeña | Sí | Se limita a la consulta del historial y del detalle de compras dentro de "Mi Cuenta". |
+| Verificable | Sí | Se puede comprobar que los pedidos del cliente aparezcan con sus datos, detalle y estado correspondientes. |
 
 
 
@@ -71,12 +71,12 @@
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente |Sí |No depende de otras HU |
-| Negociable |Sí |El diseño del carrito puede discutirse con el negocio. |
-| Valiosa |Sí |Permite al cliente organizar los productos que desea comprar antes del checkout. |
-| Estimable |Sí |El alcance está delimitado a las operaciones del carrito. |
-| Pequeña |Sí |Tiene un objetivo concreto y funcionalidades relacionadas. |
-| Verificable |Sí |Se puede comprobar viendo que los productos se agreguen, visualicen, modifiquen, eliminen y que el carrito pueda vaciarse. |
+| Independiente | Parcial | No depende de otras historias, pero necesita el catálogo (CU-04) y los datos de stock (RF-20) para validar las cantidades. |
+| Negociable | Sí | El diseño del carrito puede discutirse con el negocio. |
+| Valiosa | Sí | Permite al cliente organizar los productos que desea comprar antes del checkout. |
+| Estimable | Sí | El alcance está delimitado a las operaciones del carrito. |
+| Pequeña | Parcial | Cubre cuatro operaciones (agregar, modificar, eliminar y vaciar), que en los casos de uso son tres (CU-06, CU-07 y CU-08). Cabe en un sprint, pero "vaciar" podría postergarse sin perder valor. |
+| Verificable | Sí | Se puede comprobar viendo que los productos se agreguen, visualicen, modifiquen, eliminen y que el carrito pueda vaciarse. |
 
 
 
@@ -102,12 +102,12 @@
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente |Sí |No depende de otras HU |
-| Negociable |Sí |La forma de presentar los datos y las opciones de entrega puede acordarse con el negocio. |
-| Valiosa |Sí |Permite al cliente definir cómo recibirá su pedido y completar correctamente sus datos de entrega. |
-| Estimable |Sí |Solo se limita a los datos de entrega y las opciones de envío. |
-| Pequeña |Sí |Tiene un objetivo concreto y solo implica la pantalla de checkout. |
-| Verificable |Sí |Se puede comprobar el funcionamiento con las opciones de selección  de envío a domicilio y retiro en local, incluyendo la validación de datos obligatorios. |
+| Independiente | No | Requiere un carrito con productos (HU-03) y un cliente autenticado (HU-01 y RF-12). |
+| Negociable | Parcial | Las dos modalidades (envío a domicilio y retiro en local) están fijadas por RF-28; el resto (campos, orden y presentación) se puede acordar con el negocio. |
+| Valiosa | Sí | Permite al cliente definir cómo recibirá su pedido y completar correctamente sus datos de entrega. |
+| Estimable | Parcial | El costo del envío a domicilio depende de la integración con el proveedor logístico (HU-06), cuya API todavía no está definida; esa parte no se puede estimar con precisión. |
+| Pequeña | Sí | Tiene un objetivo concreto y solo implica la pantalla de checkout. |
+| Verificable | Sí | Se puede comprobar con las opciones de envío a domicilio y retiro en local, incluyendo la validación de datos obligatorios. |
 
 
 ## HU-05 — Pago con Mercado Pago
@@ -131,12 +131,12 @@
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente |Sí |Forma parte del proceso de checkout pero puede desarrollarse y probarse mediante pagos de prueba. |
-| Negociable |Sí |Los detalles de la integración y los medios de pago pueden discutirse. |
-| Valiosa |Sí |Permite al cliente completar y abonar una compra online. |
-| Estimable |Sí |La funcionalidad y su alcance están definidas. |
-| Pequeña |Sí |Se concentra específicamente en el procesamiento del pago. |
-| Verificable |Sí |Se puede verificar realizando pagos de prueba y se comprueba su resultado y registro. |
+| Independiente | No | Necesita un pedido con los datos de entrega confirmados (HU-04) para tener un importe que cobrar. |
+| Negociable | Parcial | Los medios de pago los define Mercado Pago (crédito y débito, RF-29); lo negociable son los mensajes y el flujo ante un rechazo. |
+| Valiosa | Sí | Permite al cliente completar y abonar una compra online. |
+| Estimable | Parcial | Depende de la integración con Mercado Pago (credenciales, entorno de pruebas y notificaciones del resultado), que todavía no se exploró. |
+| Pequeña | Parcial | Además de iniciar el pago hay que manejar tres resultados (aprobado, rechazado y pendiente, CU-10 E2 y E3) y registrar la transacción. Conviene separar "iniciar el pago" de "procesar el resultado". |
+| Verificable | Sí | Se puede verificar con pagos de prueba del entorno de pruebas de Mercado Pago, comprobando el resultado y su registro. |
 
 
 ## HU-06 — Integración con proveedor logístico
@@ -161,12 +161,12 @@
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente |Sí |Puede desarrollarse y probarse con pedidos y datos de prueba. |
-| Negociable |Sí |El proveedor logístico puede discutirse. |
-| Valiosa |Sí |Permite al cliente conocer el costo de envío y realizar el seguimiento del pedido. |
-| Estimable |Sí |El alcance es definido. |
-| Pequeña |Sí |Se concentra en el cálculo del envío y seguimiento. |
-| Verificable |Sí |Se puede comprobar el cálculo del costo y la obtención del número de seguimiento despachando un pedido y verificando su seguimiento. |
+| Independiente | No | Necesita pedidos con envío a domicilio (HU-04 y HU-05) para consultar tarifas y asignar números de seguimiento. |
+| Negociable | Sí | La elección del proveedor logístico y el alcance de la integración pueden discutirse con el negocio. |
+| Valiosa | Sí | Permite al cliente conocer el costo de envío y hacer el seguimiento de su pedido. |
+| Estimable | No | Todavía no se eligió un proveedor logístico ni se conoce su API (si ofrece tarifa y seguimiento por servicio web). No se puede estimar hasta resolverlo. |
+| Pequeña | Parcial | Reúne dos integraciones distintas: el cálculo de la tarifa antes de comprar y la obtención del seguimiento después del despacho. |
+| Verificable | Parcial | Requiere un entorno de pruebas del proveedor; sin él, solo se puede verificar con datos simulados. |
 
 
 
@@ -191,12 +191,12 @@
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Sí | Puede probarse con pedidos configurados para retiro en local. |
-| Negociable | Sí | El plazo puede definirse durante el desarrollo. |
-| Valiosa | Sí | Permite controlar correctamente los pedidos retirados. |
+| Independiente | No | Necesita pedidos pagados con retiro en el local y en estado "Listo para retirar" (HU-04 y HU-05). |
+| Negociable | Parcial | El plazo de 15 días ya está fijado por RF-36; lo negociable es cómo se muestra y cómo se notifica. |
+| Valiosa | Sí | Permite controlar los pedidos retirados y liberar el stock de los que no se retiran. |
 | Estimable | Sí | Las acciones están delimitadas. |
-| Pequeña | Sí | Se concentra en la confirmación y plazo de retiro. |
-| Verificable | Sí | Se puede confirmar el retiro y se verifica el plazo limite. |
+| Pequeña | Parcial | Mezcla una acción manual del empleado (marcar y confirmar el retiro) con un proceso automático (cancelar y reponer el stock al vencer el plazo); podría dividirse en dos. |
+| Verificable | Parcial | El vencimiento a los 15 días obliga a simular fechas para poder probarlo. |
 
 
 ## HU-08 — Solicitud de devolución por cliente
@@ -219,12 +219,12 @@
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Sí | Puede probarse con pedidos de prueba y diferentes fechas. |
-| Negociable | Sí | Los motivos, plazos y detalles del formulario pueden ajustarse. |
+| Independiente | No | Requiere un pedido ya entregado o retirado (HU-04, HU-05 y HU-07) y el acceso a "Mi Cuenta" (HU-02). |
+| Negociable | Sí | Los motivos y el plazo vienen de RF-38; los detalles del formulario pueden ajustarse. |
 | Valiosa | Sí | Da garantía al cliente y le permite gestionar una devolución. |
-| Estimable | Sí | El alcance esta claro y definido. |
-| Pequeña | Sí | Se limita a la solicitud de devolución. |
-| Verificable | Sí | Se puede comprobar una solicitud válida y otra fuera de plazo. |
+| Estimable | Sí | El alcance está claro y definido. |
+| Pequeña | Sí | Se limita a la solicitud del cliente; la revisión y resolución por parte del Empleado se describe en CU-14. |
+| Verificable | Sí | Se puede comprobar con una solicitud dentro del plazo y otra fuera de plazo, usando fechas de prueba. |
 
 
 
@@ -249,11 +249,11 @@
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Sí | Puede desarrollarse y probarse utilizando datos de ventas de prueba. |
+| Independiente | No | Necesita ventas registradas (online y presenciales) para que haya algo que reportar. |
 | Negociable | Sí | La presentación de los filtros y el formato del archivo pueden definirse durante el desarrollo. |
 | Valiosa | Sí | Permite al dueño analizar las ventas y tomar decisiones. |
 | Estimable | Sí | El alcance y las funcionalidades están bien definidas. |
-| Pequeña | Sí | Se concentra en la consulta y exportación de reportes de ventas. |
+| Pequeña | Parcial | Reúne varias capacidades (agrupar por período, filtrar, consultar hasta 5 años atrás y exportar a Excel); la exportación podría ser una historia aparte. |
 | Verificable | Sí | Se pueden realizar consultas con distintos filtros y comprobar la exportación a Excel y el tiempo de respuesta. |
 
 
@@ -279,11 +279,11 @@
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Sí | Puede desarrollarse y probarse con datos de prueba, sin depender de otra HU terminada. |
+| Independiente | No | Depende de las ventas y de los clientes ya registrados. |
 | Negociable | Sí | La forma de presentar la información puede definirse durante el desarrollo. |
-| Valiosa | Sí | Permite al dueño analizar las ventas, productos y clientes, otorgando una visión actual del negocio. |
-| Estimable | Sí | El alcance y la información a mostrar están definidas. |
-| Pequeña | Sí | Se limita a la consulta de indicadores y listados definidos en RF-34. |
+| Valiosa | Sí | Permite al dueño analizar las ventas, los productos y los clientes, con una visión actual del negocio. |
+| Estimable | Sí | El alcance y la información a mostrar están definidos en RF-43. |
+| Pequeña | Parcial | Agrupa seis listados distintos (más vendidos, menor movimiento, ingresos, medio de pago, clientes nuevos y recurrentes); cada uno podría entregarse por separado. |
 | Verificable | Sí | Se puede comprobar que cada listado e indicador muestre la información correspondiente. |
 
 
@@ -309,10 +309,10 @@
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Sí | Puede desarrollarse y probarse con datos de prueba. |
+| Independiente | No | Consume datos de ventas, stock, pedidos y devoluciones, que producen otras historias. |
 | Negociable | Sí | La forma de presentar los indicadores puede discutirse. |
 | Valiosa | Sí | Permite al dueño monitorear rápidamente la actividad del negocio. |
-| Estimable | Sí | Los indicadores que debe mostrar están definidos. |
-| Pequeña | Sí | Panel acotado, limitándose a un conjunto definido de indicadores. |
-| Verificable | Sí | Se accede al panel y se puede comprobar que cada indicador muestre la información correspondiente.|
+| Estimable | Sí | Los indicadores que debe mostrar están definidos en RF-44. |
+| Pequeña | Parcial | Reúne indicadores de cuatro módulos distintos; se puede entregar de forma incremental. |
+| Verificable | Sí | Se accede al panel y se puede comprobar que cada indicador muestre la información correspondiente. |
 
