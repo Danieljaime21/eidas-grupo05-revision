@@ -19,11 +19,11 @@ El sistema permitirá:
 - Destacar ofertas en una sección específica.
 - Mostrar tabla interactivas de medidas por prenda para reducir devoluciones.
 - Seleccionar artículos para compra con carrito persistente.
-- Procesar pagos en línea de forma segura mediante una pasarela externa certificada (tarjetas de crédito, débito y transferencias bancarias).
+- Procesar pagos en línea de forma segura mediante una pasarela externa certificada (Mercado Pago, con tarjetas de crédito y débito).
 - Seleccionar el método de despacho (retiro presencial en sucursal o envío postal con cálculo automático de costos).
 - Ofrecer un sistema de tracking para que el cliente siga su envío.
 - Automatizar el control de inventario.
-- Emitir facturas.
+- Emitir notas de crédito por devoluciones aprobadas.
 - Gestionar alertas por bajo stock.
 - Tramitar devoluciones y cambios.
 
@@ -54,6 +54,9 @@ El dueño de la tienda se contactó con el fin de optimizar la gestión operativ
 ├── README.md
 ├── integrantes.md
 ├── RECURSOS.md         ← leer antes de empezar: prerrequisitos, cheatsheet de git, recursos
+├── DoR.md
+├── slicing.md
+├── feedback/           ← devoluciones del docente
 ├── docs/
 │   ├── requisitos.md
 │   ├── historias-de-usuario.md
@@ -66,7 +69,6 @@ El dueño de la tienda se contactó con el fin de optimizar la gestión operativ
 │   ├── er.puml
 │   └── wireframes/
 └── cuestionario/
-Probando
 ```
 
 ## Instrucciones operativas
